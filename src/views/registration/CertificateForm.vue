@@ -1,8 +1,20 @@
 <template>
   <div class="container-fluid h-100">
     <div class="row">
-      <div class="col-md"></div>
-      <div class="col col-md-4 text-start fw-bold">
+      <div class="col mt-5">
+        <h1>Certificat</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg"></div>
+      <div class="col-12 col-lg-4 m-2">
+        <StepBar :index="4" />
+      </div>
+      <div class="col-lg"></div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-lg"></div>
+      <div class="col col-lg-4 text-start fw-bold">
         <form class="m-2">
           <div class="row">
             <div class="col form-group">
@@ -28,22 +40,50 @@
             </div>
           </div>
           <div class="row mt-5">
-              <div class="col col-md-6">
-                <button class="btn btn-secondary">Passer pour l'instant</button>
-              </div>
-              <div class="col col-md-6 text-end">
-                <button class="btn btn-primary">Envoyer</button>
-              </div>
+            <div class="col col-lg-6">
+              <button
+                type="button"
+                @click="passCertificateUpload"
+                class="btn btn-secondary"
+              >
+                Passer pour l'instant
+              </button>
             </div>
+            <div class="col col-lg-6 text-end">
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="uploadCertificate"
+              >
+                Envoyer
+              </button>
+            </div>
+          </div>
         </form>
       </div>
-      <div class="col-md"></div>
+      <div class="col-lg"></div>
     </div>
   </div>
 </template>
 
-<script>
-export default {};
+<script lang="ts">
+import { defineComponent } from "vue";
+import StepBar from "@/components/stepBar/StepBar.vue";
+
+export default defineComponent({
+  components: {
+    StepBar,
+  },
+  methods: {
+    passCertificateUpload() {
+      console.log("Pass certificateUpload");
+      this.$router.push({name: "RegisterPayment"})
+    },
+    uploadCertificate() {
+      console.log("Upload Certificate");
+    },
+  },
+});
 </script>
 
 <style></style>

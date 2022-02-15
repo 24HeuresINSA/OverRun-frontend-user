@@ -3,10 +3,6 @@
     <TopBar :title="title" />
   </div>
 
-  <div>
-    <StepBar/>
-  </div>
-  
   <div class="container">
     <div class="row m-2 mt-4 text-start">
       <div class="col col-md-4 border-bottom">
@@ -17,122 +13,54 @@
     <div class="row m-2 mt-3">
       <div class="col-12 col-md-3">
         <div
-          class="
-            container-fluid
-            bg-light
-            p-1
-            pt-3
-            pb-3
-            me-md-2
-            m-2
-            rounded-3
-            shadow-sm
-          "
+          class="container-fluid bg-light p-1 pt-3 pb-3 me-md-2 m-2 rounded-3 shadow-sm"
         >
           <div class="row pt-1 pb-1">
-            <div class="col border-bottom">
-              <h5>Nombre d'inscrits</h5>
+            <div class="col">
+              <h5>Status de mon inscription</h5>
+              <hr />
             </div>
           </div>
-          <div class="row pt-3">
-            <div class="col-8 border-end">
-              <h1 class="mb-0">310</h1>
-            </div>
-            <div class="col-4 text-success">
-              <h2 class="d-block m-auto">+10</h2>
-              <div class="form-text d-block">last 24 h</div>
-            </div>
-          </div>
+          <div class="row pt-3"></div>
         </div>
       </div>
       <div class="col-12 col-md-3">
         <div
-          class="
-            container-fluid
-            bg-light
-            p-1
-            pt-3
-            pb-3
-            me-md-2
-            m-2
-            rounded-3
-            shadow-sm
-          "
+          class="container-fluid bg-light p-1 pt-3 pb-3 me-md-2 m-2 rounded-3 shadow-sm"
         >
           <div class="row pt-1 pb-1">
-            <div class="col border-bottom">
-              <h5>Nombre d'inscrits</h5>
+            <div class="col">
+              <h5>Mon Certificat</h5>
+              <hr />
             </div>
           </div>
-          <div class="row pt-3">
-            <div class="col-8 border-end">
-              <h1 class="mb-0">310</h1>
-            </div>
-            <div class="col-4 text-success">
-              <h2 class="d-block m-auto">+10</h2>
-              <div class="form-text d-block">last 24 h</div>
-            </div>
-          </div>
+          <div class="row pt-3"></div>
         </div>
       </div>
       <div class="col-12 col-md-3">
         <div
-          class="
-            container-fluid
-            bg-light
-            p-1
-            pt-3
-            pb-3
-            me-md-2
-            m-2
-            rounded-3
-            shadow-sm
-          "
+          class="container-fluid bg-light p-1 pt-3 pb-3 me-md-2 m-2 rounded-3 shadow-sm"
         >
           <div class="row pt-1 pb-1">
-            <div class="col border-bottom">
-              <h5>Nombre d'inscrits</h5>
+            <div class="col">
+              <h5>Ma Carte VA</h5>
+              <hr />
             </div>
           </div>
-          <div class="row pt-3">
-            <div class="col-8 border-end">
-              <h1 class="mb-0">310</h1>
-            </div>
-            <div class="col-4 text-success">
-              <h2 class="d-block m-auto">+10</h2>
-              <div class="form-text d-block">last 24 h</div>
-            </div>
-          </div>
+          <div class="row pt-3"></div>
         </div>
       </div>
       <div class="col-12 col-md-3">
         <div
-          class="
-            container-fluid
-            bg-light
-            p-1
-            pt-3
-            pb-3
-            me-md-2
-            m-2
-            rounded-3
-            shadow-sm
-          "
+          class="container-fluid bg-light p-1 pt-3 pb-3 me-md-2 m-2 rounded-3 shadow-sm"
         >
           <div class="row pt-1 pb-1">
-            <div class="col border-bottom">
-              <h5>Nombre d'inscrits</h5>
+            <div class="col">
+              <h5>Mon Payement</h5>
+              <hr />
             </div>
           </div>
-          <div class="row pt-3">
-            <div class="col-8 border-end">
-              <h1 class="mb-0">310</h1>
-            </div>
-            <div class="col-4 text-success">
-              <h2 class="d-block m-auto">+10</h2>
-              <div class="form-text d-block">last 24 h</div>
-            </div>
-          </div>
+          <div class="row pt-3"></div>
         </div>
       </div>
     </div>
@@ -148,8 +76,20 @@
         <div class="col col-md-3 border-bottom text-start">
           <h6>
             Paramètres équipe
-            <span v-show="showTeamSettings" @click="toggleTeamSettings" class="material-icons-outlined"> expand_more </span>
-            <span v-show="!showTeamSettings" @click="toggleTeamSettings" class="material-icons-outlined"> chevron_right </span>
+            <span
+              v-show="showTeamSettings"
+              @click="toggleTeamSettings"
+              class="material-icons-outlined"
+            >
+              expand_more
+            </span>
+            <span
+              v-show="!showTeamSettings"
+              @click="toggleTeamSettings"
+              class="material-icons-outlined"
+            >
+              chevron_right
+            </span>
           </h6>
         </div>
       </div>
@@ -175,8 +115,14 @@
                   id="inputTeamPassword"
                 />
               </div>
-              <div class="col-12 my-2 col-md form-groups text-center">
-                <button class="btn btn-primary">Mettre à jour</button>
+              <div
+                class="col-12 my-2 col-md form-groups text-center btn-container"
+              >
+                <div class="vertical-center">
+                  <button class="btn btn-primary m-auto align-middle">
+                    Mettre à jour
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -186,7 +132,7 @@
 
     <div class="row mx-3 mt-3">
       <div class="col mx-2 bg-light rounded-3 shadow-sm">
-        <table class="table w-100">
+        <table class="table table-striped table-hover w-100">
           <thead>
             <tr>
               <th scope="col">Admin</th>
@@ -217,18 +163,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TopBar from "../../components/topBar/TopBar.vue";
-import StepBar from "../../components/stepBar/StepBar.vue";
 
 export default defineComponent({
   components: {
     TopBar,
-    StepBar,
   },
   data() {
     return {
       title: "",
       isTeamAdmin: true,
       showTeamSettings: false,
+      inscriptionStatus: false,
+      vaStatus: false,
+      certificateStatus: 0,
+      paymentStatus: 0,
     };
   },
   methods: {
@@ -243,5 +191,13 @@ export default defineComponent({
 table {
   overflow-x: auto;
   white-space: nowrap;
+}
+
+.btn-container {
+  margin: auto;
+}
+
+.vertical-center {
+  margin-top: 15px;
 }
 </style>

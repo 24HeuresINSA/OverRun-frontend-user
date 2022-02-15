@@ -1,11 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
 import BeforeRegistrationVue from "@/views/registration/BeforeRegistration.vue";
 import RegisterFormVue from "@/views/registration/RegisterForm.vue";
 import VaFormlVue from "@/views/registration/VaForm.vue";
 import TeamFormVue from "@/views/registration/TeamForm.vue";
 import CertificateFormVue from "@/views/registration/CertificateForm.vue";
 import DashboardVue from "@/views/dashboard/Dashboard.vue";
+import ResetPasswordRequestVue from "@/views/reset/ResetPasswordRequest.vue";
+import ResetPasswordVue from "@/views/reset/RestPassword.vue";
+import CreateAdminVue from "@/views/admin/CreateAdmin.vue";
+import PaymentFormVue from "@/views/registration/PaymentForm.vue";
+import LoginVue from "@/views/login/Login.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,6 +41,31 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register/certificate",
     name: "RegisterCertificate",
     component: CertificateFormVue,
+  },
+  {
+    path: "/register/payment",
+    name: "RegisterPayment",
+    component: PaymentFormVue,
+  },
+  {
+    path: "/reset/request",
+    name: "ResetPasswordRequest",
+    component: ResetPasswordRequestVue,
+  },
+  {
+    path: "/reset",
+    name: "ResetPassword",
+    component: ResetPasswordVue,
+  },
+  {
+    path: "/admin",
+    name: "CreateAdmin",
+    component: CreateAdminVue,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: LoginVue,
   },
 ];
 
