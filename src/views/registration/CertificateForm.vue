@@ -20,7 +20,7 @@
 
               <input
                 type="file"
-                class="d-inline"
+                class="form-control"
                 id="inputCertificate"
                 name="certificate"
                 accept="image/png, image/jpeg,.pdf"

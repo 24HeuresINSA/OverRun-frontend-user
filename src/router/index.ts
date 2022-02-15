@@ -5,12 +5,13 @@ import RegisterFormVue from "@/views/registration/RegisterForm.vue";
 import VaFormlVue from "@/views/registration/VaForm.vue";
 import TeamFormVue from "@/views/registration/TeamForm.vue";
 import CertificateFormVue from "@/views/registration/CertificateForm.vue";
+import DashboardVue from "@/views/dashboard/Dashboard.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: DashboardVue,
   },
   {
     path: "/before-registration",
