@@ -14,7 +14,7 @@
         </div>
 
         <div class="col-7 m-0 p-0 h-100">
-          <div id="edition-button" class="h-100 dropdown">
+          <div v-if="userButton" id="edition-button" class="h-100 dropdown">
             <a
               id="dropdownUserLink"
               data-bs-toggle="dropdown"
@@ -76,6 +76,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     title: String,
+    userButton: Boolean,
   },
 });
 </script>

@@ -1,69 +1,35 @@
 <template>
-  <div id="top-bar" class="sticky-top bg-primary">
-    <div id="top-logo">
-      <span id="overun">
-        <h1 class="m-0 text-light">Overun</h1>
-      </span>
-    </div>
-    <div id="top-side" class="container-fluid p-0 m-0 shadow-sm">
-      <div class="row m-0 p-0 h-100">
-        <div class="col h-100 text-start">
-          <h4 class="text-light centered-text" id="title">
-            {{ title }}
-          </h4>
-        </div>
-
-        <div class="col-7 m-0 p-0 h-100">
-          <div id="edition-button" class="h-100 dropdown">
-            <a
-              id="dropdownUserLink"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <div class="centered-text">
-                <p>Edition</p>
-              </div>
-              <div class="h-100 w-10" id="edition-arrow">
-                <span class="material-icons d-inline" id="test">
-                  expand_more
-                </span>
-              </div>
-            </a>
-
-            <ul
-              id="dropdownUserMenu"
-              class="dropdown-menu p-0"
-              aria-labelledby="dropdownUserLink"
-            >
-              <li class="inactiveLink">
-                <span class="dropdown-item text-center pt-2 pb-2" href="#"
-                  >Pintade</span
-                >
-              </li>
-              <li><hr class="dropdown-divider m-0 p-0" /></li>
-              <li>
-                <a class="dropdown-item text-dark pt-2 pb-2" href="#">
-                  <span class="material-icons-outlined icon d-inline m-0 p-0">
-                    settings
-                  </span>
-                  <p class="d-inline">Paramètre</p>
-                </a>
-              </li>
-              <li><hr class="dropdown-divider m-0 p-0" /></li>
-              <li>
-                <a
-                  class="dropdown-item bg-danger text-light pt-2 pb-2"
-                  href="#"
-                >
-                  <span class="material-icons-outlined icon d-inline m-0 p-0">
-                    meeting_room
-                  </span>
-                  <p class="d-inline">Deconnection</p>
-                </a>
-              </li>
-            </ul>
+  <div class="sticky-top p-0 m-0">
+    <div id="top-bar" class="container-fluid p-0 m-0">
+      <div class="row m-0 p-0">
+        <div class="col-6">
+          <div id="top-logo" class="p-0 m-0">
+            <span id="overun">
+              <h1 class="m-0 text-light">Overun</h1>
+            </span>
           </div>
-          <div></div>
+        </div>
+        <div class="col-6">
+          <button
+            type="button"
+            class="btn btn-primary centered-button border-0 float-end d-table"
+            @click="toggleMenu"
+            v-if="userButton"
+          >
+            <span class="material-icons-outlined d-table-cell align-middle">
+              menu
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div v-show="showMenu" id="menu" class="container-fluid p-0 m-0">
+      <div class="row">
+        <div class="col">
+          <ul class="list-group text-light text-start mt-2">
+            <li class="list-group-item">Pintade</li>
+            <li class="list-group-item">Déconnection</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -75,7 +41,17 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    title: String,
+    userButton: Boolean,
+  },
+  data() {
+    return {
+      showMenu: false,
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
+    },
   },
 });
 </script>
@@ -84,24 +60,15 @@ export default defineComponent({
 #top-bar {
   height: 60px;
   width: 100vw;
+  background-color: #24305e;
 }
 
 #top-logo {
   height: 100%;
   line-height: 60px;
-  text-align: center;
+  text-align: start;
   width: 320px;
-  background: #24305e;
   float: left;
-}
-
-#top-side {
-  height: 100%;
-  background: #374785;
-}
-
-#top-admin {
-  width: calc(100vw - 320px);
 }
 
 #overun {
@@ -111,80 +78,30 @@ export default defineComponent({
   line-height: normal;
 }
 
-#hide-sidebar-icon {
-  height: 30px;
-  margin-top: 14px;
-  margin-left: 30px;
-  float: left;
+#menu {
+  background-color: #374785;
 }
 
-#img-container {
-  width: 50px;
-  margin: 0 6px 0 20px;
-  float: right;
-}
-
-#profile-picture {
-  border: 2px solid #374785;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  object-fit: cover;
-  margin-top: 8px;
-}
-
-#edition-button {
+.centered-button {
+  margin-top: 10px;
   line-height: 60px;
-  text-align: center;
-  width: 150px;
-  display: block;
-  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+ul {
+  background-color: none !important;
+}
+
+.list-group-item {
+  background-color: inherit !important;
+  border: none;
   color: white;
-  background: #24305e;
 }
 
-#edition-button:hover {
+.list-group-item:hover {
+  background-color: #24305e !important;
   font-weight: bolder;
-}
-
-#title {
-  margin-top: 24px;
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-}
-
-.centered-text {
-  margin-top: 16px;
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-}
-
-#edition-arrow {
-  display: inline-block;
-  margin-left: 3px;
-  line-height: 60px;
-}
-
-#test {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-}
-
-#dropdownUserMenu {
-  margin-top: 22px !important;
-}
-
-.icon {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-}
-
-.inactiveLink {
-  pointer-events: none;
-  cursor: default;
 }
 </style>

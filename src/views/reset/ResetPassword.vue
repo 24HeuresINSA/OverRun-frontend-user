@@ -10,7 +10,7 @@
 
     <div class="row mt-5">
       <div class="col m-2">
-        <h2>Création compte admin</h2>
+        <h2>Reinitialisation mot de passe</h2>
       </div>
     </div>
 
@@ -19,18 +19,6 @@
       <div class="col col-md-6 col-lg-4 text-start">
         <form @submit.prevent="sendInvite">
           <div class="row fw-bold">
-            <div class="col form-group">
-              <label for="inputNewPassword">Pseudo: </label>
-              <input
-                v-model="username"
-                type="text"
-                class="form-control"
-                id="inputUserName"
-                required
-              />
-            </div>
-          </div>
-          <div class="row my-2 fw-bold">
             <div class="col form-group">
               <label for="inputNewPassword">Nouveau mot de passe: </label>
               <input
@@ -57,7 +45,7 @@
           <div class="row mt-5">
             <div class="col form-group text-center text-md-end">
               <button class="btn btn-primary" type="submit">
-                Valider mon compte Admin
+                Reinitialiser mon mot de passe
               </button>
             </div>
           </div>
@@ -80,16 +68,15 @@ export default defineComponent({
   },
   data() {
     return {
-      title: "Créer mon compte Admin",
+      title: "Reinitialiser mon mot de passe",
       newPassword: null,
       confirmPassword: null,
     };
   },
   methods: {
     sendInvite() {
-      console.log(this.$route.query.token)
+      console.log("Envoyer une invite");
     },
   },
 });
 </script>
-

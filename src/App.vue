@@ -25,6 +25,7 @@
 
 .btn-primary {
   background-color: #374785 !important;
+  border-color: #374785 !important;
 }
 
 .bg-primary {

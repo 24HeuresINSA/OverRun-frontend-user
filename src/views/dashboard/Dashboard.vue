@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <TopBar :title="title" />
+  <div class="d-none d-lg-block">
+    <TopBar :title="title" :userButton="true"/>
+  </div>
+
+  <div class="d-block d-lg-none">
+    <MiniTopBar :userButton="true" />
   </div>
 
   <div class="container">
@@ -107,7 +111,7 @@
               </div>
               <div class="col-12 my-2 col-md-5 form-groups">
                 <label for="inputNewTeamPassword"
-                  >Confirmé nouveau mot de passe:
+                  >Confirmez mot de passe:
                 </label>
                 <input
                   type="password"
@@ -130,7 +134,7 @@
       </div>
     </div>
 
-    <div class="row mx-3 mt-3">
+    <div class="d-none d-sm-felx row mx-3 mt-3">
       <div class="col mx-2 bg-light rounded-3 shadow-sm">
         <table class="table table-striped table-hover w-100">
           <thead>
@@ -157,16 +161,47 @@
         </table>
       </div>
     </div>
+
+    <div class=" d-sm-0 sm-table  row mx-3 mt-3">
+      <div class="col mx-2 bg-light rounded-3 shadow-sm">
+        <table class="table table-striped table-hover w-100 bg-light">
+          <thead>
+            <tr>
+              <th scope="col">Admin</th>
+              <th scope="col">Athlète</th>
+              <th v-show="isTeamAdmin" scope="col">Changer status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <span class="material-icons-outlined"> military_tech </span>
+              </th>
+              <td>Mark</td>
+              <td v-show="isTeamAdmin">Otto</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Jacob</td>
+              <td v-show="isTeamAdmin">Thornton</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import TopBar from "../../components/topBar/TopBar.vue";
+import MiniTopBar from "../../components/topBar/MiniTopBar.vue";
 
 export default defineComponent({
   components: {
     TopBar,
+    MiniTopBar,
   },
   data() {
     return {
@@ -189,7 +224,7 @@ export default defineComponent({
 
 <style scoped>
 table {
-  overflow-x: auto;
+  overflow-x: scroll;
   white-space: nowrap;
 }
 
@@ -199,5 +234,11 @@ table {
 
 .vertical-center {
   margin-top: 15px;
+}
+
+.sm-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 </style>

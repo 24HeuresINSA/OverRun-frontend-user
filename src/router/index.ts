@@ -6,7 +6,7 @@ import TeamFormVue from "@/views/registration/TeamForm.vue";
 import CertificateFormVue from "@/views/registration/CertificateForm.vue";
 import DashboardVue from "@/views/dashboard/Dashboard.vue";
 import ResetPasswordRequestVue from "@/views/reset/ResetPasswordRequest.vue";
-import ResetPasswordVue from "@/views/reset/RestPassword.vue";
+import ResetPasswordVue from "@/views/reset/ResetPassword.vue";
 import CreateAdminVue from "@/views/admin/CreateAdmin.vue";
 import PaymentFormVue from "@/views/registration/PaymentForm.vue";
 import LoginVue from "@/views/login/Login.vue";
