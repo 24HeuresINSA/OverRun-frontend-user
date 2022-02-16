@@ -15,7 +15,7 @@
     <div class="row mt-4">
       <div class="col"></div>
       <div class="col-lg-4">
-        <form class="text-start mb-5 fw-bold">
+        <form class="text-start mb-5 fw-bold" @submit.prevent="register">
           <div class="row m-2">
             <div class="col-12 col-lg form-group">
               <label for="inputFirstName">Prénom: </label>
@@ -24,6 +24,7 @@
                 type="text"
                 class="form-control"
                 id="inputFirstName"
+                required
               />
             </div>
             <div class="col-12 col-lg form-group">
@@ -33,6 +34,7 @@
                 type="text"
                 class="form-control"
                 id="inputLastName"
+                required
               />
             </div>
           </div>
@@ -44,6 +46,7 @@
                 type="email"
                 class="form-control"
                 id="inputEmail"
+                required
               />
             </div>
             <div class="col-12 col-lg-6 form-group">
@@ -53,6 +56,7 @@
                 type="text"
                 class="form-control"
                 id="inputPhoneNumber"
+                required
               />
             </div>
           </div>
@@ -64,6 +68,7 @@
                 type="text"
                 class="form-control"
                 id="inputUserName"
+                required
               />
             </div>
           </div>
@@ -75,6 +80,7 @@
                 type="password"
                 class="form-control"
                 id="inputPassword"
+                required
               />
             </div>
             <div class="col col-lg-6 form-group">
@@ -89,6 +95,7 @@
                 class="form-control"
                 id="inputConfirmPassword"
                 v-model="confirmPassword"
+                required
               />
             </div>
           </div>
@@ -100,6 +107,7 @@
                 type="date"
                 class="form-control"
                 id="inputBirthDate"
+                required
               />
             </div>
             <div class="col-12 col-lg-4 form-group">
@@ -108,6 +116,7 @@
                 v-model="sex"
                 class="form-select"
                 aria-label="Default select example"
+                required
               >
                 <option value="" disabled selected hidden></option>
                 <option value="0">Femme</option>
@@ -123,6 +132,7 @@
                 type="text"
                 class="form-control"
                 id="inputAddress"
+                required
               />
             </div>
           </div>
@@ -134,6 +144,7 @@
                 type="text"
                 class="form-control"
                 id="inputCity"
+                required
               />
             </div>
             <div class="col-12 col-lg form-group">
@@ -143,6 +154,7 @@
                 type="text"
                 class="form-control"
                 id="inputZipCode"
+                required
               />
             </div>
             <div class="col-12 col-lg form-group">
@@ -152,18 +164,19 @@
                 type="text"
                 class="form-control"
                 id="inputCountry"
+                required
               />
             </div>
           </div>
           <div class="row m-2 mt-3">
             <div class="col form-group">
-              <input id="checkRules" class="mt-0 me-1" type="checkbox" value="" aria-label="Checkbox for following text input">
+              <input id="checkRules" class="mt-0 me-1" type="checkbox" value="" aria-label="Checkbox for following text input" required>
               <label for="checkRules"> Je confirme que j'ai bien pris connaissance du <a href="https://www.24heures.org/wp-content/uploads/2022/01/2022-01-19_Reglement-Interieur-Courses.pdf">règlement en vigueur</a> . </label>
             </div>
           </div>
           <div class="row m-2 mt-5">
             <div class="col form-group text-end">
-              <button class="btn btn-primary" @click="register">
+              <button class="btn btn-primary" type="submit">
                 S'inscrire
               </button>
             </div>
@@ -203,6 +216,7 @@ export default defineComponent({
   methods: {
     register() {
       console.log(this.firstName, this.lastName, this.email, this.phoneNumber, this.password, this.confirmPassword, this.username, this.birthDate, this.sex, this.address, this.city, this.zipCode, this.country);
+      
       this.$router.push({name: 'RegisterVa'})
     },
   },

@@ -62,7 +62,9 @@
               </div>
               <div class="row m-2 mt-5">
                 <div class="col form-group text-end">
-                  <button type="button" class="btn btn-primary">Continuer</button>
+                  <button type="button" class="btn btn-primary">
+                    Continuer
+                  </button>
                 </div>
               </div>
             </div>
@@ -133,7 +135,9 @@
             </div>
             <div class="row m-2 mt-5">
               <div class="col text-end">
-                <button type="button" class="btn btn-primary">Rejoindre l'équipe</button>
+                <button type="button" class="btn btn-primary">
+                  Rejoindre l'équipe
+                </button>
               </div>
             </div>
           </form>
@@ -197,7 +201,9 @@
             </div>
             <div class="row m-2 mt-5">
               <div class="col text-end">
-                <button type="button" class="btn btn-primary">Créer l'équipe</button>
+                <button type="button" class="btn btn-primary">
+                  Créer l'équipe
+                </button>
               </div>
             </div>
           </form>
@@ -271,16 +277,16 @@ export default defineComponent({
     },
     joinRace() {
       console.log("Join Race");
-      this.$router.push({name: "RegisterCertificate"})
+      this.$router.push({ name: "RegisterCertificate" });
     },
     submitCreateTeam() {
       console.log("Create Team");
-      this.$router.push({name: "RegisterCertificate"})
+      this.$router.push({ name: "RegisterCertificate" });
     },
     submitJoinTeam() {
       console.log("Join Team");
-      this.$router.push({name: "RegisterCertificate"})
-    }
+      this.$router.push({ name: "RegisterCertificate" });
+    },
   },
 });
 </script>
