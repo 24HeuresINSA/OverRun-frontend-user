@@ -2,7 +2,6 @@
   <router-view />
 </template>
 
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -32,11 +31,11 @@
   background-color: #374785 !important;
 }
 
-input[type='radio']:checked {
+input[type="radio"]:checked {
   background-color: #374785 !important;
 }
 
-input[type='checkbox']:checked {
+input[type="checkbox"]:checked {
   background-color: #374785 !important;
 }
 

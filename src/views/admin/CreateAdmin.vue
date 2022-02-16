@@ -87,9 +87,8 @@ export default defineComponent({
   },
   methods: {
     sendInvite() {
-      console.log(this.$route.query.token)
+      console.log(this.$route.query.token);
     },
   },
 });
 </script>
-

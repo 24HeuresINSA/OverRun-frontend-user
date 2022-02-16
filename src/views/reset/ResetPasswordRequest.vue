@@ -8,7 +8,7 @@
       <MiniTopBar :userButton="false" />
     </div>
 
-    <div class="row  mt-5">
+    <div class="row mt-5">
       <div class="col m-2">
         <h2>Reinitialisation mot de passe</h2>
       </div>
@@ -55,7 +55,6 @@
     </div>
   </div>
 </template>
-
 
 <script lang="ts">
 import { defineComponent } from "vue";
