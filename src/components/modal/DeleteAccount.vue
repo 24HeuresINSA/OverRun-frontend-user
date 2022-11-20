@@ -10,7 +10,7 @@
       </div>
       <div class="row pt-3 px-2">
         <div class="col mx-2 text-start">
-          <p  >
+          <p>
             <strong><u>Attention!</u></strong> La suppression de votre compte
             entrainera la suppression de toutes vos données personnelles de
             manière irreverssible. Il ne vous sera plus possible de vous
