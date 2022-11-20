@@ -3,28 +3,88 @@
     <div
       class="col-10 col-lg-4 p-3 bg-light custom-modal m-auto rounded-3 mt-5"
     >
-      <div class="row pt-3">
-        <div class="col">
-          <h4>Un problème pour enregistrer votre carte VA? &#128557;</h4>
+      <div v-show="!passwordReseted">
+        <div class="row pt-3">
+          <div class="col">
+            <h4>Envie de changer de mot de passe? 😎</h4>
+          </div>
+        </div>
+        <div class="row text-start">
+          <div class="col m-2">
+            <div class="row px-2 fw-bold" v-show="matchError">
+              <div class="col text-danger">
+                Les deux mots de passes ne correspondent pas!
+              </div>
+            </div>
+            <div class="row px-2 fw-bold" v-show="lengthError">
+              <div class="col text-danger">
+                Le mot de passe doit faire plus de 8 caractères!
+              </div>
+            </div>
+            <form action="">
+              <div class="row p-2 fw-bold">
+                <div class="col form-group">
+                  <label for="inputNewPassword"> Nouveau mot de passe:</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="inputNewPassword"
+                    v-model="newPassword"
+                    minlength="8"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row p-2 fw-bold">
+                <div class="col form-group">
+                  <label for="inputConfirmPassword">
+                    Confirmer mot de passe:</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="inputConfirmPassword"
+                    v-model="confirmPassword"
+                    minlength="8"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col form-group text-center">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    @click="updatePassword"
+                  >
+                    Mettre à jour
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="row pt-3">
-        <div class="col m-2 text-start">
-          <p>
-            Pas de panique, envoyer un petit e-mail à test@gmail.com en
-            indiquant:
-          </p>
-          <ul class="ms-5">
-            <li class="fw-bold">Votre pseudo</li>
-            <li class="fw-bold">Votre nom</li>
-            <li class="fw-bold">Votre prenom</li>
-            <li class="fw-bold">Votre numéro de carte VA</li>
-          </ul>
-          <p>
-            Attendez la validation de votre carte VA avant de procéder au
-            payement (passez l'étape)... du moins si vous souhaitez bénéficier
-            de la réduction associée &#128521;.
-          </p>
+
+      <div v-show="passwordReseted">
+        <div class="row pt-3">
+          <div class="col">
+            <h5 class="big-emoji pb-0 mb-0 pt-3">🎉</h5>
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col mx-2 text-center">
+            <p>Victoire! Votre mot de passe à bien été mis à jour!</p>
+          </div>
+        </div>
+        <div class="row text-start">
+          <div class="col m-2">
+            <div class="col form-group text-center">
+              <button class="btn btn-primary" type="submit" @click="closeModal">
+                Fermer
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -35,9 +95,43 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  data() {
+    return {
+      passwordReseted: false,
+      newPassword: "",
+      confirmPassword: "",
+      matchError: false,
+      lengthError: false,
+    };
+  },
   methods: {
     closeModal() {
+      this.passwordReseted = false;
+      this.matchError = false;
       this.$emit("closeChangePasswordModal");
+    },
+    checkPassword() {
+      let error = false;
+      this.matchError = false;
+      this.lengthError = false;
+      if (this.newPassword !== this.confirmPassword) {
+        this.matchError = true;
+        error = true;
+      }
+      if (this.newPassword.length <= 8) {
+        this.lengthError = true;
+        error = true;
+      }
+      if (error) {
+        this.newPassword = "";
+        this.confirmPassword = "";
+      }
+      return !error;
+    },
+    updatePassword() {
+      if (this.checkPassword() === true) {
+        this.passwordReseted = true;
+      }
     },
   },
 });
@@ -52,5 +146,11 @@ export default defineComponent({
   height: 100%;
   z-index: 10001;
   margin: 0;
+}
+
+.big-emoji {
+  font-size: 120px;
+  vertical-align: middle;
+  line-height: 1;
 }
 </style>
