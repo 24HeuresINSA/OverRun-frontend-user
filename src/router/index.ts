@@ -8,7 +8,7 @@ import DashboardVue from "@/views/dashboard/Dashboard.vue";
 import ResetPasswordVue from "@/views/reset/ResetPassword.vue";
 import PaymentFormVue from "@/views/registration/PaymentForm.vue";
 import LoginVue from "@/views/login/Login.vue";
-import Settings from "@/views/settings/Settings.vue";
+import userSettings from "@/views/userSettings/userSettings.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -57,9 +57,9 @@ const routes: Array<RouteRecordRaw> = [
     component: LoginVue,
   },
   {
-    path: "/settings",
-    name: "Settings",
-    component: Settings,
+    path: "/userSettings",
+    name: "userSettings",
+    component: userSettings,
   },
 ];
 

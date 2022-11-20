@@ -76,8 +76,8 @@
 import { defineComponent } from "vue";
 import TopBar from "../../components/topBar/TopBar.vue";
 import MiniTopBar from "../../components/topBar/MiniTopBar.vue";
-import DeleteAccount from "@/components/modal/DeleteAccount.vue";
-import ChangePassword from "@/components/modal/ChangePassword.vue";
+import DeleteAccount from "../../components/modal/DeleteAccount.vue";
+import ChangePassword from "../../components/modal/ChangePassword.vue";
 
 export default defineComponent({
   components: {

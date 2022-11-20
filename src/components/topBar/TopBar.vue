@@ -77,7 +77,7 @@ export default defineComponent({
       this.$router.push({ name: "Home" });
     },
     settings() {
-      this.$router.push({ name: "Settings" });
+      this.$router.push({ name: "userSettings" });
     },
     disconnect() {
       this.$router.push({ name: "Login" });
