@@ -5,26 +5,43 @@
     >
       <div class="row pt-3">
         <div class="col">
-          <h4>Vous avez oublié votre mot de passe? &#128557;</h4>
+          <h4>Vous avez un certificat medical à charger? 🩺</h4>
         </div>
       </div>
-      <div class="row pt-3">
-        <div class="col m-2 text-start">
+      <div class="row m-2 pt-3">
+        <div class="col bg-primary text-start text-light rounded pt-3 mx-3">
           <p>
-            Pas de panique, envoyer un petit e-mail à test@gmail.com en
-            indiquant:
+            Le certificat doit dater de moins d'un an au moment de la
+            compétition et doit comporter l'autorisation de la pratiques des
+            disciplines en compétition selon votre course. Les liscences des
+            fédérations corrspondant aux courses sont accéptées (FFC pour le
+            vélo par exemple).
           </p>
-          <ul class="ms-5">
-            <li class="fw-bold">Votre pseudo</li>
-            <li class="fw-bold">Votre nom</li>
-            <li class="fw-bold">Votre prenom</li>
-            <li class="fw-bold">Votre numéro de carte VA</li>
-          </ul>
-          <p>
-            Attendez la validation de votre carte VA avant de procéder au
-            payement (passez l'étape)... du moins si vous souhaitez bénéficier
-            de la réduction associée &#128521;.
-          </p>
+        </div>
+      </div>
+
+      <div class="row m-2 pt-3">
+        <div class="col text-start fw-bold">
+          <form>
+            <div class="row">
+              <div class="col form-group">
+                <label for="inputCertificate">Certificat:</label>
+
+                <input
+                  type="file"
+                  class="form-control"
+                  id="inputCertificate"
+                  name="certificate"
+                  accept="image/png, image/jpeg,.pdf"
+                />
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
