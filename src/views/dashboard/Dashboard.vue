@@ -190,31 +190,42 @@
 
     <div v-show="isTeamAdmin">
       <div class="row mx-3 mt-3">
-        <div class="col col-md-3 border-bottom text-start vertical-center-container">
+        <div
+          class="col col-md-3 border-bottom text-start vertical-center-container"
+        >
           <div class="vertical-center">
-               <h6>
-            Paramètres équipe
-            <span
-              v-show="showTeamSettings"
-              @click="toggleTeamSettings"
-              class="material-icons-outlined chevron"
-            >
-              expand_more
-            </span>
-            <span
-              v-show="!showTeamSettings"
-              @click="toggleTeamSettings"
-              class="material-icons-outlined chevron"
-            >
-              chevron_right
-            </span>
-          </h6>
+            <h6>
+              Paramètres équipe
+              <span
+                v-show="showTeamSettings"
+                @click="toggleTeamSettings"
+                class="material-icons-outlined chevron"
+              >
+                expand_more
+              </span>
+              <span
+                v-show="!showTeamSettings"
+                @click="toggleTeamSettings"
+                class="material-icons-outlined chevron"
+              >
+                chevron_right
+              </span>
+            </h6>
           </div>
-         
         </div>
       </div>
       <div v-show="showTeamSettings" class="row mx-3">
         <div class="col mx-2 bg-light rounded-bottom shadow-sm">
+          <div class="row fw-bold text-start" v-show="matchError">
+            <div class="col text-danger">
+              Les deux mots de passes ne correspondent pas!
+            </div>
+          </div>
+          <div class="row fw-bold text-start" v-show="lengthError">
+            <div class="col text-danger">
+              Le mot de passe doit faire plus de 8 caractères!
+            </div>
+          </div>
           <form>
             <div class="row fw-bold text-start">
               <div class="col-12 my-2 col-md-5 form-groups">
@@ -222,17 +233,19 @@
                 <input
                   type="password"
                   class="form-control"
-                  id="inputTeamPassword"
+                  v-model="newTeamPassword"
+                  id="inputNewTeamPassword"
                 />
               </div>
               <div class="col-12 my-2 col-md-5 form-groups">
-                <label for="inputNewTeamPassword"
+                <label for="inputConfirmTeamPassword"
                   >Confirmez mot de passe:
                 </label>
                 <input
                   type="password"
                   class="form-control"
-                  id="inputTeamPassword"
+                  v-model="confirmTeamPassword"
+                  id="inputConfirmPassword"
                 />
               </div>
               <div
@@ -290,7 +303,7 @@
           <tbody>
             <tr>
               <th scope="row" class="admin-col">
-                <span class="material-icons-outlined" > military_tech </span>
+                <span class="material-icons-outlined"> military_tech </span>
               </th>
               <td>Mark</td>
             </tr>
@@ -315,7 +328,7 @@
       </div>
     </div>
 
-     <div class="row m-2 mt-4 text-start">
+    <div class="row m-2 mt-4 text-start">
       <div class="col col-md-4 border-bottom">
         <h2>Mes Certificats</h2>
       </div>
@@ -342,18 +355,37 @@ export default defineComponent({
       vaStatus: 3,
       certificateStatus: 3,
       paymentStatus: 0,
+      newTeamPassword: "",
+      confirmTeamPassword: "",
+      matchError: false,
+      lengthError: false,
     };
   },
   methods: {
     toggleTeamSettings() {
+      this.newTeamPassword = "";
+      this.confirmTeamPassword = "";
+      this.matchError = false;
+      this.lengthError = false;
       this.showTeamSettings = !this.showTeamSettings;
+    },
+    checkPassword() {
+      let error = false;
+      if (this.newTeamPassword !== this.confirmTeamPassword) {
+        error = true;
+        this.matchError = true;
+      }
+      if (this.newTeamPassword.length <= 8) {
+        error = true;
+        this.lengthError = true;
+      }
+      return !error;
     },
   },
 });
 </script>
 
 <style scoped>
-
 .admin-col {
   width: 150px;
 }
