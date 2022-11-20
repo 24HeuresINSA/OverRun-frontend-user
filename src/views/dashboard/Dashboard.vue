@@ -190,24 +190,27 @@
 
     <div v-show="isTeamAdmin">
       <div class="row mx-3 mt-3">
-        <div class="col col-md-3 border-bottom text-start">
-          <h6>
+        <div class="col col-md-3 border-bottom text-start vertical-center-container">
+          <div class="vertical-center">
+               <h6>
             Paramètres équipe
             <span
               v-show="showTeamSettings"
               @click="toggleTeamSettings"
-              class="material-icons-outlined"
+              class="material-icons-outlined chevron"
             >
               expand_more
             </span>
             <span
               v-show="!showTeamSettings"
               @click="toggleTeamSettings"
-              class="material-icons-outlined"
+              class="material-icons-outlined chevron"
             >
               chevron_right
             </span>
           </h6>
+          </div>
+         
         </div>
       </div>
       <div v-show="showTeamSettings" class="row mx-3">
@@ -235,7 +238,7 @@
               <div
                 class="col-12 my-2 col-md form-groups text-center btn-container"
               >
-                <div class="vertical-center">
+                <div class="vertical-center-button">
                   <button class="btn btn-primary m-auto align-middle">
                     Mettre à jour
                   </button>
@@ -276,27 +279,24 @@
     </div>
 
     <div class="d-sm-0 sm-table row mx-3 mt-3">
-      <div class="col mx-2 bg-light rounded-3 shadow-sm">
+      <div class="col mx-2 bg-light rounded-3 shadow-sm table-responsive">
         <table class="table table-striped table-hover w-100 bg-light">
           <thead>
             <tr>
-              <th scope="col">Admin</th>
+              <th scope="col" class="admin-col">Admin</th>
               <th scope="col">Athlète</th>
-              <th v-show="isTeamAdmin" scope="col">Changer status</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">
-                <span class="material-icons-outlined"> military_tech </span>
+              <th scope="row" class="admin-col">
+                <span class="material-icons-outlined" > military_tech </span>
               </th>
               <td>Mark</td>
-              <td v-show="isTeamAdmin">Otto</td>
             </tr>
             <tr>
-              <th scope="row"></th>
+              <th scope="row" class="admin-col"></th>
               <td>Jacob</td>
-              <td v-show="isTeamAdmin">Thornton</td>
             </tr>
           </tbody>
         </table>
@@ -312,6 +312,12 @@
     <div class="row m-2 mt-4 text-start">
       <div class="col col-md-4 border-bottom">
         <h2>Mes Payements</h2>
+      </div>
+    </div>
+
+     <div class="row m-2 mt-4 text-start">
+      <div class="col col-md-4 border-bottom">
+        <h2>Mes Certificats</h2>
       </div>
     </div>
   </div>
@@ -347,23 +353,35 @@ export default defineComponent({
 </script>
 
 <style scoped>
-table {
-  overflow-x: scroll;
-  white-space: nowrap;
+
+.admin-col {
+  width: 150px;
 }
 
 .btn-container {
   margin: auto;
 }
 
-.vertical-center {
+.vertical-center-button {
   margin-top: 15px;
 }
 
-.sm-table {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
+.vertical-center-container {
+  height: 30px;
+  position: relative;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.chevron {
+  margin-top: -5px;
+  position: absolute;
 }
 
 .big-emoji {
