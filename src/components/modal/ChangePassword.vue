@@ -33,10 +33,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
   methods: {
     closeModal() {
-      this.$emit("closeProblemModal");
+      this.$emit("closeChangePasswordModal");
     },
   },
 });

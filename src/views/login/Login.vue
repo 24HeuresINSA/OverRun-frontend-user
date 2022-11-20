@@ -1,12 +1,17 @@
 <template>
-  <div class="container-fluid h-100">
+  <div class="container-fluid h-100 p-0">
+    <ResetPassword
+      v-show="showResetPasswordModal"
+      @closeResetPasswordModal="toggleResetPasswordModal"
+    />
+
     <div class="row login">
       <div class="col mt-5">
         <h1>Se connecter</h1>
       </div>
     </div>
 
-    <div class="row mt-5">
+    <div class="row">
       <div class="col-lg"></div>
       <div class="col col-lg-3 text-start fw-bold">
         <div class="row mt-4">
@@ -35,10 +40,8 @@
                   required
                 />
                 <div id="forgottentPassword fw-light" class="form-text mt-1">
-                  <router-link
-                    :to="{ name: 'ResetPasswordRequest' }"
-                    class="fw-light"
-                    >Mot de passe oublié?</router-link
+                  <a href="#" @click="toggleResetPasswordModal"
+                    >Mot de passe oublié?</a
                   >
                 </div>
               </div>
@@ -60,15 +63,19 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapMutations } from "vuex";
+import { MutationTypes } from "../../store/modules/auth";
 import axios from "axios";
+import ResetPassword from "@/components/modal/ResetPassword.vue";
 
 export default defineComponent({
-  components: {},
+  components: {
+    ResetPassword,
+  },
   data() {
     return {
       email: null,
       password: null,
+      showResetPasswordModal: false,
     };
   },
   methods: {
@@ -81,10 +88,36 @@ export default defineComponent({
 
       console.log(response);
       if (response.status === 200) {
-        console.log("Hello: ", this.$store.getters.getUser);
-        // this.SET_ACCESS_TOKEN(response.data.accessToken);
-        // this.SET_REFRESH_TOKEN(response.data.refreshToken);
+        this.$store.commit(
+          MutationTypes.SET_ACCESS_TOKEN,
+          response.data.accessToken
+        );
+        this.$store.commit(
+          MutationTypes.SET_REFRESH_TOKEN,
+          response.data.refreshToken
+        );
+        const base64Url = this.$store.getters.getAccessToken.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map(function (c) {
+              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+        );
+        this.$store.commit(MutationTypes.SET_USER, JSON.parse(jsonPayload).id);
+        console.log(this.$store.getters.getUser);
+        const admins = await axios.get("admins", {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+          },
+        });
+        console.log(admins);
       }
+    },
+    toggleResetPasswordModal() {
+      this.showResetPasswordModal = !this.showResetPasswordModal;
     },
   },
 });

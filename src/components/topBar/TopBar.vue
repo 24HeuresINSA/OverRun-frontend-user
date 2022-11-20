@@ -1,6 +1,6 @@
 <template>
   <div id="top-bar" class="sticky-top bg-primary">
-    <div id="top-logo">
+    <div id="top-logo" @click="home">
       <span id="overun">
         <h1 class="m-0 text-light">Overun</h1>
       </span>
@@ -21,7 +21,7 @@
               aria-expanded="false"
             >
               <div class="centered-text">
-                <p>Edition</p>
+                <p>Pintade</p>
               </div>
               <div class="h-100 w-10" id="edition-arrow">
                 <span class="material-icons d-inline" id="test">
@@ -35,14 +35,8 @@
               class="dropdown-menu p-0"
               aria-labelledby="dropdownUserLink"
             >
-              <li class="inactiveLink">
-                <span class="dropdown-item text-center pt-2 pb-2" href="#"
-                  >Pintade</span
-                >
-              </li>
-              <li><hr class="dropdown-divider m-0 p-0" /></li>
-              <li>
-                <a class="dropdown-item text-dark pt-2 pb-2" href="#">
+              <li @click="settings">
+                <a class="dropdown-item text-dark pt-0 pb-0" href="#">
                   <span class="material-icons-outlined icon d-inline m-0 p-0">
                     settings
                   </span>
@@ -50,9 +44,9 @@
                 </a>
               </li>
               <li><hr class="dropdown-divider m-0 p-0" /></li>
-              <li>
+              <li @click="disconnect">
                 <a
-                  class="dropdown-item bg-danger text-light pt-2 pb-2"
+                  class="dropdown-item bg-danger text-light pt-0 pt-0"
                   href="#"
                 >
                   <span class="material-icons-outlined icon d-inline m-0 p-0">
@@ -78,10 +72,21 @@ export default defineComponent({
     title: String,
     userButton: Boolean,
   },
+  methods: {
+    home() {
+      this.$router.push({ name: "Home" });
+    },
+    settings() {
+      this.$router.push({ name: "Settings" });
+    },
+    disconnect() {
+      this.$router.push({ name: "Login" });
+    },
+  },
 });
 </script>
 
-<style  scoped>
+<style scoped>
 #top-bar {
   height: 60px;
   width: 100vw;
@@ -175,7 +180,8 @@ export default defineComponent({
 }
 
 #dropdownUserMenu {
-  margin-top: 22px !important;
+  margin-right: -32px !important;
+  margin-top: 20px !important;
 }
 
 .icon {
@@ -187,5 +193,9 @@ export default defineComponent({
 .inactiveLink {
   pointer-events: none;
   cursor: default;
+}
+
+a {
+  color: inherit;
 }
 </style>

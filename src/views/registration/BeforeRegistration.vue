@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid h-100">
-    <div class="row h-100 ">
+    <div class="row h-100">
       <div class="col h-100 text-center">
         <p id="title-1">Bienvenu sur</p>
 

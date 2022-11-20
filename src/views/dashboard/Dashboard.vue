@@ -1,6 +1,6 @@
 <template>
   <div class="d-none d-lg-block">
-    <TopBar :title="title" :userButton="true"/>
+    <TopBar :title="title" :userButton="true" />
   </div>
 
   <div class="d-block d-lg-none">
@@ -13,19 +13,52 @@
         <h2>Mon Inscription</h2>
       </div>
     </div>
+    <div class="row m-2 mt-3 text-start">
+      <div class="col-12 mx-2">
+        <strong> Vous êtes inscrit dans la course: Ma course</strong>
+      </div>
+    </div>
 
     <div class="row m-2 mt-3">
       <div class="col-12 col-md-3">
         <div
           class="container-fluid bg-light p-1 pt-3 pb-3 me-md-2 m-2 rounded-3 shadow-sm"
         >
-          <div class="row pt-1 pb-1">
+          <div class="row pt-1">
             <div class="col">
               <h5>Status de mon inscription</h5>
               <hr />
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="inscriptionStatus == 0"
+              >
+                😢
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="inscriptionStatus == 1"
+              >
+                🎉
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="inscriptionStatus == 2"
+              >
+                ⌛
+              </h5>
             </div>
           </div>
-          <div class="row pt-3"></div>
+          <div class="row pt-1 text-center">
+            <p class="mb-0" v-if="inscriptionStatus === 0">
+              Inscription incomplète
+            </p>
+            <p class="mb-0" v-if="inscriptionStatus === 1">
+              Inscription complète
+            </p>
+            <p class="mb-0" v-if="inscriptionStatus === 2">
+              En cours de validation ...
+            </p>
+          </div>
         </div>
       </div>
       <div class="col-12 col-md-3">
@@ -36,9 +69,46 @@
             <div class="col">
               <h5>Mon Certificat</h5>
               <hr />
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 0"
+              >
+                😱
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 1"
+              >
+                🎉
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 2"
+              >
+                ⌛
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 3"
+              >
+                🤔
+              </h5>
             </div>
           </div>
-          <div class="row pt-3"></div>
+          <div class="row pt-1 text-center">
+            <p class="mb-0" v-if="certificateStatus === 0">
+              Certificat rejeté!
+            </p>
+            <p class="mb-0" v-if="certificateStatus === 1">
+              Certificat validé!
+            </p>
+            <p class="mb-0" v-if="certificateStatus === 2">
+              En cours de validation ...
+            </p>
+            <p class="mb-0" v-if="certificateStatus === 3">
+              Certificat manquant!
+            </p>
+          </div>
         </div>
       </div>
       <div class="col-12 col-md-3">
@@ -49,9 +119,49 @@
             <div class="col">
               <h5>Ma Carte VA</h5>
               <hr />
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 0"
+              >
+                😱
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 1"
+              >
+                🎉
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 2"
+              >
+                ⌛
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 3"
+              >
+                🤔
+              </h5>
+              <h5
+                class="big-emoji pb-0 mb-0 pt-3"
+                v-if="certificateStatus === 4"
+              >
+                🙈
+              </h5>
             </div>
           </div>
-          <div class="row pt-3"></div>
+          <div class="row pt-1 text-center">
+            <p class="mb-0" v-if="certificateStatus === 0">Carte VA rejetée!</p>
+            <p class="mb-0" v-if="certificateStatus === 1">Carte VA validée!</p>
+            <p class="mb-0" v-if="certificateStatus === 2">
+              En cours de validation...
+            </p>
+            <p class="mb-0" v-if="certificateStatus === 3">
+              Carte VA manquante!
+            </p>
+            <p class="mb-0" v-if="certificateStatus === 4">Pas de carte VA!</p>
+          </div>
         </div>
       </div>
       <div class="col-12 col-md-3">
@@ -62,9 +172,12 @@
             <div class="col">
               <h5>Mon Payement</h5>
               <hr />
+              <h5 class="big-emoji">😢</h5>
             </div>
           </div>
-          <div class="row pt-3"></div>
+          <div class="row pt-1 text-center">
+            <p class="mb-0">Payement refusé</p>
+          </div>
         </div>
       </div>
     </div>
@@ -162,7 +275,7 @@
       </div>
     </div>
 
-    <div class=" d-sm-0 sm-table  row mx-3 mt-3">
+    <div class="d-sm-0 sm-table row mx-3 mt-3">
       <div class="col mx-2 bg-light rounded-3 shadow-sm">
         <table class="table table-striped table-hover w-100 bg-light">
           <thead>
@@ -190,6 +303,17 @@
       </div>
     </div>
 
+    <div class="row m-2 mt-4 text-start">
+      <div class="col col-md-4 border-bottom">
+        <h2>Mes Resultats</h2>
+      </div>
+    </div>
+
+    <div class="row m-2 mt-4 text-start">
+      <div class="col col-md-4 border-bottom">
+        <h2>Mes Payements</h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -208,9 +332,9 @@ export default defineComponent({
       title: "",
       isTeamAdmin: true,
       showTeamSettings: false,
-      inscriptionStatus: false,
-      vaStatus: false,
-      certificateStatus: 0,
+      inscriptionStatus: 2,
+      vaStatus: 3,
+      certificateStatus: 3,
       paymentStatus: 0,
     };
   },
@@ -237,8 +361,14 @@ table {
 }
 
 .sm-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.big-emoji {
+  font-size: 60px;
+  vertical-align: middle;
+  line-height: 1;
 }
 </style>

@@ -15,7 +15,7 @@
     <div class="row mt-4">
       <div class="col-lg"></div>
       <div class="col col-lg-4 text-start fw-bold">
-        <form class="m-2">
+        <form class="m-2" @submit.prevent="uploadCertificate">
           <div class="row">
             <div class="col form-group">
               <label for="inputCertificate"
@@ -51,7 +51,7 @@
             </div>
             <div class="col col-lg-6 text-end">
               <button
-                type="button"
+                type="submit"
                 class="btn btn-primary"
                 @click="uploadCertificate"
               >
@@ -69,6 +69,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
+import axios from "axios";
 
 export default defineComponent({
   components: {
@@ -77,10 +78,24 @@ export default defineComponent({
   methods: {
     passCertificateUpload() {
       console.log("Pass certificateUpload");
-      this.$router.push({name: "RegisterPayment"})
+      this.$router.push({ name: "RegisterPayment" });
     },
-    uploadCertificate() {
+    async uploadCertificate() {
       console.log("Upload Certificate");
+      let formData = new FormData();
+      let imageFile: HTMLInputElement | null =
+        document.querySelector("#inputCertificate");
+      if (imageFile && imageFile.files && imageFile.files[0]) {
+        formData.append("certificate", imageFile.files[0]);
+        formData.append("editionId", "1");
+        const response = await axios.post("/certificates/upload", formData, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+            "Content-type": "multipart/form-data",
+          },
+        });
+        console.log(response);
+      }
     },
   },
 });

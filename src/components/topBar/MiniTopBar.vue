@@ -5,7 +5,7 @@
         <div class="col-6">
           <div id="top-logo" class="p-0 m-0">
             <span id="overun">
-              <h1 class="m-0 text-light">Overun</h1>
+              <h1 class="m-0 text-light" @click="home">Overun</h1>
             </span>
           </div>
         </div>
@@ -27,8 +27,8 @@
       <div class="row">
         <div class="col">
           <ul class="list-group text-light text-start mt-2">
-            <li class="list-group-item">Pintade</li>
-            <li class="list-group-item">Déconnection</li>
+            <li class="list-group-item" @click="settings">Parametres</li>
+            <li class="list-group-item" @click="disconnect">Déconnection</li>
           </ul>
         </div>
       </div>
@@ -52,11 +52,20 @@ export default defineComponent({
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
+    home() {
+      this.$router.push({ name: "Home" });
+    },
+    settings() {
+      this.$router.push({ name: "Settings" });
+    },
+    disconnect() {
+      this.$router.push({ name: "Login" });
+    },
   },
 });
 </script>
 
-<style  scoped>
+<style scoped>
 #top-bar {
   height: 60px;
   width: 100vw;

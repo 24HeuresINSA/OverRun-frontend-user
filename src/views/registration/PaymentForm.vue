@@ -15,6 +15,16 @@
     <div class="row mt-4">
       <div class="col-lg"></div>
       <div class="col col-lg-4 mt-5 text-center fw-bold">
+        <form id="payment-form">
+          <div id="payment-element">
+            <!--Stripe.js injects the Payment Element-->
+          </div>
+          <button id="submit">
+            <div class="spinner hidden" id="spinner"></div>
+            <span id="button-text">Pay now</span>
+          </button>
+          <div id="payment-message" class="hidden"></div>
+        </form>
         <button class="btn btn-lg btn-primary">Procéder au payment</button>
       </div>
       <div class="col-lg"></div>
@@ -22,7 +32,9 @@
     <div class="row mt-4">
       <div class="col-lg"></div>
       <div class="col col-lg-4 mt-5 text-center fw-bold">
-        <button class="btn btn-sm btn-secondary" @click="passPayment">Payer plus tard</button>
+        <button class="btn btn-sm btn-secondary" @click="passPayment">
+          Payer plus tard
+        </button>
       </div>
       <div class="col-lg"></div>
     </div>
@@ -40,7 +52,7 @@ export default defineComponent({
   methods: {
     passPayment() {
       console.log("Pass certificateUpload");
-      this.$router.push({name: "Home"});
+      this.$router.push({ name: "Home" });
     },
     redirectPaymentSite() {
       console.log("Upload Certificate");

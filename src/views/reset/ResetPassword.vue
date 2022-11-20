@@ -1,7 +1,12 @@
 <template>
   <div class="container-fluid m-0 p-0">
+    <PasswordReseted
+      v-show="showPasswordResetedModal"
+      @closePasswordResetedModal="togglePasswordResetedModal"
+    />
+
     <div class="d-none d-lg-block">
-      <TopBar :title="title" :userButton="false" />
+      <TopBar :userButton="false" />
     </div>
 
     <div class="d-block d-lg-none">
@@ -16,16 +21,22 @@
 
     <div class="row mx-3 mx-lg-0 mt-md-3 mt-2 mx-3 mx-md-0">
       <div class="col-md col-lg"></div>
-      <div class="col col-md-6 col-lg-4 text-start">
+      <div class="col col-md-6 col-lg-3 text-start">
+        <div class="row fw-bold" v-show="wrongPassword">
+          <div class="col text-danger">
+            Les deux mots de passes ne correspondent pas!
+          </div>
+        </div>
         <form @submit.prevent="sendInvite">
-          <div class="row fw-bold">
+          <div class="row mt-2 fw-bold">
             <div class="col form-group">
               <label for="inputNewPassword">Nouveau mot de passe: </label>
               <input
-                v-model="username"
-                type="text"
+                type="password"
                 class="form-control"
-                id="inputEmail"
+                id="inputNewPassword"
+                v-model="newPassword"
+                minlength="8"
                 required
               />
             </div>
@@ -34,17 +45,22 @@
             <div class="col form-group">
               <label for="inputConfirmPassword">Confirmer mot de passe: </label>
               <input
-                v-model="username"
-                type="text"
+                type="password"
                 class="form-control"
                 id="inputConfirmPassword"
+                v-model="confirmPassword"
+                minlength="8"
                 required
               />
             </div>
           </div>
           <div class="row mt-5">
             <div class="col form-group text-center text-md-end">
-              <button class="btn btn-primary" type="submit">
+              <button
+                class="btn btn-primary"
+                type="button"
+                @click="checkPassword"
+              >
                 Reinitialiser mon mot de passe
               </button>
             </div>
@@ -60,22 +76,40 @@
 import { defineComponent } from "vue";
 import TopBar from "../../components/topBar/TopBar.vue";
 import MiniTopBar from "../../components/topBar/MiniTopBar.vue";
+import PasswordReseted from "@/components/modal/PasswordReseted.vue";
 
 export default defineComponent({
   components: {
     TopBar,
     MiniTopBar,
+    PasswordReseted,
   },
   data() {
     return {
-      title: "Reinitialiser mon mot de passe",
-      newPassword: null,
-      confirmPassword: null,
+      newPassword: "",
+      confirmPassword: "",
+      wrongPassword: false,
+      showPasswordResetedModal: true,
     };
   },
   methods: {
+    checkPassword() {
+      console.log("Check password");
+      console.log(this.newPassword);
+      console.log(this.confirmPassword);
+      if (this.confirmPassword !== this.newPassword) {
+        this.wrongPassword = true;
+        this.newPassword = "";
+        this.confirmPassword = "";
+        return false;
+      }
+      return true;
+    },
     sendInvite() {
       console.log("Envoyer une invite");
+    },
+    togglePasswordResetedModal() {
+      this.showPasswordResetedModal = !this.showPasswordResetedModal;
     },
   },
 });

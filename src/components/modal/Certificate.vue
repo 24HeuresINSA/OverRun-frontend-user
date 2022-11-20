@@ -5,7 +5,7 @@
     >
       <div class="row pt-3">
         <div class="col">
-          <h4>Un problème pour enregistrer votre carte VA? &#128557;</h4>
+          <h4>Vous avez oublié votre mot de passe? &#128557;</h4>
         </div>
       </div>
       <div class="row pt-3">
@@ -33,10 +33,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
   methods: {
     closeModal() {
-      this.$emit("closeProblemModal");
+      this.$emit("closeCertificateModal");
     },
   },
 });

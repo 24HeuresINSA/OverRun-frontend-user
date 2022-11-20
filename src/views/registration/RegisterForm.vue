@@ -14,6 +14,18 @@
     </div>
     <div class="row mt-4">
       <div class="col"></div>
+      <div class="col-lg-4 bg-primary rounded text-light text-start pt-2">
+        <strong> <u>Attention:</u> </strong>
+        <p>
+          Si vous disposez d'une carte VA, assurez-vous que les nom et prenom
+          saisie dans le formulaire d'inscription correspondent bien aux nom et
+          prenoms figurant sur votre carte VA.
+        </p>
+      </div>
+      <div class="col"></div>
+    </div>
+    <div class="row mt-2">
+      <div class="col"></div>
       <div class="col-lg-4">
         <form class="text-start mb-5 fw-bold" @submit.prevent="register">
           <div class="row m-2">
@@ -119,8 +131,8 @@
                 required
               >
                 <option value="" disabled selected hidden></option>
-                <option value="0">Femme</option>
-                <option value="1">Homme</option>
+                <option value="1">Femme</option>
+                <option value="0">Homme</option>
               </select>
             </div>
           </div>
@@ -170,15 +182,27 @@
           </div>
           <div class="row m-2 mt-3">
             <div class="col form-group">
-              <input id="checkRules" class="mt-0 me-1" type="checkbox" value="" aria-label="Checkbox for following text input" required>
-              <label for="checkRules"> Je confirme que j'ai bien pris connaissance du <a href="https://www.24heures.org/wp-content/uploads/2022/01/2022-01-19_Reglement-Interieur-Courses.pdf">règlement en vigueur</a> . </label>
+              <input
+                id="checkRules"
+                class="mt-0 me-1"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+                required
+              />
+              <label for="checkRules">
+                Je confirme que j'ai bien pris connaissance du
+                <a
+                  href="https://www.24heures.org/wp-content/uploads/2022/01/2022-01-19_Reglement-Interieur-Courses.pdf"
+                  >règlement en vigueur</a
+                >
+                .
+              </label>
             </div>
           </div>
           <div class="row m-2 mt-5">
             <div class="col form-group text-end">
-              <button class="btn btn-primary" type="submit">
-                S'inscrire
-              </button>
+              <button class="btn btn-primary" type="submit">S'inscrire</button>
             </div>
           </div>
         </form>
@@ -191,6 +215,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
+import { MutationTypes } from "../../store/modules/auth";
+import axios from "axios";
 
 export default defineComponent({
   components: {
@@ -214,10 +240,69 @@ export default defineComponent({
     };
   },
   methods: {
-    register() {
-      console.log(this.firstName, this.lastName, this.email, this.phoneNumber, this.password, this.confirmPassword, this.username, this.birthDate, this.sex, this.address, this.city, this.zipCode, this.country);
-      
-      this.$router.push({name: 'RegisterVa'})
+    async register() {
+      const response = await axios.post(
+        "athletes",
+        {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          address: this.address,
+          zipCode: this.zipCode,
+          city: this.city,
+          country: this.country,
+          phoneNumber: this.phoneNumber,
+          email: this.email,
+          username: this.username,
+          password: this.password,
+          dateOfBirth: this.birthDate,
+          sex: this.sex === 1 ? true : false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+          },
+        }
+      );
+      if (response.status < 300) {
+        console.log(this.email, this.password);
+        const response = await axios.post("login", {
+          email: this.email,
+          password: this.password,
+          username: this.username,
+        });
+
+        console.log(response);
+        if (response.status === 200) {
+          this.$store.commit(
+            MutationTypes.SET_ACCESS_TOKEN,
+            process.env.ACCESS_TOKEN
+          );
+          this.$store.commit(
+            MutationTypes.SET_REFRESH_TOKEN,
+            response.data.refreshToken
+          );
+          console.log(this.$store.getters.getAccessToken);
+          const base64Url = this.$store.getters.getAccessToken.split(".")[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split("")
+              .map(function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+              })
+              .join("")
+          );
+          console.log(JSON.parse(jsonPayload));
+          this.$store.commit(
+            MutationTypes.SET_USER,
+            JSON.parse(jsonPayload).id
+          );
+          this.$store.commit(
+            MutationTypes.SET_ATHLETE_ID,
+            JSON.parse(jsonPayload).athleteId
+          );
+        }
+      }
     },
   },
 });

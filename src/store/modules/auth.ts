@@ -12,7 +12,8 @@ import axios from "axios";
 export const state = {
   accessToken: "",
   refreshToken: "",
-  user: "null" as unknown,
+  user: null as unknown,
+  athleteId: null as unknown,
 };
 
 export type State = typeof state;
@@ -21,12 +22,58 @@ export enum MutationTypes {
   SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN",
   SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN",
   SET_USER = "SET_USER",
+  SET_ATHLETE_ID = "SET_ATHLETE_ID",
+  LOGOUT = "LOGOUT",
 }
 
 export type Mutations<S = State> = {
-  [MutationTypes.SET_ACCESS_TOKEN](state: S, data: string): void;
-  [MutationTypes.SET_REFRESH_TOKEN](state: S, data: string): void;
-  [MutationTypes.SET_USER](state: S, data: unknown): void;
+  [MutationTypes.SET_ACCESS_TOKEN](state: S, payload: string): void;
+  [MutationTypes.SET_REFRESH_TOKEN](state: S, payload: string): void;
+  [MutationTypes.SET_USER](state: S, payload: unknown): void;
+  [MutationTypes.SET_ATHLETE_ID](state: S, payload: unknown): void;
+  [MutationTypes.LOGOUT](state: S): void;
+};
+
+export const mutations: MutationTree<State> & Mutations = {
+  [MutationTypes.SET_ACCESS_TOKEN](state, payload: string) {
+    state.accessToken = payload;
+  },
+  [MutationTypes.SET_REFRESH_TOKEN](state, payload: string) {
+    state.refreshToken = payload;
+  },
+  [MutationTypes.SET_USER](state, payload: unknown) {
+    state.user = payload;
+  },
+  [MutationTypes.SET_ATHLETE_ID](state, payload: unknown) {
+    state.athleteId = payload;
+  },
+  [MutationTypes.LOGOUT](state) {
+    state.user = null;
+    state.accessToken = "";
+    state.refreshToken = "";
+  },
+};
+
+export type Getters = {
+  getAccessToken(state: State): string;
+  getRefreshToken(state: State): string;
+  getUser(state: State): unknown;
+  getAdminId(state: State): unknown;
+};
+
+export const getters: GetterTree<State, State> & Getters = {
+  getAccessToken: (state) => {
+    return state.accessToken;
+  },
+  getRefreshToken: (state) => {
+    return state.refreshToken;
+  },
+  getUser: (state) => {
+    return state.user;
+  },
+  getAdminId: (state) => {
+    return state.athleteId;
+  },
 };
 
 export enum ActionTypes {
@@ -47,24 +94,6 @@ export interface Actions {
   ): void;
 }
 
-export type Getters = {
-  getAccessToken(state: State): string;
-  getRefreshToken(state: State): string;
-  getUser(state: State): unknown;
-};
-
-export const getters: GetterTree<State, State> & Getters = {
-  getAccessToken: (state) => {
-    return state.accessToken;
-  },
-  getRefreshToken: (state) => {
-    return state.refreshToken;
-  },
-  getUser: (state) => {
-    return state.user;
-  },
-};
-
 // const actions: ActionTree<State, State> & Actions = {
 //   async [ActionTypes.LOGIN_API]({ commit }, payload: Object) {
 //     const response = await axios
@@ -84,20 +113,7 @@ export const getters: GetterTree<State, State> & Getters = {
 //   },
 // };
 
-const mutations: MutationTree<State> & Mutations = {
-  [MutationTypes.SET_ACCESS_TOKEN](state, data: string) {
-    state.accessToken = data;
-  },
-  [MutationTypes.SET_REFRESH_TOKEN](state, data: string) {
-    state.refreshToken = data;
-  },
-  [MutationTypes.SET_USER](state, data: unknown) {
-    state.user = data;
-  },
-};
-
 export default {
-  namespaced: true,
   state,
   getters,
   // actions,

@@ -56,9 +56,26 @@
                   v-model="selectedRace"
                 >
                   <option value="" disabled selected hidden></option>
-                  <option value="2">Femme</option>
-                  <option value="1">Homme</option>
+                  <option
+                    v-for="soloRace in soloRaces"
+                    :key="soloRace.id"
+                    :value="soloRace.id"
+                  >
+                    {{ soloRace.name }}
+                  </option>
                 </select>
+              </div>
+              <div v-if="createdTeamRace" class="row m-2">
+                <div class="col-12 form-group">
+                  <label for="inputCreateRace"
+                    >Tarif standard: {{ getSoloRegularPrice() }}
+                  </label>
+                  <br />
+                  <label for="inputCreateRace"
+                    >Tarif VA:
+                    {{ getSoloVaPrice() }}
+                  </label>
+                </div>
               </div>
               <div class="row m-2 mt-5">
                 <div class="col form-group text-end">
@@ -115,8 +132,9 @@
                   v-model="joinedTeamName"
                 >
                   <option value="" disabled selected hidden></option>
-                  <option value="2">Equipe 1</option>
-                  <option value="1">Equipe 2</option>
+                  <option v-for="team in teams" :key="team.id" :value="team.id">
+                    {{ team.name }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -144,7 +162,7 @@
         </div>
 
         <div v-show="createTeam" class="row mt-4">
-          <form>
+          <form @submit.prevent="submitCreateTeam($event)">
             <div class="row m-2">
               <div class="col form-group">
                 <label for="inputTeamName">Nom de l'équipe: </label>
@@ -160,10 +178,25 @@
               <div class="col form-group">
                 <label for="inputCreatePassword">Mot de passe: </label>
                 <input
-                  type="text"
+                  type="password"
                   class="form-control"
                   id="inputCreatePassword"
                   v-model="createdTeamPassword"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row m-2">
+              <div class="col form-group">
+                <label for="inputCreatePassword"
+                  >Confirmer mot de passe:
+                </label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="inputConfirmPassword"
+                  v-model="createdTeamConfirmPassword"
+                  required
                 />
               </div>
             </div>
@@ -174,17 +207,24 @@
                   class="form-select"
                   id="inputCreateCategory"
                   aria-label="Default select example"
-                  v-model="createdTeamCategory"
+                  v-model="selectedCategory"
                   @change="fetchRaces"
+                  required
                 >
                   <option value="" disabled selected hidden></option>
-                  <option value="2">Loisir (2 à 12 personnes)</option>
-                  <option value="1">Compétition (2 à 4 personnes)</option>
+                  <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                  >
+                    {{ category.name }} ({{ category.minTeamMembers }} à
+                    {{ category.maxTeamMembers }} personnes)
+                  </option>
                 </select>
               </div>
             </div>
             <div class="row m-2">
-              <div class="col-12 form-group" v-show="createdTeamCategory">
+              <div class="col-12 form-group" v-show="races.length > 0">
                 <label for="inputCreateRace">Course: </label>
                 <select
                   class="form-select"
@@ -193,15 +233,27 @@
                   v-model="createdTeamRace"
                 >
                   <option value="" disabled selected hidden></option>
-                  <option value="1">Course à pied</option>
-                  <option value="1">Vélo</option>
-                  <option value="2">Triathlon</option>
+                  <option v-for="race in races" :key="race.id" :value="race.id">
+                    {{ race.name }}
+                  </option>
                 </select>
+              </div>
+            </div>
+            <div v-if="createdTeamRace" class="row m-2">
+              <div class="col-12 form-group">
+                <label for="inputCreateRace"
+                  >Tarif standard: {{ getRegularPrice() }}
+                </label>
+                <br />
+                <label for="inputCreateRace"
+                  >Tarif VA:
+                  {{ getVaPrice() }}
+                </label>
               </div>
             </div>
             <div class="row m-2 mt-5">
               <div class="col text-end">
-                <button type="button" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                   Créer l'équipe
                 </button>
               </div>
@@ -217,6 +269,34 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
+import axios from "axios";
+import { edition } from "@/main";
+
+export interface Category {
+  id: number;
+  name: string;
+  maxTeamMembers: number;
+  minTeamMembers: number;
+}
+
+export interface Race {
+  id: number;
+  name: string;
+  registrationPrice: number;
+  vaRegistrationPrice: number;
+  category: Category;
+}
+
+export interface TeamRace {
+  id: number;
+  name: string;
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  race: TeamRace;
+}
 
 export default defineComponent({
   components: {
@@ -235,6 +315,12 @@ export default defineComponent({
       createdTeamRace: null,
       createdTeamCategory: null,
       createdTeamPassword: null,
+      createdTeamConfirmPassword: null,
+      selectedCategory: null,
+      teams: [] as Team[],
+      races: [] as Race[],
+      soloRaces: [] as Race[],
+      categories: [] as Category[],
     };
   },
   methods: {
@@ -256,6 +342,50 @@ export default defineComponent({
         this.createTeam = false;
       }
     },
+    getSoloVaPrice(): number {
+      let vaPrice = 0;
+      if (this.selectedRace) {
+        this.soloRaces.forEach((race, index) => {
+          if (race.id === this.selectedRace) {
+            vaPrice = race.vaRegistrationPrice;
+          }
+        });
+      }
+      return vaPrice;
+    },
+    getSoloRegularPrice(): number {
+      let price = 0;
+      if (this.selectedRace) {
+        this.soloRaces.forEach((race, index) => {
+          if (race.id === this.selectedRace) {
+            price = race.registrationPrice;
+          }
+        });
+      }
+      return price;
+    },
+    getVaPrice(): number {
+      let vaPrice = 0;
+      if (this.createdTeamRace) {
+        this.races.forEach((race, index) => {
+          if (race.id === this.createdTeamRace) {
+            vaPrice = race.vaRegistrationPrice;
+          }
+        });
+      }
+      return vaPrice;
+    },
+    getRegularPrice(): number {
+      let price = 0;
+      if (this.createdTeamRace) {
+        this.races.forEach((race, index) => {
+          if (race.id === this.createdTeamRace) {
+            price = race.registrationPrice;
+          }
+        });
+      }
+      return price;
+    },
     joinOrCreateTeam(event: Event) {
       if (event) {
         if (
@@ -272,21 +402,76 @@ export default defineComponent({
         this.createdTeamCategory = null;
       }
     },
-    fetchRaces() {
-      console.log("Fetch Races");
+    async fetchRaces() {
+      console.log("fetch");
+      const racesResponse = await axios.get("races", {
+        params: {
+          categoryId: this.selectedCategory,
+        },
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+        },
+      });
+      if (racesResponse.status < 300) {
+        this.races = racesResponse.data.data;
+      }
     },
     joinRace() {
       console.log("Join Race");
       this.$router.push({ name: "RegisterCertificate" });
     },
-    submitCreateTeam() {
+    async submitCreateTeam(e: Event) {
       console.log("Create Team");
+      const response = await axios.post(
+        "teams",
+        {
+          name: this.createdTeamName,
+          password: this.createdTeamPassword,
+          raceId: this.createdTeamRace,
+          editionId: edition,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+          },
+        }
+      );
       this.$router.push({ name: "RegisterCertificate" });
     },
     submitJoinTeam() {
       console.log("Join Team");
       this.$router.push({ name: "RegisterCertificate" });
     },
+  },
+  async mounted() {
+    const categoriesResponse = await axios.get("categories/light", {
+      headers: {
+        Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+      },
+    });
+    if (categoriesResponse.status < 300) {
+      this.categories = categoriesResponse.data.data;
+    }
+    const soloRacesResponse = await axios.get("races", {
+      params: {
+        maxTeamMembers: 1,
+      },
+      headers: {
+        Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+      },
+    });
+    if (soloRacesResponse.status < 300) {
+      this.soloRaces = soloRacesResponse.data.data;
+      console.log(this.soloRaces.length);
+    }
+    const teamsResponse = await axios.get("teams/light", {
+      headers: {
+        Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+      },
+    });
+    if (teamsResponse.status < 300) {
+      this.teams = teamsResponse.data.data;
+    }
   },
 });
 </script>

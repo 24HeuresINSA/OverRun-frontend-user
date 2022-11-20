@@ -72,7 +72,7 @@
           <form>
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputFirstName">Prénom: </label>
+                <label for="inputFirstName">Prénom sur la carte VA: </label>
                 <input
                   v-model="vaFirstName"
                   type="text"
@@ -81,7 +81,7 @@
                 />
               </div>
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputLastName">Nom :</label>
+                <label for="inputLastName">Nom sur la carte VA:</label>
                 <input
                   v-model="vaLastName"
                   type="text"
