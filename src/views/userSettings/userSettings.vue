@@ -89,7 +89,7 @@ export default defineComponent({
   data() {
     return {
       title: "",
-      showChangePasswordModal: true,
+      showChangePasswordModal: false,
       showDeleteAccountModal: false,
     };
   },
