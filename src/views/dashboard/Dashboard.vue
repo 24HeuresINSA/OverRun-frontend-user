@@ -13,6 +13,8 @@
       @closeCertificateModal="toggleCertificateModal"
     />
 
+    <VaModal v-show="showVaModal" @closeVaModal="toggleVaModal" />
+
     <div class="container">
       <div class="row m-2 mt-4 text-start">
         <div class="col col-md-4 border-bottom">
@@ -137,51 +139,42 @@
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 0"
+                  v-if="vaStatus === 0"
+                  @click="toggleVaModal"
                 >
                   😱
                 </h5>
-                <h5
-                  class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 1"
-                >
+                <h5 class="big-emoji pb-0 mb-0 pt-3" v-if="vaStatus === 1">
                   🎉
                 </h5>
-                <h5
-                  class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 2"
-                >
+                <h5 class="big-emoji pb-0 mb-0 pt-3" v-if="vaStatus === 2">
                   ⌛
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 3"
+                  v-if="vaStatus === 3"
+                  @click="toggleVaModal"
                 >
                   🤔
                 </h5>
-                <h5
-                  class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 4"
-                >
-                  🙈
+                <h5 class="big-emoji pb-0 mb-0 pt-3" v-if="vaStatus === 4">
+                  🧋
                 </h5>
               </div>
             </div>
             <div class="row pt-1 text-center">
-              <p class="mb-0" v-if="certificateStatus === 0">
+              <p class="mb-0" v-if="vaStatus === 0" @click="toggleVaModal">
                 Carte VA rejetée!
               </p>
-              <p class="mb-0" v-if="certificateStatus === 1">
-                Carte VA validée!
-              </p>
-              <p class="mb-0" v-if="certificateStatus === 2">
+              <p class="mb-0" v-if="vaStatus === 1">Carte VA validée!</p>
+              <p class="mb-0" v-if="vaStatus === 2">
                 En cours de validation...
               </p>
-              <p class="mb-0" v-if="certificateStatus === 3">
+              <p class="mb-0" v-if="vaStatus === 3" @click="toggleVaModal">
                 Carte VA manquante!
               </p>
-              <p class="mb-0" v-if="certificateStatus === 4">
-                Pas de carte VA!
+              <p class="mb-0" v-if="vaStatus === 4">
+                Pas de carte VA, pas de soucis!
               </p>
             </div>
           </div>
@@ -366,19 +359,22 @@ import { defineComponent } from "vue";
 import TopBar from "../../components/topBar/TopBar.vue";
 import MiniTopBar from "../../components/topBar/MiniTopBar.vue";
 import CertificateModal from "../../components/modal/Certificate.vue";
+import VaModal from "../../components/modal/VA.vue";
 
 export default defineComponent({
   components: {
     TopBar,
     MiniTopBar,
     CertificateModal,
+    VaModal,
   },
   data() {
     return {
       title: "",
       isTeamAdmin: true,
       showTeamSettings: false,
-      showCertificateModal: true,
+      showCertificateModal: false,
+      showVaModal: true,
       inscriptionStatus: 2,
       vaStatus: 3,
       certificateStatus: 3,
@@ -399,6 +395,9 @@ export default defineComponent({
     },
     toggleCertificateModal() {
       this.showCertificateModal = !this.showCertificateModal;
+    },
+    toggleVaModal() {
+      this.showVaModal = !this.showVaModal;
     },
     checkPassword() {
       let error = false;
