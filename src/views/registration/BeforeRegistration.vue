@@ -4,7 +4,7 @@
       <div class="col h-100 text-center">
         <p id="title-1">Bienvenu sur</p>
 
-        <p id="title-2">Overun</p>
+        <p id="title-2">OverRun</p>
 
         <p id="title-3">
           Le site d'inscription aux courses des 24 heures de l'INSA

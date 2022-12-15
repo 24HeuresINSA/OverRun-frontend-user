@@ -4,8 +4,8 @@
       <div class="row m-0 p-0">
         <div class="col-6">
           <div id="top-logo" class="p-0 m-0">
-            <span id="overun">
-              <h1 class="m-0 text-light" @click="home">Overun</h1>
+            <span id="overRun">
+              <h1 class="m-0 text-light" @click="home">OverRun</h1>
             </span>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default defineComponent({
   float: left;
 }
 
-#overun {
+#overRun {
   margin-top: 8px;
   display: inline-block;
   vertical-align: middle;
