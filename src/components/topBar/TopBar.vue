@@ -66,6 +66,7 @@
 
 <script lang="ts">
 import { MutationTypes } from "@/store/modules/auth";
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -80,7 +81,13 @@ export default defineComponent({
     settings() {
       this.$router.push({ name: "userSettings" });
     },
-    disconnect() {
+    async disconnect() {
+      const res = await axios.post("logout",
+        {refreshToken: this.$store.getters.getRefreshToken},
+        {
+        headers: { Authorization: `Bearer ${this.$store.getters.getAccessToken}` }
+        });
+      if (res.status !== 200) return;
       this.$store.commit(MutationTypes.LOGOUT, undefined)
       this.$router.push({ name: "Login" });
     },
