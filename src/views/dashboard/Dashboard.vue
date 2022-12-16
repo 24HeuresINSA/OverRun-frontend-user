@@ -368,6 +368,13 @@ export default defineComponent({
     CertificateModal,
     VaModal,
   },
+
+  beforeCreate() {
+    if (this.$store.getters.getAccessToken == "") {
+      this.$router.push({ name: "BeforeReagistration"});
+    }
+  },
+
   data() {
     return {
       title: "",

@@ -80,13 +80,11 @@ export default defineComponent({
   },
   methods: {
     async login() {
-      console.log(this.email, this.password);
       const response = await axios.post("login", {
         email: this.email,
         password: this.password,
       });
 
-      console.log(response);
       if (response.status === 200) {
         this.$store.commit(
           MutationTypes.SET_ACCESS_TOKEN,
@@ -108,12 +106,7 @@ export default defineComponent({
         );
         this.$store.commit(MutationTypes.SET_USER, JSON.parse(jsonPayload).id);
         console.log(this.$store.getters.getUser);
-        const admins = await axios.get("admins", {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
-          },
-        });
-        console.log(admins);
+        this.$router.push("/");
       }
     },
     toggleResetPasswordModal() {

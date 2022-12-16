@@ -9,9 +9,12 @@
         <p id="title-3">
           Le site d'inscription aux courses des 24 heures de l'INSA
         </p>
-
-        <button class="btn btn-primary" id="begin-btn">
+        <button class="btn btn-primary" id="begin-btn" @click="register">
           <h3 class="mb-0 m-2">Commencer mon inscription</h3>
+        </button>
+        <br />
+        <button class="btn btn-primary" id="login-btn" @click="login">
+          <h3 class="mb-0 m-2">Se connecter</h3>
         </button>
       </div>
     </div>
@@ -20,7 +23,16 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-export default defineComponent({});
+export default defineComponent({
+  methods: {
+    register() {
+      this.$router.push({ name: "Register" });
+    },
+    login() {
+      this.$router.push({name: "Login"})
+      },
+    },
+});
 </script>
 
 <style scoped>

@@ -263,25 +263,28 @@ export default defineComponent({
           },
         }
       );
+
+      if (response.status === 409) {
+        alert("L'utilisateur existe déjà, redirection vers la page de connexion");
+        this.$router.push({name: "Login"});
+      }
+
       if (response.status < 300) {
-        console.log(this.email, this.password);
         const response = await axios.post("login", {
           email: this.email,
           password: this.password,
           username: this.username,
         });
 
-        console.log(response);
         if (response.status === 200) {
           this.$store.commit(
             MutationTypes.SET_ACCESS_TOKEN,
-            process.env.ACCESS_TOKEN
+            response.data.accessToken
           );
           this.$store.commit(
             MutationTypes.SET_REFRESH_TOKEN,
             response.data.refreshToken
           );
-          console.log(this.$store.getters.getAccessToken);
           const base64Url = this.$store.getters.getAccessToken.split(".")[1];
           const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
           const jsonPayload = decodeURIComponent(
@@ -292,7 +295,6 @@ export default defineComponent({
               })
               .join("")
           );
-          console.log(JSON.parse(jsonPayload));
           this.$store.commit(
             MutationTypes.SET_USER,
             JSON.parse(jsonPayload).id
@@ -301,6 +303,7 @@ export default defineComponent({
             MutationTypes.SET_ATHLETE_ID,
             JSON.parse(jsonPayload).athleteId
           );
+          this.$router.push({name: "RegisterVa"})
         }
       }
     },
