@@ -17,9 +17,9 @@
       <div class="col-lg-4 bg-primary rounded text-light text-start pt-2">
         <strong> <u>Attention:</u> </strong>
         <p>
-          Si vous disposez d'une carte VA, assurez-vous que les nom et prenom
-          saisie dans le formulaire d'inscription correspondent bien aux nom et
-          prenoms figurant sur votre carte VA.
+          Si vous disposez d'une carte VA, assurez-vous que les nom et prénom
+          saisies dans le formulaire d'inscription correspondent bien aux nom et
+          prénom figurant sur votre carte VA.
         </p>
       </div>
       <div class="col"></div>
@@ -123,7 +123,7 @@
               />
             </div>
             <div class="col-12 col-lg-4 form-group">
-              <label for="inputBirthDate">Sex: </label>
+              <label for="inputBirthDate">Sexe: </label>
               <select
                 v-model="sex"
                 class="form-select"
