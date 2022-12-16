@@ -11,7 +11,8 @@
       <div class="row pt-3">
         <div class="col m-2 text-start">
           <p>
-            Pas de panique, envoyer un petit e-mail à test@gmail.com en
+            Pas de panique, envoyer un petit e-mail à
+            <a :href="mailURL()">courses@24heures.org</a> en
             indiquant:
           </p>
           <ul class="ms-5">
@@ -34,9 +35,30 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
+  data() {
+    return {
+      mailTemplate: `Bonjour,
+Je rencontre un problème pour enregistrer ma carte VA.
+Voici mes informations:
+- Pseudo:
+- Nom:
+- Prénom:
+- Numéro de carte VA:
+
+Merci d'avance pour votre aide.
+      `,
+    };
+  },
+
   methods: {
     closeModal() {
       this.$emit("closeProblemModal");
+    },
+
+    mailURL() {
+      return `mailto:courses@24heures.org?subject=${encodeURI(
+        "Problème lors de l'enregistement de la carte VA"
+      )}&body=${encodeURI(this.mailTemplate)}`;
     },
   },
 });
