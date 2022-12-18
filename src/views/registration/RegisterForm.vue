@@ -255,7 +255,7 @@ export default defineComponent({
           username: this.username,
           password: this.password,
           dateOfBirth: this.birthDate,
-          sex: this.sex === 1 ? true : false,
+          sex: this.sex == 1 ? true : false,
         },
         {
           headers: {

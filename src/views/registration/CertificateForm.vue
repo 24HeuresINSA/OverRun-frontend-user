@@ -77,11 +77,9 @@ export default defineComponent({
   },
   methods: {
     passCertificateUpload() {
-      console.log("Pass certificateUpload");
       this.$router.push({ name: "RegisterPayment" });
     },
     async uploadCertificate() {
-      console.log("Upload Certificate");
       let formData = new FormData();
       let imageFile: HTMLInputElement | null =
         document.querySelector("#inputCertificate");
@@ -94,7 +92,8 @@ export default defineComponent({
             "Content-type": "multipart/form-data",
           },
         });
-        console.log(response);
+        if (response.status !== 200) return;
+        this.$router.push({ name: "RegisterPayment" });
       }
     },
   },

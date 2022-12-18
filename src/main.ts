@@ -15,6 +15,7 @@ router.beforeEach(async (to, from) => {
     && to.name !== "BeforeReagistration"
     && to.name !== "Login"
     && to.name !== "Register"
+    && to.name !== "ResetPassword"
     ) {
     return { name: "BeforeReagistration" };
   }
