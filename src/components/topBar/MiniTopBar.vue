@@ -37,8 +37,8 @@
 </template>
 
 <script lang="ts">
+import { MutationTypes } from "@/store/modules/auth";
 import { defineComponent } from "vue";
-import { MutationTypes } from "../../store/modules/auth";
 
 export default defineComponent({
   props: {
@@ -60,7 +60,7 @@ export default defineComponent({
       this.$router.push({ name: "userSettings" });
     },
     disconnect() {
-      this.$store.commit(MutationTypes.LOGOUT, undefined)
+      this.$store.commit(MutationTypes.LOGOUT, undefined);
       this.$router.push({ name: "Login" });
     },
   },

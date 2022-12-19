@@ -355,11 +355,11 @@
 </template>
 
 <script lang="ts">
+import CertificateModal from "@/components/modal/Certificate.vue";
+import VaModal from "@/components/modal/VA.vue";
+import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
+import TopBar from "@/components/topBar/TopBar.vue";
 import { defineComponent } from "vue";
-import TopBar from "../../components/topBar/TopBar.vue";
-import MiniTopBar from "../../components/topBar/MiniTopBar.vue";
-import CertificateModal from "../../components/modal/Certificate.vue";
-import VaModal from "../../components/modal/VA.vue";
 
 export default defineComponent({
   components: {

@@ -73,10 +73,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import TopBar from "../../components/topBar/TopBar.vue";
-import MiniTopBar from "../../components/topBar/MiniTopBar.vue";
 import PasswordReseted from "@/components/modal/PasswordReseted.vue";
+import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
+import TopBar from "@/components/topBar/TopBar.vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {

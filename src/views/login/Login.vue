@@ -62,10 +62,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { MutationTypes } from "../../store/modules/auth";
-import axios from "axios";
 import ResetPassword from "@/components/modal/ResetPassword.vue";
+import { MutationTypes } from "@/store/modules/auth";
+import axios from "axios";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {

@@ -213,10 +213,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
-import { MutationTypes } from "../../store/modules/auth";
+import { MutationTypes } from "@/store/modules/auth";
 import axios from "axios";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {
@@ -265,8 +265,10 @@ export default defineComponent({
       );
 
       if (response.status === 409) {
-        alert("L'utilisateur existe déjà, redirection vers la page de connexion");
-        this.$router.push({name: "Login"});
+        alert(
+          "L'utilisateur existe déjà, redirection vers la page de connexion"
+        );
+        this.$router.push({ name: "Login" });
       }
 
       if (response.status < 300) {
@@ -303,7 +305,7 @@ export default defineComponent({
             MutationTypes.SET_ATHLETE_ID,
             JSON.parse(jsonPayload).athleteId
           );
-          this.$router.push({name: "RegisterVa"})
+          this.$router.push({ name: "RegisterVa" });
         }
       }
     },
