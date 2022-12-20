@@ -408,9 +408,6 @@ export default defineComponent({
         params: {
           categoryId: this.selectedCategory,
         },
-        headers: {
-          Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
-        },
       });
       if (racesResponse.status < 300) {
         this.races = racesResponse.data.data;
