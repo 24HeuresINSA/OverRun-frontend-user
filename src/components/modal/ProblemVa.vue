@@ -12,8 +12,7 @@
         <div class="col m-2 text-start">
           <p>
             Pas de panique, envoyer un petit e-mail à
-            <a :href="mailURL()">courses@24heures.org</a> en
-            indiquant:
+            <a :href="mailURL()">overrun@24heures.org</a> en indiquant:
           </p>
           <ul class="ms-5">
             <li class="fw-bold">Votre pseudo</li>
@@ -33,20 +32,15 @@
 </template>
 
 <script lang="ts">
+import { Athlete } from "@/types/interface";
+import axios from "axios";
 import { defineComponent } from "vue";
+
 export default defineComponent({
   data() {
     return {
-      mailTemplate: `Bonjour,
-Je rencontre un problème pour enregistrer ma carte VA.
-Voici mes informations:
-- Pseudo:
-- Nom:
-- Prénom:
-- Numéro de carte VA:
-
-Merci d'avance pour votre aide.
-      `,
+      user: {} as Athlete,
+      mailTemplate: "",
     };
   },
 
@@ -55,11 +49,38 @@ Merci d'avance pour votre aide.
       this.$emit("closeProblemModal");
     },
 
+    async getUserInfos() {
+      const athleteResponse = await axios.get(
+        `/athletes/${this.$store.getters.getAthleteId}`
+      );
+
+      if (athleteResponse.status < 300) {
+        this.user = athleteResponse.data;
+      }
+    },
+
+    async feelMailTemplate() {
+      await this.getUserInfos();
+      this.mailTemplate = `Bonjour,
+Je rencontre un problème pour enregistrer ma carte VA.
+Voici mes informations:
+- Pseudo: ${this.user.user.username}
+- Nom: ${this.user.lastName}
+- Prénom: ${this.user.firstName}
+- Numéro de carte VA:
+
+Merci d'avance pour votre aide.
+      `;
+    },
+
     mailURL() {
       return `mailto:courses@24heures.org?subject=${encodeURI(
         "Problème lors de l'enregistement de la carte VA"
       )}&body=${encodeURI(this.mailTemplate)}`;
     },
+  },
+  mounted() {
+    this.feelMailTemplate();
   },
 });
 </script>

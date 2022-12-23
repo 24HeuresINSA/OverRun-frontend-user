@@ -19,6 +19,9 @@ router.beforeEach(async (to, from) => {
   ) {
     return { name: "BeforeReagistration" };
   }
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${store.getters.getAccessToken}`;
 });
 
 createApp(App).use(router).use(store).mount("#app");

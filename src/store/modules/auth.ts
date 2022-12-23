@@ -1,13 +1,11 @@
-import { MutationTree } from "vuex";
 import {
-  createStore,
-  Store as VuexStore,
+  ActionContext,
   CommitOptions,
   DispatchOptions,
+  GetterTree,
+  MutationTree,
+  Store as VuexStore,
 } from "vuex";
-import { ActionTree, ActionContext } from "vuex";
-import { GetterTree } from "vuex";
-import axios from "axios";
 
 export const state = {
   accessToken: "",
@@ -58,7 +56,7 @@ export type Getters = {
   getAccessToken(state: State): string;
   getRefreshToken(state: State): string;
   getUser(state: State): unknown;
-  getAdminId(state: State): unknown;
+  getAthleteId(state: State): unknown;
 };
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -71,7 +69,7 @@ export const getters: GetterTree<State, State> & Getters = {
   getUser: (state) => {
     return state.user;
   },
-  getAdminId: (state) => {
+  getAthleteId: (state) => {
     return state.athleteId;
   },
 };

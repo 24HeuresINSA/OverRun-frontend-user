@@ -305,7 +305,7 @@ export default defineComponent({
             MutationTypes.SET_ATHLETE_ID,
             JSON.parse(jsonPayload).athleteId
           );
-          this.$router.push({ name: "RegisterVa" });
+          this.$router.push({ name: "RegisterTeam" });
         }
       }
     },

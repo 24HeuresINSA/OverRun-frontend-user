@@ -16,7 +16,7 @@
     <div class="row">
       <div class="col-lg"></div>
       <div class="col-12 col-lg-4 m-2">
-        <StepBar :index="2" />
+        <StepBar :index="3" />
       </div>
       <div class="col-lg"></div>
     </div>
@@ -126,10 +126,11 @@
 </template>
 
 <script lang="ts" scoped>
-import { defineComponent } from "vue";
-import StepBar from "@/components/stepBar/StepBar.vue";
 import ProblemVa from "@/components/modal/ProblemVa.vue";
 import UnfoundVa from "@/components/modal/UnfoundVa.vue";
+import StepBar from "@/components/stepBar/StepBar.vue";
+import axios from "axios";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {
@@ -161,10 +162,20 @@ export default defineComponent({
       }
     },
     next() {
-      this.$router.push({ name: "RegisterTeam" });
+      this.$router.push({ name: "RegisterCertificate" });
     },
-    sendVa() {
-      this.showUnfoundModal = true;
+    async sendVa() {
+      const vaCheckResponse = await axios.post("/checkVA", {
+        vaNumber: this.vaNumber,
+        vaFirstName: this.vaFirstName,
+        vaLastName: this.vaLastName,
+      });
+
+      if (vaCheckResponse.status === 200) {
+        return this.next();
+      }
+
+      this.toggleUnfoundModal();
     },
     toggleProblemModal() {
       this.showProblemModal = !this.showProblemModal;

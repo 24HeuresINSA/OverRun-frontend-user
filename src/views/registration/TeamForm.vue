@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-lg"></div>
       <div class="col-12 col-lg-4 m-2">
-        <StepBar :index="3" />
+        <StepBar :index="2" />
       </div>
       <div class="col-lg"></div>
     </div>
@@ -267,10 +267,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
-import axios from "axios";
 import { edition } from "@/main";
+import axios from "axios";
+import { defineComponent } from "vue";
 
 export interface Category {
   id: number;
@@ -326,7 +326,6 @@ export default defineComponent({
   methods: {
     soloOrTeam(event: Event) {
       if (event) {
-        console.log((event.target as HTMLInputElement).id);
         if (
           event.target &&
           (event.target as HTMLInputElement).id === "solo" &&
@@ -403,7 +402,6 @@ export default defineComponent({
       }
     },
     async fetchRaces() {
-      console.log("fetch");
       const racesResponse = await axios.get("races", {
         params: {
           categoryId: this.selectedCategory,
@@ -414,11 +412,9 @@ export default defineComponent({
       }
     },
     joinRace() {
-      console.log("Join Race");
-      this.$router.push({ name: "RegisterCertificate" });
+      this.$router.push({ name: "RegisterVa" });
     },
     async submitCreateTeam(e: Event) {
-      console.log("Create Team");
       const response = await axios.post(
         "teams",
         {
@@ -433,11 +429,10 @@ export default defineComponent({
           },
         }
       );
-      this.$router.push({ name: "RegisterCertificate" });
+      this.$router.push({ name: "RegisterVa" });
     },
     submitJoinTeam() {
-      console.log("Join Team");
-      this.$router.push({ name: "RegisterCertificate" });
+      this.$router.push({ name: "RegisterVa" });
     },
   },
   async mounted() {
