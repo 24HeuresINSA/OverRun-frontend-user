@@ -241,28 +241,20 @@ export default defineComponent({
   },
   methods: {
     async register() {
-      const response = await axios.post(
-        "athletes",
-        {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          address: this.address,
-          zipCode: this.zipCode,
-          city: this.city,
-          country: this.country,
-          phoneNumber: this.phoneNumber,
-          email: this.email,
-          username: this.username,
-          password: this.password,
-          dateOfBirth: this.birthDate,
-          sex: this.sex == 1 ? true : false,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
-          },
-        }
-      );
+      const response = await axios.post("athletes", {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        address: this.address,
+        zipCode: this.zipCode,
+        city: this.city,
+        country: this.country,
+        phoneNumber: this.phoneNumber,
+        email: this.email,
+        username: this.username,
+        password: this.password,
+        dateOfBirth: this.birthDate,
+        sex: this.sex == 1 ? true : false,
+      });
 
       if (response.status === 409) {
         alert(

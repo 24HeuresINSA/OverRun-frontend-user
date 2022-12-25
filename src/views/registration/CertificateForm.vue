@@ -67,9 +67,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
 import axios from "axios";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {
@@ -85,7 +85,7 @@ export default defineComponent({
         document.querySelector("#inputCertificate");
       if (imageFile && imageFile.files && imageFile.files[0]) {
         formData.append("certificate", imageFile.files[0]);
-        formData.append("editionId", "1");
+        formData.append("editionId", this.$store.getters.getEditionId);
         const response = await axios.post("/certificates/upload", formData, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getAccessToken}`,

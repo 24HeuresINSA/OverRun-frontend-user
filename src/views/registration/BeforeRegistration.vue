@@ -29,9 +29,9 @@ export default defineComponent({
       this.$router.push({ name: "Register" });
     },
     login() {
-      this.$router.push({name: "Login"})
-      },
+      this.$router.push({ name: "Login" });
     },
+  },
 });
 </script>
 

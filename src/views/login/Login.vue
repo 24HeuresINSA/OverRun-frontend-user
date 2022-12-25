@@ -39,9 +39,15 @@
                   v-model="password"
                   required
                 />
-                <div id="forgottentPassword fw-light" class="form-text mt-1">
-                  <a href="#" @click="toggleResetPasswordModal"
+                <div
+                  id="forgottentPassword fw-light"
+                  class="form-text mt-1 row"
+                >
+                  <a href="#" class="col" @click="toggleResetPasswordModal"
                     >Mot de passe oublié?</a
+                  >
+                  <RouterLink class="col text-end" to="/register"
+                    >S'inscrire</RouterLink
                   >
                 </div>
               </div>

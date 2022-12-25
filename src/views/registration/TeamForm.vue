@@ -268,7 +268,6 @@
 
 <script lang="ts">
 import StepBar from "@/components/stepBar/StepBar.vue";
-import { edition } from "@/main";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -344,7 +343,7 @@ export default defineComponent({
     getSoloVaPrice(): number {
       let vaPrice = 0;
       if (this.selectedRace) {
-        this.soloRaces.forEach((race, index) => {
+        this.soloRaces.forEach((race) => {
           if (race.id === this.selectedRace) {
             vaPrice = race.vaRegistrationPrice;
           }
@@ -355,7 +354,7 @@ export default defineComponent({
     getSoloRegularPrice(): number {
       let price = 0;
       if (this.selectedRace) {
-        this.soloRaces.forEach((race, index) => {
+        this.soloRaces.forEach((race) => {
           if (race.id === this.selectedRace) {
             price = race.registrationPrice;
           }
@@ -366,7 +365,7 @@ export default defineComponent({
     getVaPrice(): number {
       let vaPrice = 0;
       if (this.createdTeamRace) {
-        this.races.forEach((race, index) => {
+        this.races.forEach((race) => {
           if (race.id === this.createdTeamRace) {
             vaPrice = race.vaRegistrationPrice;
           }
@@ -377,7 +376,7 @@ export default defineComponent({
     getRegularPrice(): number {
       let price = 0;
       if (this.createdTeamRace) {
-        this.races.forEach((race, index) => {
+        this.races.forEach((race) => {
           if (race.id === this.createdTeamRace) {
             price = race.registrationPrice;
           }
@@ -405,6 +404,7 @@ export default defineComponent({
       const racesResponse = await axios.get("races", {
         params: {
           categoryId: this.selectedCategory,
+          editionId: this.$store.getters.getEditionId,
         },
       });
       if (racesResponse.status < 300) {
@@ -415,30 +415,19 @@ export default defineComponent({
       this.$router.push({ name: "RegisterVa" });
     },
     async submitCreateTeam(e: Event) {
-      const response = await axios.post(
-        "teams",
-        {
-          name: this.createdTeamName,
-          password: this.createdTeamPassword,
-          raceId: this.createdTeamRace,
-          editionId: edition,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
-          },
-        }
-      );
-      this.$router.push({ name: "RegisterVa" });
-    },
-    submitJoinTeam() {
-      this.$router.push({ name: "RegisterVa" });
+      const response = await axios.post("teams", {
+        name: this.createdTeamName,
+        password: this.createdTeamPassword,
+        raceId: this.createdTeamRace,
+        editionId: this.$store.getters.getEditionId,
+      });
+      this.joinRace();
     },
   },
   async mounted() {
     const categoriesResponse = await axios.get("categories/light", {
-      headers: {
-        Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+      params: {
+        editionId: this.$store.getters.getEditionId,
       },
     });
     if (categoriesResponse.status < 300) {
@@ -447,18 +436,15 @@ export default defineComponent({
     const soloRacesResponse = await axios.get("races", {
       params: {
         maxTeamMembers: 1,
-      },
-      headers: {
-        Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+        editionId: this.$store.getters.getEditionId,
       },
     });
     if (soloRacesResponse.status < 300) {
       this.soloRaces = soloRacesResponse.data.data;
-      console.log(this.soloRaces.length);
     }
     const teamsResponse = await axios.get("teams/light", {
-      headers: {
-        Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+      params: {
+        editionId: this.$store.getters.getEditionId,
       },
     });
     if (teamsResponse.status < 300) {
