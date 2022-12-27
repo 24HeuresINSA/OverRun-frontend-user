@@ -46,7 +46,7 @@
         </div>
 
         <div v-show="solo" class="row mt-4">
-          <form>
+          <form @submit.prevent="submitSoloRace()">
             <div class="row m-2">
               <div class="col form-group">
                 <label for="inputBirthDate">Selection votre course: </label>
@@ -65,7 +65,7 @@
                   </option>
                 </select>
               </div>
-              <div v-if="createdTeamRace" class="row m-2">
+              <div v-if="selectedRace" class="row m-2">
                 <div class="col-12 form-group">
                   <label for="inputCreateRace"
                     >Tarif standard: {{ getSoloRegularPrice() }}
@@ -79,7 +79,7 @@
               </div>
               <div class="row m-2 mt-5">
                 <div class="col form-group text-end">
-                  <button type="button" class="btn btn-primary">
+                  <button type="submit" class="btn btn-primary">
                     Continuer
                   </button>
                 </div>
@@ -119,7 +119,7 @@
         </div>
 
         <div v-show="joinTeam" class="row mt-4">
-          <form>
+          <form @submit.prevent="submitJoinTeam()">
             <div class="row m-2">
               <div class="col-12 col-lg form-group">
                 <label for="selectTeam"
@@ -129,7 +129,7 @@
                   class="form-select"
                   id="selectTeam"
                   aria-label="Default select example"
-                  v-model="joinedTeamName"
+                  v-model="joinedTeamId"
                 >
                   <option value="" disabled selected hidden></option>
                   <option v-for="team in teams" :key="team.id" :value="team.id">
@@ -153,7 +153,7 @@
             </div>
             <div class="row m-2 mt-5">
               <div class="col text-end">
-                <button type="button" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                   Rejoindre l'équipe
                 </button>
               </div>
@@ -162,7 +162,7 @@
         </div>
 
         <div v-show="createTeam" class="row mt-4">
-          <form @submit.prevent="submitCreateTeam($event)">
+          <form @submit.prevent="submitCreateTeam()">
             <div class="row m-2">
               <div class="col form-group">
                 <label for="inputTeamName">Nom de l'équipe: </label>
@@ -264,9 +264,11 @@
       <div class="col-lg"></div>
     </div>
   </div>
+  <ErrorModal v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
 </template>
 
 <script lang="ts">
+import ErrorModal from "@/components/modal/Error.vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
 import axios from "axios";
 import { defineComponent } from "vue";
@@ -300,6 +302,7 @@ export interface Team {
 export default defineComponent({
   components: {
     StepBar,
+    ErrorModal,
   },
   data() {
     return {
@@ -308,7 +311,7 @@ export default defineComponent({
       joinTeam: false,
       createTeam: false,
       selectedRace: null,
-      joinedTeamName: null,
+      joinedTeamId: null,
       joinedTeamPassword: null,
       createdTeamName: null,
       createdTeamRace: null,
@@ -320,9 +323,13 @@ export default defineComponent({
       races: [] as Race[],
       soloRaces: [] as Race[],
       categories: [] as Category[],
+      showErrorModal: false,
     };
   },
   methods: {
+    toggleErrorModal() {
+      this.showErrorModal = !this.showErrorModal;
+    },
     soloOrTeam(event: Event) {
       if (event) {
         if (
@@ -411,17 +418,34 @@ export default defineComponent({
         this.races = racesResponse.data.data;
       }
     },
-    joinRace() {
+    next() {
       this.$router.push({ name: "RegisterVa" });
     },
-    async submitCreateTeam(e: Event) {
+    async submitCreateTeam() {
       const response = await axios.post("teams", {
         name: this.createdTeamName,
         password: this.createdTeamPassword,
         raceId: this.createdTeamRace,
         editionId: this.$store.getters.getEditionId,
       });
-      this.joinRace();
+      if (response.status !== 200) return this.toggleErrorModal();
+      this.next();
+    },
+    async submitJoinTeam() {
+      const response = await axios.post(`/teams/${this.joinedTeamId}/join`, {
+        password: this.joinedTeamPassword,
+      });
+      if (response.status !== 201) return this.toggleErrorModal();
+      this.next();
+    },
+    async submitSoloRace() {
+      console.log(this.selectedRace);
+      const response = await axios.post("/inscriptions", {
+        raceId: this.selectedRace,
+        editionId: this.$store.getters.getEditionId,
+      });
+      if (response.status !== 201) return this.toggleErrorModal();
+      this.next();
     },
   },
   async mounted() {
