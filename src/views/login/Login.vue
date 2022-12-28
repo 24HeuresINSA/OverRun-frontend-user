@@ -111,7 +111,7 @@ export default defineComponent({
             .join("")
         );
         this.$store.commit(MutationTypes.SET_USER, JSON.parse(jsonPayload).id);
-        console.log(this.$store.getters.getUser);
+        this.$store.dispatch("setMe");
         this.$router.push("/");
       }
     },

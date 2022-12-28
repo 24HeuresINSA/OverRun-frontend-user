@@ -21,7 +21,7 @@
               aria-expanded="false"
             >
               <div class="centered-text">
-                <p>Pintade</p>
+                <p>{{ me.user?.username }}</p>
               </div>
               <div class="h-100 w-10" id="edition-arrow">
                 <span class="material-icons d-inline" id="test">
@@ -40,7 +40,7 @@
                   <span class="material-icons-outlined icon d-inline m-0 p-0">
                     settings
                   </span>
-                  <p class="d-inline">Paramètre</p>
+                  <p class="d-inline">Mon compte</p>
                 </a>
               </li>
               <li><hr class="dropdown-divider m-0 p-0" /></li>
@@ -65,7 +65,8 @@
 </template>
 
 <script lang="ts">
-import { MutationTypes } from "@/store/modules/auth";
+import { MutationTypes as AuthMutationTypes } from "@/store/modules/auth";
+import { MutationTypes as UserMutationTypes } from "@/store/modules/user";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -73,6 +74,11 @@ export default defineComponent({
   props: {
     title: String,
     userButton: Boolean,
+  },
+  computed: {
+    me() {
+      return this.$store.getters.getMe;
+    },
   },
   methods: {
     home() {
@@ -82,13 +88,12 @@ export default defineComponent({
       this.$router.push({ name: "userSettings" });
     },
     async disconnect() {
-      const res = await axios.post("logout",
-        {refreshToken: this.$store.getters.getRefreshToken},
-        {
-        headers: { Authorization: `Bearer ${this.$store.getters.getAccessToken}` }
-        });
+      const res = await axios.post("logout", {
+        refreshToken: this.$store.getters.getRefreshToken,
+      });
       if (res.status !== 200) return;
-      this.$store.commit(MutationTypes.LOGOUT, undefined)
+      this.$store.commit(AuthMutationTypes.LOGOUT, undefined);
+      this.$store.commit(UserMutationTypes.SET_USER_ME, {});
       this.$router.push({ name: "Login" });
     },
   },
