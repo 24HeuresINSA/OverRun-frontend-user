@@ -13,7 +13,7 @@ const store = createStore({
   modules: {
     auth: authModule,
     edition: editionModule,
-    me: userModule,
+    userMe: userModule,
   },
 });
 

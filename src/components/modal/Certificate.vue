@@ -22,7 +22,7 @@
 
       <div class="row m-2 pt-3">
         <div class="col text-start fw-bold">
-          <form>
+          <form @submit.prevent="uploadCertificate">
             <div class="row">
               <div class="col form-group">
                 <label for="inputCertificate">Certificat:</label>
@@ -49,12 +49,31 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   methods: {
     closeModal() {
       this.$emit("closeCertificateModal");
+    },
+    async uploadCertificate() {
+      let formData = new FormData();
+      let imageFile: HTMLInputElement | null =
+        document.querySelector("#inputCertificate");
+      if (imageFile && imageFile.files && imageFile.files[0]) {
+        formData.append("certificate", imageFile.files[0]);
+        formData.append("editionId", this.$store.getters.getEditionId);
+        const response = await axios.post("/certificates/upload", formData, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+            "Content-type": "multipart/form-data",
+          },
+        });
+        if (response.status !== 200) return this.$emit("openErrorModal");
+        this.closeModal();
+        this.$store.dispatch("setMe");
+      }
     },
   },
 });

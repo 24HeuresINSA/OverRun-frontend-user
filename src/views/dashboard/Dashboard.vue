@@ -11,9 +11,16 @@
     <CertificateModal
       v-show="showCertificateModal"
       @closeCertificateModal="toggleCertificateModal"
+      @openErrorModal="toggleErrorModal"
     />
 
-    <VaModal v-show="showVaModal" @closeVaModal="toggleVaModal" />
+    <VaModal
+      v-show="showVaModal"
+      @closeVaModal="toggleVaModal"
+      @openErrorModal="toggleErrorModal"
+    />
+
+    <ErrorModal v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
 
     <div class="container">
       <div class="row m-2 mt-4 text-start">
@@ -101,7 +108,10 @@
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="inscription?.certificate === undefined"
+                  v-if="
+                    inscription?.certificate === undefined ||
+                    inscription?.certificate === null
+                  "
                   @click="toggleCertificateModal"
                 >
                   🤔
@@ -124,7 +134,10 @@
               </p>
               <p
                 class="mb-0"
-                v-if="inscription?.certificate === undefined"
+                v-if="
+                  inscription?.certificate === undefined ||
+                  inscription?.certificate === null
+                "
                 @click="toggleCertificateModal"
               >
                 Certificat manquant!
@@ -149,6 +162,7 @@
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
                   v-if="inscription?.va === null"
+                  @click="toggleVaModal"
                 >
                   ⌛
                 </h5>
@@ -345,6 +359,7 @@
 
 <script lang="ts">
 import CertificateModal from "@/components/modal/Certificate.vue";
+import ErrorModal from "@/components/modal/Error.vue";
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
@@ -357,6 +372,7 @@ export default defineComponent({
     MiniTopBar,
     CertificateModal,
     VaModal,
+    ErrorModal,
   },
   data() {
     return {
@@ -364,6 +380,7 @@ export default defineComponent({
       isTeamAdmin: true,
       showTeamSettings: false,
       showCertificateModal: false,
+      showErrorModal: false,
       showVaModal: false,
       paymentStatus: 0,
       newTeamPassword: "",
@@ -396,6 +413,9 @@ export default defineComponent({
     },
     toggleVaModal() {
       this.showVaModal = !this.showVaModal;
+    },
+    toggleErrorModal() {
+      this.showErrorModal = !this.showErrorModal;
     },
     checkPassword() {
       let error = false;
