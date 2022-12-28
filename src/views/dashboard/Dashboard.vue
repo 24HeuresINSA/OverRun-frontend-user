@@ -23,7 +23,10 @@
       </div>
       <div class="row m-2 mt-3 text-start">
         <div class="col-12 mx-2">
-          <strong> Vous êtes inscrit dans la course: Ma course</strong>
+          <strong>
+            Vous êtes inscrit dans la course:
+            {{ inscription?.race?.name }}</strong
+          >
         </div>
       </div>
 
@@ -38,32 +41,32 @@
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="inscriptionStatus == 0"
+                  v-if="inscription === undefined"
                 >
                   😢
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="inscriptionStatus == 1"
+                  v-else-if="inscription?.validated"
                 >
                   🎉
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="inscriptionStatus == 2"
+                  v-else-if="!inscription?.validated"
                 >
                   ⌛
                 </h5>
               </div>
             </div>
             <div class="row pt-1 text-center">
-              <p class="mb-0" v-if="inscriptionStatus === 0">
+              <p class="mb-0" v-if="inscription === undefined">
                 Inscription incomplète
               </p>
-              <p class="mb-0" v-if="inscriptionStatus === 1">
+              <p class="mb-0" v-else-if="inscription?.validated">
                 Inscription complète
               </p>
-              <p class="mb-0" v-if="inscriptionStatus === 2">
+              <p class="mb-0" v-else-if="!inscription?.validated">
                 En cours de validation ...
               </p>
             </div>
@@ -79,26 +82,26 @@
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 0"
+                  v-if="inscription?.certificate?.status === 5"
                   @click="toggleCertificateModal"
                 >
                   😱
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 1"
+                  v-if="inscription?.certificate?.status === 1"
                 >
                   🎉
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 2"
+                  v-if="inscription?.certificate?.status === 4"
                 >
                   ⌛
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="certificateStatus === 3"
+                  v-if="inscription?.certificate === undefined"
                   @click="toggleCertificateModal"
                 >
                   🤔
@@ -108,20 +111,20 @@
             <div class="row pt-1 text-center">
               <p
                 class="mb-0"
-                v-if="certificateStatus === 0"
+                v-if="inscription?.certificate?.status === 5"
                 @click="toggleCertificateModal"
               >
                 Certificat rejeté!
               </p>
-              <p class="mb-0" v-if="certificateStatus === 1">
+              <p class="mb-0" v-if="inscription?.certificate?.status === 1">
                 Certificat validé!
               </p>
-              <p class="mb-0" v-if="certificateStatus === 2">
+              <p class="mb-0" v-if="inscription?.certificate?.status === 4">
                 En cours de validation ...
               </p>
               <p
                 class="mb-0"
-                v-if="certificateStatus === 3"
+                v-if="inscription?.certificate === undefined"
                 @click="toggleCertificateModal"
               >
                 Certificat manquant!
@@ -139,42 +142,28 @@
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="vaStatus === 0"
-                  @click="toggleVaModal"
+                  v-if="inscription?.va !== null"
                 >
-                  😱
-                </h5>
-                <h5 class="big-emoji pb-0 mb-0 pt-3" v-if="vaStatus === 1">
                   🎉
-                </h5>
-                <h5 class="big-emoji pb-0 mb-0 pt-3" v-if="vaStatus === 2">
-                  ⌛
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="vaStatus === 3"
-                  @click="toggleVaModal"
+                  v-if="inscription?.va === null"
                 >
-                  🤔
-                </h5>
-                <h5 class="big-emoji pb-0 mb-0 pt-3" v-if="vaStatus === 4">
-                  🧋
+                  ⌛
                 </h5>
               </div>
             </div>
             <div class="row pt-1 text-center">
-              <p class="mb-0" v-if="vaStatus === 0" @click="toggleVaModal">
-                Carte VA rejetée!
+              <p class="mb-0" v-if="inscription?.va !== null">
+                Carte VA validée!
               </p>
-              <p class="mb-0" v-if="vaStatus === 1">Carte VA validée!</p>
-              <p class="mb-0" v-if="vaStatus === 2">
-                En cours de validation...
-              </p>
-              <p class="mb-0" v-if="vaStatus === 3" @click="toggleVaModal">
+              <p
+                class="mb-0"
+                v-if="inscription?.va === null"
+                @click="toggleVaModal"
+              >
                 Carte VA manquante!
-              </p>
-              <p class="mb-0" v-if="vaStatus === 4">
-                Pas de carte VA, pas de soucis!
               </p>
             </div>
           </div>
@@ -359,6 +348,7 @@ import CertificateModal from "@/components/modal/Certificate.vue";
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
+import { Inscription } from "@/types/interface";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -374,16 +364,24 @@ export default defineComponent({
       isTeamAdmin: true,
       showTeamSettings: false,
       showCertificateModal: false,
-      showVaModal: true,
-      inscriptionStatus: 2,
-      vaStatus: 3,
-      certificateStatus: 3,
+      showVaModal: false,
       paymentStatus: 0,
       newTeamPassword: "",
       confirmTeamPassword: "",
       matchError: false,
       lengthError: false,
     };
+  },
+  computed: {
+    me() {
+      return this.$store.getters.getMe;
+    },
+    inscription() {
+      return this.$store.getters.getMe.inscriptions?.filter(
+        (inscription: Inscription) =>
+          inscription.edition.id === this.$store.getters.getEditionId
+      )[0];
+    },
   },
   methods: {
     toggleTeamSettings() {
