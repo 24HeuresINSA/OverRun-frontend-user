@@ -203,8 +203,14 @@
           <h2>Mon Equipe</h2>
         </div>
       </div>
+      <div class="row m-2 mt-3 text-start">
+        <div class="col-12 mx-2">
+          Vous êtes inscrit dans l'équipe:
+          <strong> {{ inscription?.team?.name || "aucune" }}</strong>
+        </div>
+      </div>
 
-      <div v-show="isTeamAdmin">
+      <div v-show="isTeamAdmin(me.id)">
         <div class="row mx-3 mt-3">
           <div
             class="col col-md-3 border-bottom text-start vertical-center-container"
@@ -281,53 +287,30 @@
         </div>
       </div>
 
-      <div class="d-none d-sm-felx row mx-3 mt-3">
+      <div class="d-sm-felx row mx-3 mt-3">
         <div class="col mx-2 bg-light rounded-3 shadow-sm">
           <table class="table table-striped table-hover w-100">
             <thead>
               <tr>
                 <th scope="col">Admin</th>
                 <th scope="col">Athlète</th>
-                <th v-show="isTeamAdmin" scope="col">Changer status</th>
+                <th v-show="isTeamAdmin(me.id)" scope="col">Changer status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="member in team.members" :key="member.id">
                 <th scope="row">
-                  <span class="material-icons-outlined"> military_tech </span>
+                  <span
+                    class="material-icons-outlined"
+                    v-if="isTeamAdmin(member.athlete.id)"
+                  >
+                    military_tech
+                  </span>
                 </th>
-                <td>Mark</td>
-                <td v-show="isTeamAdmin">Otto</td>
-              </tr>
-              <tr>
-                <th scope="row"></th>
-                <td>Jacob</td>
-                <td v-show="isTeamAdmin">Thornton</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="d-sm-0 sm-table row mx-3 mt-3">
-        <div class="col mx-2 bg-light rounded-3 shadow-sm table-responsive">
-          <table class="table table-striped table-hover w-100 bg-light">
-            <thead>
-              <tr>
-                <th scope="col" class="admin-col">Admin</th>
-                <th scope="col">Athlète</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" class="admin-col">
-                  <span class="material-icons-outlined"> military_tech </span>
-                </th>
-                <td>Mark</td>
-              </tr>
-              <tr>
-                <th scope="row" class="admin-col"></th>
-                <td>Jacob</td>
+                <td>
+                  {{ member.athlete.firstName }} {{ member.athlete.lastName }}
+                </td>
+                <td v-show="isTeamAdmin(me.id)">Otto</td>
               </tr>
             </tbody>
           </table>
@@ -362,6 +345,8 @@ import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
 import { Inscription } from "@/types/interface";
+import { Team } from "@/types/team";
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -375,7 +360,6 @@ export default defineComponent({
   data() {
     return {
       title: "",
-      isTeamAdmin: true,
       showTeamSettings: false,
       showCertificateModal: false,
       showErrorModal: false,
@@ -385,6 +369,7 @@ export default defineComponent({
       confirmTeamPassword: "",
       matchError: false,
       lengthError: false,
+      team: {} as Team,
     };
   },
   computed: {
@@ -426,6 +411,28 @@ export default defineComponent({
         this.lengthError = true;
       }
       return !error;
+    },
+    async getTeamInfos() {
+      console.log(this.inscription);
+      if (!this.inscription?.team) return;
+      console.log(this.inscription.team.id);
+      const teamResponse = await axios.get(
+        `/teams/${this.inscription.team.id}`
+      );
+      if (teamResponse.status === 200) {
+        this.team = teamResponse.data;
+        this.isTeamAdmin(this.me.id);
+      }
+    },
+    isTeamAdmin(athleteId: number) {
+      return this.team.admins.some(
+        (admin) => admin.adminInscription.athleteId === athleteId
+      );
+    },
+  },
+  watch: {
+    inscription() {
+      this.getTeamInfos();
     },
   },
 });

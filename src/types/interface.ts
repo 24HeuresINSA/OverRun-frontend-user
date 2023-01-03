@@ -21,6 +21,7 @@ export interface Inscription {
   va: VA;
   certificate: Certificate;
   race: Race;
+  team: Team;
 }
 
 export interface Edition {
@@ -38,6 +39,11 @@ export interface Certificate {
 }
 
 export interface Race {
+  id: number;
+  name: string;
+}
+
+export interface Team {
   id: number;
   name: string;
 }
