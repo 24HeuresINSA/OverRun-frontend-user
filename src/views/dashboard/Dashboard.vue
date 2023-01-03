@@ -20,11 +20,14 @@
       @openErrorModal="toggleErrorModal"
     />
 
-    <ErrorModal v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
-    <SuccessModal
-      v-show="showSuccessModal"
-      @closeSuccessModal="toggleSuccessModal"
-      :message="successMessage"
+    <TeamAdminModal
+      v-show="showTeamAdminModal"
+      @closeTeamAdminModal="toggleTeamAdminModal"
+      @openErrorModal="toggleErrorModal"
+      @success="getTeamInfos"
+      :athlete="athlete"
+      :actionType="actionType"
+      :teamId="team.id"
     />
 
     <div class="container">
@@ -299,7 +302,7 @@
               <tr>
                 <th scope="col">Admin</th>
                 <th scope="col">Athlète</th>
-                <th v-show="isTeamAdmin(me.id)" scope="col">Changer status</th>
+                <th v-show="isTeamAdmin(me.id)" scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -318,15 +321,42 @@
                 <td v-show="isTeamAdmin(me.id)">
                   <button
                     class="btn btn-success"
-                    @click="toggleAdminInvite()"
+                    v-b-tooltip.hover
+                    title="Ajoute l'athlète de la liste d'admin"
+                    @click="
+                      openTeamAdminModal(
+                        member.athlete,
+                        TeamAdminModalType.PROMOTE_ADMIN
+                      )
+                    "
                     v-show="!isTeamAdmin(member.athlete.id)"
                   >
-                    Inviter
+                    Promouvoir admin
                   </button>
                   <button
                     class="btn btn-danger"
-                    @click="toggleAdminInvite()"
+                    v-b-tooltip.hover
+                    title="Supprime l'athlète de la liste d'admin"
+                    @click="
+                      openTeamAdminModal(
+                        member.athlete,
+                        TeamAdminModalType.REVOKE_ADMIN
+                      )
+                    "
                     v-show="isTeamAdmin(member.athlete.id)"
+                  >
+                    Révoquer admin
+                  </button>
+                  <button
+                    class="btn btn-warning"
+                    v-b-tooltip.hover
+                    title="Retir l'athlète de l'équipe"
+                    @click="
+                      openTeamAdminModal(
+                        member.athlete,
+                        TeamAdminModalType.DELETE_ATHLETE
+                      )
+                    "
                   >
                     Retirer
                   </button>
@@ -356,17 +386,28 @@
       </div>
     </div>
   </div>
+
+  <ErrorModal v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
+
+  <SuccessModal
+    v-show="showSuccessModal"
+    @closeSuccessModal="toggleSuccessModal"
+    :message="successMessage"
+  />
 </template>
 
 <script lang="ts">
 import CertificateModal from "@/components/modal/Certificate.vue";
 import ErrorModal from "@/components/modal/Error.vue";
 import SuccessModal from "@/components/modal/Success.vue";
+import TeamAdminModal, {
+  TeamAdminModalType,
+} from "@/components/modal/TeamAdminModal.vue";
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
 import { Inscription } from "@/types/interface";
-import { Team } from "@/types/team";
+import { Athlete, Team } from "@/types/team";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -378,6 +419,7 @@ export default defineComponent({
     VaModal,
     ErrorModal,
     SuccessModal,
+    TeamAdminModal,
   },
   data() {
     return {
@@ -388,13 +430,16 @@ export default defineComponent({
       showSuccessModal: false,
       successMessage: "",
       showVaModal: false,
-      showAdminInviteModal: false,
+      showTeamAdminModal: false,
       paymentStatus: 0,
       newTeamPassword: "",
       confirmTeamPassword: "",
       matchError: false,
       lengthError: false,
       team: {} as Team,
+      athlete: {} as Athlete,
+      TeamAdminModalType,
+      actionType: "" as TeamAdminModalType,
     };
   },
   computed: {
@@ -428,8 +473,13 @@ export default defineComponent({
     toggleSuccessModal() {
       this.showSuccessModal = !this.showSuccessModal;
     },
-    toggleAdminInvite() {
-      this.showAdminInviteModal = !this.showAdminInviteModal;
+    toggleTeamAdminModal() {
+      this.showTeamAdminModal = !this.showTeamAdminModal;
+    },
+    openTeamAdminModal(athlete: Athlete, action: TeamAdminModalType) {
+      this.actionType = action;
+      this.athlete = athlete;
+      this.toggleTeamAdminModal();
     },
     checkPassword() {
       let error = false;
@@ -480,6 +530,9 @@ export default defineComponent({
     inscription() {
       this.getTeamInfos();
     },
+  },
+  mounted() {
+    this.getTeamInfos();
   },
 });
 </script>

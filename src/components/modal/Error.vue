@@ -6,7 +6,7 @@
       <div>
         <div class="row pt-3">
           <div class="col">
-            <h4>Un est survenu &#128557;</h4>
+            <h4>Une erreur est survenue &#128557;</h4>
           </div>
           <div class="col-1">
             <button id="close-arrow" @click="closeModal">
@@ -17,7 +17,7 @@
         <div class="row pt-3">
           <div class="col mx-2 text-start">
             <p>
-              Une erreur est survenu lors de l'action, êtes vous sur d'avoir
+              Une erreur est survenue lors de l'action, êtes vous sûr d'avoir
               renseigné les bonnes informations?
             </p>
           </div>
