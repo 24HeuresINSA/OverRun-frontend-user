@@ -67,6 +67,12 @@ export default defineComponent({
 });
 </script>
 
+<style>
+#top-bar {
+  position: fixed;
+}
+</style>
+
 <style scoped>
 #top-bar {
   height: 60px;
