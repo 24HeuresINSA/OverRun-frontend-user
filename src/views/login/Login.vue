@@ -70,6 +70,7 @@
 <script lang="ts">
 import ResetPassword from "@/components/modal/ResetPassword.vue";
 import { MutationTypes } from "@/store/modules/auth";
+import { Inscription } from "@/types/interface";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -111,8 +112,18 @@ export default defineComponent({
             .join("")
         );
         this.$store.commit(MutationTypes.SET_USER, JSON.parse(jsonPayload).id);
-        this.$store.dispatch("setMe");
-        this.$router.push("/");
+        this.$store.dispatch("setMe").then(() => {
+          if (
+            this.$store.getters.getMe.inscriptions.length == 0 ||
+            this.$store.getters.getMe.inscriptions.some(
+              (inscription: Inscription) =>
+                inscription.edition.id !== this.$store.getters.getEditionId
+            )
+          ) {
+            return this.$router.push({ name: "RegisterTeam" });
+          }
+          this.$router.push("/");
+        });
       }
     },
     toggleResetPasswordModal() {
