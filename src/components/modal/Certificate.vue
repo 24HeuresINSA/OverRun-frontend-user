@@ -7,6 +7,11 @@
         <div class="col">
           <h4>Vous avez un certificat medical à charger? 🩺</h4>
         </div>
+        <div class="col-1">
+          <button id="close-arrow" @click="closeModal">
+            <span class="material-icons-outlined"> close </span>
+          </button>
+        </div>
       </div>
       <div class="row m-2 pt-3">
         <div class="col bg-primary text-start text-light rounded pt-3 mx-3">
@@ -88,5 +93,12 @@ export default defineComponent({
   height: 100%;
   z-index: 10001;
   margin: 0;
+}
+
+#close-arrow {
+  margin-top: -1vh;
+  margin-right: 50px;
+  background: none;
+  border: none;
 }
 </style>

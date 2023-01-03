@@ -30,10 +30,8 @@
       </div>
       <div class="row m-2 mt-3 text-start">
         <div class="col-12 mx-2">
-          <strong>
-            Vous êtes inscrit dans la course:
-            {{ inscription?.race?.name }}</strong
-          >
+          Vous êtes inscrit dans la course:
+          <strong>{{ inscription?.race?.name || "aucune" }}</strong>
         </div>
       </div>
 
