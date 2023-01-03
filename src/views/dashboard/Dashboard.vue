@@ -170,7 +170,7 @@
                   v-if="inscription?.va === null"
                   @click="toggleVaModal"
                 >
-                  ⌛
+                  🤔
                 </h5>
               </div>
             </div>
@@ -379,7 +379,7 @@
         </div>
       </div>
 
-      <div class="row m-2 mt-4 text-start">
+      <div class="row m-2 mt-4 text-start" v-show="false">
         <div class="col col-md-4 border-bottom">
           <h2>Mes Resultats</h2>
         </div>
@@ -395,9 +395,47 @@
         <div class="col col-md-4 border-bottom">
           <h2>Mes Certificats</h2>
         </div>
+
+        <div class="d-sm-felx row mx-3 mt-3">
+          <div class="col mx-2 bg-light rounded-3 shadow-sm">
+            <table class="table table-striped table-hover w-100">
+              <thead>
+                <tr>
+                  <th scope="col">Édition</th>
+                  <th scope="col">Fichier</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="inscription in me.inscriptions"
+                  :key="inscription.certificate?.id"
+                >
+                  <td>{{ inscription?.edition?.name }}</td>
+                  <td>
+                    <button
+                      v-show="inscription?.certificate"
+                      @click="
+                        openCertificateModal(inscription?.certificate?.filename)
+                      "
+                      class="btn"
+                    >
+                      {{ inscription?.certificate?.filename }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <DisplayCertificate
+    v-show="showDisplayCertificateModal"
+    @closeDisplayCertificateModal="toggleDisplayCertificateModal"
+    :certificateFile="certificateFile"
+  />
 
   <ConfirmModal
     v-show="showConfirmModal"
@@ -418,6 +456,7 @@
 <script lang="ts">
 import CertificateModal from "@/components/modal/Certificate.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
+import DisplayCertificate from "@/components/modal/DisplayCertificate.vue";
 import ErrorModal from "@/components/modal/Error.vue";
 import SuccessModal from "@/components/modal/Success.vue";
 import TeamAdminModal, {
@@ -441,6 +480,7 @@ export default defineComponent({
     SuccessModal,
     TeamAdminModal,
     ConfirmModal,
+    DisplayCertificate,
   },
   data() {
     return {
@@ -457,6 +497,8 @@ export default defineComponent({
       confirmCallback: () => {
         return;
       },
+      showDisplayCertificateModal: false,
+      certificateFile: "",
       paymentStatus: 0,
       newTeamPassword: "",
       confirmTeamPassword: "",
@@ -509,6 +551,13 @@ export default defineComponent({
     },
     toggleConfirmModal() {
       this.showConfirmModal = !this.showConfirmModal;
+    },
+    toggleDisplayCertificateModal() {
+      this.showDisplayCertificateModal = !this.showDisplayCertificateModal;
+    },
+    openCertificateModal(certificateFile: string) {
+      this.certificateFile = certificateFile;
+      this.toggleDisplayCertificateModal();
     },
     async openLeaveTeamModal() {
       this.confirmMessage = "Voulez-vous vraiment quitter l'équipe ?";
@@ -583,6 +632,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.container {
+  top: 60px;
+  position: relative;
+}
+</style>
 
 <style scoped>
 .admin-col {
