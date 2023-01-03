@@ -6,7 +6,7 @@
       <div>
         <div class="row pt-3">
           <div class="col">
-            <h4>Une erreur est survenue &#128557;</h4>
+            <h4>Êtes vous sûr ? 🤔</h4>
           </div>
           <div class="col-1">
             <button id="close-arrow" @click="closeModal">
@@ -17,9 +17,18 @@
         <div class="row pt-3">
           <div class="col mx-2 text-start">
             <p>
-              Une erreur est survenue lors de l'action, êtes vous sûr d'avoir
-              renseigné les bonnes informations?
+              {{ message }}
             </p>
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col d-flex justify-content-center">
+            <button class="btn btn-primary mx-2" @click="closeModal">
+              Annuler
+            </button>
+            <button class="btn btn-warning mx-2" @click="confirmAction">
+              Confirmer
+            </button>
           </div>
         </div>
       </div>
@@ -31,10 +40,19 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "ErrorModal",
+  name: "ConfirmModal",
+  props: {
+    message: {
+      type: String,
+      default: "Vous confirmez cette action ?",
+    },
+  },
   methods: {
     closeModal() {
-      this.$emit("closeErrorModal");
+      this.$emit("closeConfirmModal");
+    },
+    confirmAction() {
+      this.$emit("callback");
     },
   },
 });

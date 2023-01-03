@@ -56,12 +56,6 @@ export default defineComponent({
   margin: 0;
 }
 
-.big-emoji {
-  font-size: 120px;
-  vertical-align: middle;
-  line-height: 1;
-}
-
 #close-arrow {
   margin-top: -1vh;
   margin-right: 50px;

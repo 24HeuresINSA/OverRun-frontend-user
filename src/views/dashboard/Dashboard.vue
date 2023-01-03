@@ -216,6 +216,15 @@
           Vous êtes inscrit dans l'équipe:
           <strong> {{ inscription?.team?.name || "aucune" }}</strong>
         </div>
+        <div class="col-12 mx-2">
+          <button
+            class="btn btn-danger"
+            v-if="inscription?.team"
+            @click="openLeaveTeamModal"
+          >
+            Quitter l'équipe
+          </button>
+        </div>
       </div>
 
       <div v-show="isTeamAdmin(me.id)">
@@ -320,8 +329,7 @@
                 </td>
                 <td v-show="isTeamAdmin(me.id)">
                   <button
-                    class="btn btn-success"
-                    v-b-tooltip.hover
+                    class="btn btn-success mx-1"
                     title="Ajoute l'athlète de la liste d'admin"
                     @click="
                       openTeamAdminModal(
@@ -334,8 +342,11 @@
                     Promouvoir admin
                   </button>
                   <button
-                    class="btn btn-danger"
-                    v-b-tooltip.hover
+                    v-show="
+                      isTeamAdmin(member.athlete.id) &&
+                      member.athlete.id !== me.id
+                    "
+                    class="btn btn-danger mx-1"
                     title="Supprime l'athlète de la liste d'admin"
                     @click="
                       openTeamAdminModal(
@@ -343,13 +354,14 @@
                         TeamAdminModalType.REVOKE_ADMIN
                       )
                     "
-                    v-show="isTeamAdmin(member.athlete.id)"
                   >
                     Révoquer admin
                   </button>
                   <button
-                    class="btn btn-warning"
-                    v-b-tooltip.hover
+                    v-show="
+                      isTeamAdmin(me.id) && !isTeamAdmin(member.athlete.id)
+                    "
+                    class="btn btn-warning mx-1"
                     title="Retir l'athlète de l'équipe"
                     @click="
                       openTeamAdminModal(
@@ -387,6 +399,13 @@
     </div>
   </div>
 
+  <ConfirmModal
+    v-show="showConfirmModal"
+    @closeConfirmModal="toggleConfirmModal"
+    @callback="confirmCallback"
+    :message="confirmMessage"
+  />
+
   <ErrorModal v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
 
   <SuccessModal
@@ -398,6 +417,7 @@
 
 <script lang="ts">
 import CertificateModal from "@/components/modal/Certificate.vue";
+import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import ErrorModal from "@/components/modal/Error.vue";
 import SuccessModal from "@/components/modal/Success.vue";
 import TeamAdminModal, {
@@ -420,6 +440,7 @@ export default defineComponent({
     ErrorModal,
     SuccessModal,
     TeamAdminModal,
+    ConfirmModal,
   },
   data() {
     return {
@@ -428,9 +449,14 @@ export default defineComponent({
       showCertificateModal: false,
       showErrorModal: false,
       showSuccessModal: false,
-      successMessage: "",
+      successMessage: undefined as string | undefined,
       showVaModal: false,
       showTeamAdminModal: false,
+      showConfirmModal: false,
+      confirmMessage: undefined as string | undefined,
+      confirmCallback: () => {
+        return;
+      },
       paymentStatus: 0,
       newTeamPassword: "",
       confirmTeamPassword: "",
@@ -481,6 +507,14 @@ export default defineComponent({
       this.athlete = athlete;
       this.toggleTeamAdminModal();
     },
+    toggleConfirmModal() {
+      this.showConfirmModal = !this.showConfirmModal;
+    },
+    async openLeaveTeamModal() {
+      this.confirmMessage = "Voulez-vous vraiment quitter l'équipe ?";
+      this.confirmCallback = await this.leaveTeam;
+      this.toggleConfirmModal();
+    },
     checkPassword() {
       let error = false;
       if (this.newTeamPassword !== this.confirmTeamPassword) {
@@ -524,6 +558,19 @@ export default defineComponent({
 
       this.successMessage = "Mot de passe changé avec succès";
       this.toggleSuccessModal();
+    },
+    async leaveTeam() {
+      const leaveTeamResponse = await axios.post(
+        `/teams/${this.team.id}/leave`,
+        {
+          athleteId: this.me.id,
+        }
+      );
+      if (leaveTeamResponse.status !== 200) return this.toggleErrorModal();
+
+      this.successMessage = "Vous avez quitté l'équipe";
+      this.toggleSuccessModal();
+      this.$store.dispatch("setMe");
     },
   },
   watch: {

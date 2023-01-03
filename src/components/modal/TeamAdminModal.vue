@@ -33,24 +33,24 @@
           </div>
         </div>
         <div class="row pt-3">
-          <div class="col d-flex justify-content-around">
+          <div class="col d-flex justify-content-center">
             <button class="btn btn-primary" @click="closeModal">Annuler</button>
             <button
-              class="btn btn-warning"
+              class="btn btn-warning mx-2"
               @click="deleteAthlete(athlete.id)"
               v-if="actionType === TeamAdminModalType.DELETE_ATHLETE"
             >
               Supprimer
             </button>
             <button
-              class="btn btn-success"
+              class="btn btn-success mx-2"
               @click="promoteAthlete(athlete.id)"
               v-else-if="actionType === TeamAdminModalType.PROMOTE_ADMIN"
             >
               Promouvoir
             </button>
             <button
-              class="btn btn-danger"
+              class="btn btn-danger mx-2"
               @click="revokeAdmin(athlete.id)"
               v-else-if="actionType === TeamAdminModalType.REVOKE_ADMIN"
             >
