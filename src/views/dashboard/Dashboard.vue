@@ -21,6 +21,11 @@
     />
 
     <ErrorModal v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
+    <SuccessModal
+      v-show="showSuccessModal"
+      @closeSuccessModal="toggleSuccessModal"
+      :message="successMessage"
+    />
 
     <div class="container">
       <div class="row m-2 mt-4 text-start">
@@ -248,7 +253,7 @@
                 Le mot de passe doit faire plus de 8 caractères!
               </div>
             </div>
-            <form>
+            <form @submit.prevent="submitChnageTeamPassword">
               <div class="row fw-bold text-start">
                 <div class="col-12 my-2 col-md-5 form-groups">
                   <label for="inputNewTeamPassword"
@@ -310,7 +315,22 @@
                 <td>
                   {{ member.athlete.firstName }} {{ member.athlete.lastName }}
                 </td>
-                <td v-show="isTeamAdmin(me.id)">Otto</td>
+                <td v-show="isTeamAdmin(me.id)">
+                  <button
+                    class="btn btn-success"
+                    @click="toggleAdminInvite()"
+                    v-show="!isTeamAdmin(member.athlete.id)"
+                  >
+                    Inviter
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    @click="toggleAdminInvite()"
+                    v-show="isTeamAdmin(member.athlete.id)"
+                  >
+                    Retirer
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -341,6 +361,7 @@
 <script lang="ts">
 import CertificateModal from "@/components/modal/Certificate.vue";
 import ErrorModal from "@/components/modal/Error.vue";
+import SuccessModal from "@/components/modal/Success.vue";
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
@@ -356,6 +377,7 @@ export default defineComponent({
     CertificateModal,
     VaModal,
     ErrorModal,
+    SuccessModal,
   },
   data() {
     return {
@@ -363,7 +385,10 @@ export default defineComponent({
       showTeamSettings: false,
       showCertificateModal: false,
       showErrorModal: false,
+      showSuccessModal: false,
+      successMessage: "",
       showVaModal: false,
+      showAdminInviteModal: false,
       paymentStatus: 0,
       newTeamPassword: "",
       confirmTeamPassword: "",
@@ -400,6 +425,12 @@ export default defineComponent({
     toggleErrorModal() {
       this.showErrorModal = !this.showErrorModal;
     },
+    toggleSuccessModal() {
+      this.showSuccessModal = !this.showSuccessModal;
+    },
+    toggleAdminInvite() {
+      this.showAdminInviteModal = !this.showAdminInviteModal;
+    },
     checkPassword() {
       let error = false;
       if (this.newTeamPassword !== this.confirmTeamPassword) {
@@ -413,9 +444,7 @@ export default defineComponent({
       return !error;
     },
     async getTeamInfos() {
-      console.log(this.inscription);
       if (!this.inscription?.team) return;
-      console.log(this.inscription.team.id);
       const teamResponse = await axios.get(
         `/teams/${this.inscription.team.id}`
       );
@@ -425,9 +454,26 @@ export default defineComponent({
       }
     },
     isTeamAdmin(athleteId: number) {
-      return this.team.admins.some(
+      return this.team?.admins?.some(
         (admin) => admin.adminInscription.athleteId === athleteId
       );
+    },
+    async submitChnageTeamPassword() {
+      if (!this.checkPassword()) return this.toggleErrorModal();
+      const changeTeamPasswordResponse = await axios.post(
+        `/teams/${this.team.id}/updatePassword`,
+        {
+          password: this.newTeamPassword,
+        }
+      );
+      if (changeTeamPasswordResponse.status !== 200)
+        return this.toggleErrorModal();
+
+      this.newTeamPassword = "";
+      this.confirmTeamPassword = "";
+
+      this.successMessage = "Mot de passe changé avec succès";
+      this.toggleSuccessModal();
     },
   },
   watch: {
