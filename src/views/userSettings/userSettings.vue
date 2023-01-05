@@ -88,7 +88,7 @@ export default defineComponent({
   },
   data() {
     return {
-      title: "",
+      title: "Mon compte",
       showChangePasswordModal: false,
       showDeleteAccountModal: false,
     };

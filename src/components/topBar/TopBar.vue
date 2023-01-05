@@ -4,6 +4,9 @@
       <span id="overRun">
         <h1 class="m-0 text-light">OverRun</h1>
       </span>
+      <h4 class="text-light centered-text ms-2">
+        {{ editionName }}
+      </h4>
     </div>
     <div id="top-side" class="container-fluid p-0 m-0 shadow-sm">
       <div class="row m-0 p-0 h-100">
@@ -78,6 +81,9 @@ export default defineComponent({
   computed: {
     me() {
       return this.$store.getters["user/getMe"];
+    },
+    editionName() {
+      return this.$store.getters["edition/getEditionName"];
     },
   },
   methods: {

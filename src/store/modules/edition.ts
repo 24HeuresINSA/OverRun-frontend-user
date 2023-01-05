@@ -23,6 +23,8 @@ export const mutations: MutationTree<State> & Mutations = {
 };
 
 export type Getters = {
+  getEdition(state: State): Edition;
+  getEditionName(state: State): string;
   getEditionId(state: State): number;
   isRegistrationOpen(state: State): boolean;
   getRegistrationStartDate(state: State): Date;
@@ -30,6 +32,12 @@ export type Getters = {
 };
 
 export const getters: GetterTree<State, State> & Getters = {
+  getEdition: (state) => {
+    return state.edition;
+  },
+  getEditionName: (state) => {
+    return state.edition.name;
+  },
   getEditionId: (state) => {
     return state.edition.id;
   },

@@ -483,7 +483,7 @@ export default defineComponent({
   },
   data() {
     return {
-      title: "",
+      title: "Dashboard",
       showTeamSettings: false,
       showCertificateModal: false,
       showErrorModal: false,
