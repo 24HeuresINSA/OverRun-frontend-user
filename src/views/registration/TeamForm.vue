@@ -411,7 +411,7 @@ export default defineComponent({
       const racesResponse = await axios.get("races", {
         params: {
           categoryId: this.selectedCategory,
-          editionId: this.$store.getters.getEditionId,
+          editionId: this.$store.getters["edition/getEditionId"],
         },
       });
       if (racesResponse.status < 300) {
@@ -419,6 +419,7 @@ export default defineComponent({
       }
     },
     next() {
+      this.$store.dispatch("user/setMe");
       this.$router.push({ name: "RegisterVa" });
     },
     async submitCreateTeam() {
@@ -426,7 +427,7 @@ export default defineComponent({
         name: this.createdTeamName,
         password: this.createdTeamPassword,
         raceId: this.createdTeamRace,
-        editionId: this.$store.getters.getEditionId,
+        editionId: this.$store.getters["edition/getEditionId"],
       });
       if (response.status !== 200) return this.toggleErrorModal();
       this.next();
@@ -442,7 +443,7 @@ export default defineComponent({
       console.log(this.selectedRace);
       const response = await axios.post("/inscriptions", {
         raceId: this.selectedRace,
-        editionId: this.$store.getters.getEditionId,
+        editionId: this.$store.getters["edition/getEditionId"],
       });
       if (response.status !== 201) return this.toggleErrorModal();
       this.next();
@@ -451,7 +452,7 @@ export default defineComponent({
   async mounted() {
     const categoriesResponse = await axios.get("categories/light", {
       params: {
-        editionId: this.$store.getters.getEditionId,
+        editionId: this.$store.getters["edition/getEditionId"],
       },
     });
     if (categoriesResponse.status < 300) {
@@ -460,7 +461,7 @@ export default defineComponent({
     const soloRacesResponse = await axios.get("races", {
       params: {
         maxTeamMembers: 1,
-        editionId: this.$store.getters.getEditionId,
+        editionId: this.$store.getters["edition/getEditionId"],
       },
     });
     if (soloRacesResponse.status < 300) {
@@ -468,7 +469,7 @@ export default defineComponent({
     }
     const teamsResponse = await axios.get("teams/light", {
       params: {
-        editionId: this.$store.getters.getEditionId,
+        editionId: this.$store.getters["edition/getEditionId"],
       },
     });
     if (teamsResponse.status < 300) {

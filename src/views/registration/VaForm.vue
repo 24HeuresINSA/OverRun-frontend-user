@@ -162,6 +162,7 @@ export default defineComponent({
       }
     },
     next() {
+      this.$store.dispatch("user/setMe");
       this.$router.push({ name: "RegisterCertificate" });
     },
     async sendVa() {

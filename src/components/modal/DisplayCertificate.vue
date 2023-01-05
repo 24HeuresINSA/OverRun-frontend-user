@@ -57,7 +57,7 @@ export default defineComponent({
         {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
+            Authorization: `Bearer ${this.$store.getters["auth/getAccessToken"]}`,
           },
         }
       );

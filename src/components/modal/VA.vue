@@ -104,7 +104,7 @@ export default defineComponent({
 
       if (vaCheckResponse.status !== 200) return this.$emit("openErrorModal");
       this.closeModal();
-      this.$store.dispatch("setMe");
+      this.$store.dispatch("user/setMe");
     },
   },
 });

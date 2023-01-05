@@ -77,7 +77,7 @@ export default defineComponent({
   },
   computed: {
     me() {
-      return this.$store.getters.getMe;
+      return this.$store.getters["user/getMe"];
     },
   },
   methods: {
@@ -89,11 +89,11 @@ export default defineComponent({
     },
     async disconnect() {
       const res = await axios.post("logout", {
-        refreshToken: this.$store.getters.getRefreshToken,
+        refreshToken: this.$store.getters["auth/getRefreshToken"],
       });
       if (res.status !== 200) return;
-      this.$store.commit(AuthMutationTypes.LOGOUT, undefined);
-      this.$store.commit(UserMutationTypes.SET_USER_ME, {});
+      this.$store.commit(`auth/${AuthMutationTypes.LOGOUT}`);
+      this.$store.commit(`user/${UserMutationTypes.SET_USER_ME}`, {});
       this.$router.push({ name: "Login" });
     },
   },

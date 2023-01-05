@@ -51,7 +51,7 @@ export default defineComponent({
 
     async getUserInfos() {
       const athleteResponse = await axios.get(
-        `/athletes/${this.$store.getters.getAthleteId}`
+        `/athletes/${this.$store.getters["auth/getAthleteId"]}`
       );
 
       if (athleteResponse.status < 300) {

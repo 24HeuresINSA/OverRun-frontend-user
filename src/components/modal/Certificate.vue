@@ -68,16 +68,14 @@ export default defineComponent({
         document.querySelector("#inputCertificate");
       if (imageFile && imageFile.files && imageFile.files[0]) {
         formData.append("certificate", imageFile.files[0]);
-        formData.append("editionId", this.$store.getters.getEditionId);
-        const response = await axios.post("/certificates/upload", formData, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.getAccessToken}`,
-            "Content-type": "multipart/form-data",
-          },
-        });
+        formData.append(
+          "editionId",
+          this.$store.getters["edition/getEditionId"]
+        );
+        const response = await axios.post("/certificates/upload", formData);
         if (response.status !== 200) return this.$emit("openErrorModal");
         this.closeModal();
-        this.$store.dispatch("setMe");
+        this.$store.dispatch("user/setMe");
       }
     },
   },

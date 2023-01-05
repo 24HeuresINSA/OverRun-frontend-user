@@ -412,15 +412,14 @@
                 >
                   <td>{{ inscription?.edition?.name }}</td>
                   <td>
-                    <button
+                    <span
                       v-show="inscription?.certificate"
                       @click="
                         openCertificateModal(inscription?.certificate?.filename)
                       "
-                      class="btn"
                     >
                       {{ inscription?.certificate?.filename }}
-                    </button>
+                    </span>
                   </td>
                 </tr>
               </tbody>
@@ -512,12 +511,12 @@ export default defineComponent({
   },
   computed: {
     me() {
-      return this.$store.getters.getMe;
+      return this.$store.getters["user/getMe"];
     },
     inscription() {
-      return this.$store.getters.getMe.inscriptions?.filter(
+      return this.$store.getters["user/getMe"].inscriptions?.filter(
         (inscription: Inscription) =>
-          inscription.edition.id === this.$store.getters.getEditionId
+          inscription.edition.id === this.$store.getters["edition/getEditionId"]
       )[0];
     },
   },
@@ -619,7 +618,7 @@ export default defineComponent({
 
       this.successMessage = "Vous avez quitté l'équipe";
       this.toggleSuccessModal();
-      this.$store.dispatch("setMe");
+      this.$store.dispatch("user/setMe");
     },
   },
   watch: {

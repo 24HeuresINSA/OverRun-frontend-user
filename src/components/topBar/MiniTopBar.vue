@@ -60,7 +60,7 @@ export default defineComponent({
       this.$router.push({ name: "userSettings" });
     },
     disconnect() {
-      this.$store.commit(MutationTypes.LOGOUT, undefined);
+      this.$store.commit(`auth/${MutationTypes.LOGOUT}`);
       this.$router.push({ name: "Login" });
     },
   },

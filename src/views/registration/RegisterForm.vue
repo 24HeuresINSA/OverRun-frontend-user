@@ -272,14 +272,15 @@ export default defineComponent({
 
         if (response.status === 200) {
           this.$store.commit(
-            MutationTypes.SET_ACCESS_TOKEN,
+            `auth/${MutationTypes.SET_ACCESS_TOKEN}`,
             response.data.accessToken
           );
           this.$store.commit(
-            MutationTypes.SET_REFRESH_TOKEN,
+            `auth/${MutationTypes.SET_REFRESH_TOKEN}`,
             response.data.refreshToken
           );
-          const base64Url = this.$store.getters.getAccessToken.split(".")[1];
+          const base64Url =
+            this.$store.getters["auth/getAccessToken"].split(".")[1];
           const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
           const jsonPayload = decodeURIComponent(
             atob(base64)
@@ -290,13 +291,14 @@ export default defineComponent({
               .join("")
           );
           this.$store.commit(
-            MutationTypes.SET_USER,
+            `auth/${MutationTypes.SET_USER}`,
             JSON.parse(jsonPayload).id
           );
           this.$store.commit(
-            MutationTypes.SET_ATHLETE_ID,
+            `auth/${MutationTypes.SET_ATHLETE_ID}`,
             JSON.parse(jsonPayload).athleteId
           );
+          this.$store.dispatch("user/setMe");
           this.$router.push({ name: "RegisterTeam" });
         }
       }

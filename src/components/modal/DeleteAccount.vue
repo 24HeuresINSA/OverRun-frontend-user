@@ -32,6 +32,9 @@
           <div class="row px-2 fw-bold" v-show="wrongPassword">
             <div class="col text-danger">Mauvais mot de passe</div>
           </div>
+          <div class="row px-2 fw-bold" v-show="errorAPI">
+            <div class="col text-danger">Une erreur est survenue</div>
+          </div>
           <form action="">
             <div class="row p-2 fw-bold">
               <div class="col form-group">
@@ -66,13 +69,22 @@
 </template>
 
 <script lang="ts">
+import { MutationTypes as AuthMutationTypes } from "@/store/modules/auth";
+import { MutationTypes as UserMutationTypes } from "@/store/modules/user";
+import axios from "axios";
 import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
       password: "",
       wrongPassword: false,
+      errorAPI: false,
     };
+  },
+  computed: {
+    me() {
+      return this.$store.getters[`user/getMe`];
+    },
   },
   methods: {
     closeModal() {
@@ -80,8 +92,23 @@ export default defineComponent({
       this.wrongPassword = false;
       this.$emit("closeDeleteAccountModal");
     },
-    deleteAccount() {
-      console.log("Delete Account.");
+    async deleteAccount() {
+      const checkPasswordResponse = await axios.post("login", {
+        email: this.me.user.email,
+        password: this.password,
+      });
+
+      if (checkPasswordResponse.status !== 200)
+        return (this.wrongPassword = true);
+
+      const deleteAccountResponse = await axios.delete(
+        `/athletes/${this.me.user.id}`
+      );
+      if (deleteAccountResponse.status !== 200) return (this.errorAPI = true);
+
+      this.$store.commit(`user/${UserMutationTypes.SET_USER_ME}`, {});
+      this.$store.commit(`auth/${AuthMutationTypes.LOGOUT}`);
+      this.$router.push({ name: "Login" });
     },
   },
 });

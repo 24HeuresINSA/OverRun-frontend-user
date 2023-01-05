@@ -7,7 +7,7 @@ import store from "./store";
 
 router.beforeEach(async (to, from) => {
   if (
-    store.getters.getAccessToken === "" &&
+    store.getters["auth/getAccessToken"] === "" &&
     to.name !== "BeforeReagistration" &&
     to.name !== "Login" &&
     to.name !== "Register" &&
@@ -17,9 +17,9 @@ router.beforeEach(async (to, from) => {
   }
   axios.defaults.headers.common[
     "Authorization"
-  ] = `Bearer ${store.getters.getAccessToken}`;
+  ] = `Bearer ${store.getters["auth/getAccessToken"]}`;
 });
 
-store.dispatch("setEditionId").then(() => {
+store.dispatch("edition/setEditionId").then(() => {
   createApp(App).use(router).use(store).mount("#app");
 });

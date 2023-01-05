@@ -40,7 +40,7 @@ export const actions: ActionTree<State, State> & Actions = {
   async setMe({ commit, rootGetters }) {
     const meResponse = await axios.get("/athletes/me", {
       headers: {
-        Authorization: `Bearer ${rootGetters.getAccessToken}`,
+        Authorization: `Bearer ${rootGetters["auth/getAccessToken"]}`,
       },
     });
     commit(MutationTypes.SET_USER_ME, meResponse.data);
@@ -52,4 +52,5 @@ export default {
   getters,
   actions,
   mutations,
+  namespaced: true,
 };

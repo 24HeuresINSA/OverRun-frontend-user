@@ -1,19 +1,15 @@
 import { createStore } from "vuex";
-import authModule from "./modules/auth";
-import editionModule from "./modules/edition";
-import userModule from "./modules/user";
+import authModule, { State as AuthState } from "./modules/auth";
+import editionModule, { State as EditionState } from "./modules/edition";
+import userModule, { State as UserState } from "./modules/user";
 
-const store = createStore({
-  state: {
-    ...authModule.state,
-    ...editionModule.state,
-    ...userModule.state,
-  },
+export type State = AuthState & EditionState & UserState;
 
+const store = createStore<State>({
   modules: {
     auth: authModule,
     edition: editionModule,
-    userMe: userModule,
+    user: userModule,
   },
 });
 
