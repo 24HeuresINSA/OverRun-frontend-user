@@ -117,6 +117,10 @@ export default defineComponent({
           JSON.parse(jsonPayload).id
         );
         this.$store.dispatch("user/setMe").then(() => {
+          if (!this.$store.getters["edtion/isEditionOpen"]) {
+            alert("Désolé, mais il est trop tôt/tard pour s'inscrire");
+            return this.$router.push("/");
+          }
           if (
             this.$store.getters["user/getMe"].inscriptions.length == 0 ||
             this.$store.getters["user/getMe"].inscriptions.some(

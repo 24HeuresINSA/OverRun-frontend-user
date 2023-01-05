@@ -1,8 +1,9 @@
+import { Edition } from "@/types/edition";
 import axios from "axios";
 import { ActionContext, ActionTree, GetterTree, MutationTree } from "vuex";
 
 export const state = {
-  editionId: 0,
+  edition: {} as Edition,
 };
 
 export type State = typeof state;
@@ -12,33 +13,49 @@ export enum MutationTypes {
 }
 
 export type Mutations<S = State> = {
-  [MutationTypes.SET_EDITION_ID](state: S, payload: number): void;
+  [MutationTypes.SET_EDITION_ID](state: S, payload: Edition): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
-  [MutationTypes.SET_EDITION_ID](state, payload: number) {
-    state.editionId = payload;
+  [MutationTypes.SET_EDITION_ID](state, payload: Edition) {
+    state.edition = payload;
   },
 };
 
 export type Getters = {
   getEditionId(state: State): number;
+  isRegistrationOpen(state: State): boolean;
+  getRegistrationStartDate(state: State): Date;
+  getRegistrationEndDate(state: State): Date;
 };
 
 export const getters: GetterTree<State, State> & Getters = {
   getEditionId: (state) => {
-    return state.editionId;
+    return state.edition.id;
+  },
+  isRegistrationOpen: (state) => {
+    const now = new Date();
+    const registrationStart = new Date(state.edition.registrationStartDate);
+    const registrationEnd = new Date(state.edition.registrationEndDate);
+
+    return now >= registrationStart && now <= registrationEnd;
+  },
+  getRegistrationStartDate: (state) => {
+    return new Date(state.edition.registrationStartDate);
+  },
+  getRegistrationEndDate: (state) => {
+    return new Date(state.edition.registrationEndDate);
   },
 };
 
 export type Actions = {
-  setEditionId(context: ActionContext<State, State>, payload: number): void;
+  setEdition(context: ActionContext<State, State>, payload: number): void;
 };
 
 export const actions: ActionTree<State, State> & Actions = {
-  async setEditionId({ commit }) {
+  async setEdition({ commit }) {
     const curentEditionResponse = await axios.get("/edition/curent");
-    commit(MutationTypes.SET_EDITION_ID, curentEditionResponse.data.id);
+    commit(MutationTypes.SET_EDITION_ID, curentEditionResponse.data);
   },
 };
 
