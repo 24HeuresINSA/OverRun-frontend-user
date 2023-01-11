@@ -68,12 +68,11 @@
               <div v-if="selectedRace" class="row m-2">
                 <div class="col-12 form-group">
                   <label for="inputCreateRace"
-                    >Tarif standard: {{ getSoloRegularPrice() }}
+                    >Tarif standard: {{ getSoloRegularPrice() }} €
                   </label>
                   <br />
                   <label for="inputCreateRace"
-                    >Tarif VA:
-                    {{ getSoloVaPrice() }}
+                    >Tarif VA: {{ getSoloVaPrice() }} €
                   </label>
                 </div>
               </div>
@@ -242,12 +241,11 @@
             <div v-if="createdTeamRace" class="row m-2">
               <div class="col-12 form-group">
                 <label for="inputCreateRace"
-                  >Tarif standard: {{ getRegularPrice() }}
+                  >Tarif standard: {{ getRegularPrice() }} €
                 </label>
                 <br />
                 <label for="inputCreateRace"
-                  >Tarif VA:
-                  {{ getVaPrice() }}
+                  >Tarif VA: {{ getVaPrice() }} €
                 </label>
               </div>
             </div>
@@ -330,6 +328,9 @@ export default defineComponent({
     toggleErrorModal() {
       this.showErrorModal = !this.showErrorModal;
     },
+    centimesToEuros(centimes: number): number {
+      return centimes / 100;
+    },
     soloOrTeam(event: Event) {
       if (event) {
         if (
@@ -352,7 +353,7 @@ export default defineComponent({
       if (this.selectedRace) {
         this.soloRaces.forEach((race) => {
           if (race.id === this.selectedRace) {
-            vaPrice = race.vaRegistrationPrice;
+            vaPrice = this.centimesToEuros(race.vaRegistrationPrice);
           }
         });
       }
@@ -363,7 +364,7 @@ export default defineComponent({
       if (this.selectedRace) {
         this.soloRaces.forEach((race) => {
           if (race.id === this.selectedRace) {
-            price = race.registrationPrice;
+            price = this.centimesToEuros(race.registrationPrice);
           }
         });
       }
@@ -374,7 +375,7 @@ export default defineComponent({
       if (this.createdTeamRace) {
         this.races.forEach((race) => {
           if (race.id === this.createdTeamRace) {
-            vaPrice = race.vaRegistrationPrice;
+            vaPrice = this.centimesToEuros(race.vaRegistrationPrice);
           }
         });
       }
@@ -385,7 +386,7 @@ export default defineComponent({
       if (this.createdTeamRace) {
         this.races.forEach((race) => {
           if (race.id === this.createdTeamRace) {
-            price = race.registrationPrice;
+            price = this.centimesToEuros(race.registrationPrice);
           }
         });
       }
