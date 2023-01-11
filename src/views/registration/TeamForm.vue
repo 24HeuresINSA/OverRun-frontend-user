@@ -441,7 +441,6 @@ export default defineComponent({
       this.next();
     },
     async submitSoloRace() {
-      console.log(this.selectedRace);
       const response = await axios.post("/inscriptions", {
         raceId: this.selectedRace,
         editionId: this.$store.getters["edition/getEditionId"],
