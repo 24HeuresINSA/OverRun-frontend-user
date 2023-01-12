@@ -81,7 +81,7 @@ export default defineComponent({
     this.paymentStatus = this.$route.query.code as PaymentStatus;
 
     if (this.isPaymentRefused()) {
-      axios.get(
+      axios.patch(
         `/payments/${this.$route.query.paymentId}/setstatusbyhelloasso`
       );
     }

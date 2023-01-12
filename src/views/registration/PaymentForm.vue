@@ -205,12 +205,27 @@
           >
             <span>Procéder au paiement</span>
           </button>
+          <button
+            class="btn btn-lg btn-primary mx-5"
+            v-show="
+              !loading && isNecessaryToUpdatePayment && isNewDonationAmount()
+            "
+            @click="updateMyPaymentWithNewDonationAmount"
+            :disabled="wantToDonate === null"
+          >
+            <span>Obtenir un nouveau lien</span>
+          </button>
           <button class="btn btn-lg btn-primary mx-5" v-show="loading">
             <span class="spinner-border" role="status"></span>
           </button>
           <button
             class="btn btn-lg btn-primary mx-5"
-            v-show="!loading && payment.helloassoCheckoutIntentUrl"
+            v-show="
+              !loading &&
+              payment.helloassoCheckoutIntentUrl &&
+              !isNecessaryToUpdatePayment &&
+              !isNewDonationAmount()
+            "
           >
             <span>
               <a
@@ -249,6 +264,8 @@ export default defineComponent({
       wantToDonate: null as boolean | null,
       otherDonationAmount: false,
       loading: false,
+      isNecessaryToUpdatePayment: false,
+      donationAmount: 0,
       errorMsg: "",
       payment: {} as Payment,
     };
@@ -311,6 +328,35 @@ export default defineComponent({
           this.$store.getters["edition/getEditionId"]
       );
     },
+    async updateMyPaymentWithNewDonationAmount() {
+      this.loading = true;
+      const response = await axios.patch(
+        `/payments/${this.payment.id}/update`,
+        {
+          donationAmount: this.wantToDonate ? this.payment.donationAmount : 0,
+        }
+      );
+      if (response.status === 200) this.payment = response.data;
+      this.isNecessaryToUpdatePayment = false;
+      this.donationAmount = this.payment.donationAmount;
+      this.loading = false;
+    },
+    isNewDonationAmount(): boolean {
+      this.isNecessaryToUpdatePayment =
+        this.payment.donationAmount !== this.donationAmount;
+      return this.isNecessaryToUpdatePayment;
+    },
+  },
+  watch: {
+    wantToDonate(newValue: boolean, oldValue: boolean) {
+      if (oldValue === null) return;
+      this.isNecessaryToUpdatePayment = oldValue;
+      if (newValue) {
+        this.payment.donationAmount = this.donationAmount;
+        return;
+      }
+      this.payment.donationAmount = 0;
+    },
   },
   async mounted() {
     if (this.$route.query.token && this.$route.query?.donationAmount) {
@@ -319,10 +365,8 @@ export default defineComponent({
         this.$route.query.donationAmount as string
       );
       this.wantToDonate = true;
-      return;
-    }
-    if (this.$route.query.token) {
-      await this.getMyPayment();
+      this.isNecessaryToUpdatePayment = false;
+      this.donationAmount = this.payment.donationAmount;
       return;
     }
     await this.createPayment();
