@@ -20,6 +20,11 @@
       @openErrorModal="toggleErrorModal"
     />
 
+    <PaymentModal
+      v-show="showPaymentModal"
+      @closePaymentModal="togglePaymentModal"
+    />
+
     <TeamAdminModal
       v-show="showTeamAdminModal"
       @closeTeamAdminModal="toggleTeamAdminModal"
@@ -196,7 +201,12 @@
               <div class="col">
                 <h5>Mon Payement</h5>
                 <hr />
-                <h5 class="big-emoji">😢</h5>
+                <h5
+                  class="big-emoji pb-0 mb-0 pt-3"
+                  @click="togglePaymentModal"
+                >
+                  😢
+                </h5>
               </div>
             </div>
             <div class="row pt-1 text-center">
@@ -457,9 +467,10 @@ import CertificateModal from "@/components/modal/Certificate.vue";
 import ConfirmModal from "@/components/modal/ConfirmModal.vue";
 import DisplayCertificate from "@/components/modal/DisplayCertificate.vue";
 import ErrorModal from "@/components/modal/Error.vue";
+import PaymentModal from "@/components/modal/PaymentModal.vue";
 import SuccessModal from "@/components/modal/Success.vue";
 import TeamAdminModal, {
-  TeamAdminModalType,
+TeamAdminModalType
 } from "@/components/modal/TeamAdminModal.vue";
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
@@ -480,6 +491,7 @@ export default defineComponent({
     TeamAdminModal,
     ConfirmModal,
     DisplayCertificate,
+    PaymentModal,
   },
   data() {
     return {
@@ -490,6 +502,7 @@ export default defineComponent({
       showSuccessModal: false,
       successMessage: undefined as string | undefined,
       showVaModal: false,
+      showPaymentModal: false,
       showTeamAdminModal: false,
       showConfirmModal: false,
       confirmMessage: undefined as string | undefined,
@@ -533,6 +546,9 @@ export default defineComponent({
     },
     toggleVaModal() {
       this.showVaModal = !this.showVaModal;
+    },
+    togglePaymentModal() {
+      this.showPaymentModal = !this.showPaymentModal;
     },
     toggleErrorModal() {
       this.showErrorModal = !this.showErrorModal;
