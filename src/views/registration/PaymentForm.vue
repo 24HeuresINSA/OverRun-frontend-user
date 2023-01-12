@@ -2,7 +2,7 @@
   <div class="container-fluid h-100">
     <div class="row">
       <div class="col mt-5">
-        <h1>Payement</h1>
+        <h1>Paiement</h1>
       </div>
     </div>
     <div class="row">
@@ -14,15 +14,42 @@
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center">
+      <div>
+        <table class="table table-striped table-bordered mt-5">
+          <thead>
+            <tr>
+              <th scope="col">Détail</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix unitaire</th>
+              <th scope="col">Prix total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ payment?.inscription?.race?.name }}</td>
+              <td>1</td>
+              <td>{{ centimesToEuro(payment.totalAmount) }}€</td>
+              <td>{{ centimesToEuro(payment.totalAmount) }}€</td>
+            </tr>
+            <tr v-show="wantToDonate">
+              <td>Don pour la course caritative</td>
+              <td>1</td>
+              <td>{{ centimesToEuro(payment.donationAmount) }}€</td>
+              <td>{{ centimesToEuro(payment.donationAmount) }}€</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="table-active">
+                <strong>Total</strong>
+              </td>
+              <td colspan="2">{{ computeTotalAmount() }}€ TTC</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
       <div class="mt-5">
-        {{ payment.inscription.race.name }} x 1 -
-        {{ centimesToEuro(payment.totalAmount) }}€
-      </div>
-      <div class="mt-2" v-show="wantToDonate">
-        Don de {{ centimesToEuro(payment.donationAmount) }}€ x 1 -
-        {{ centimesToEuro(payment.donationAmount) }}€
-      </div>
-      <div class="mt-4">
         <form>
           <p>Je souhaite faire un don pour la course caritative</p>
           <div class="form-check d-flex justify-content-center">
@@ -162,12 +189,45 @@
         </form>
       </div>
       <div
-        class="mt-5 text-center d-flex justify-content-around align-items-center"
+        class="mt-5 d-flex justify-content-around align-items-center flex-wrap"
       >
-        <button class="btn btn-lg btn-secondary mx-5" @click="passPayment">
-          Payer plus tard
-        </button>
-        <button class="btn btn-lg btn-primary mx-5">Procéder au payment</button>
+        <div>
+          <button class="btn btn-lg btn-secondary mx-5" @click="passPayment">
+            Payer plus tard
+          </button>
+        </div>
+        <div>
+          <button
+            class="btn btn-lg btn-primary mx-5"
+            v-show="!loading"
+            @click="getHelloassoRedirectLink"
+            :disabled="wantToDonate === null"
+          >
+            <span>Procéder au paiement</span>
+          </button>
+          <button class="btn btn-lg btn-primary mx-5" v-show="loading">
+            <span class="spinner-border" role="status"></span>
+          </button>
+          <button
+            class="btn btn-lg btn-primary mx-5"
+            v-show="loading && payment.helloassoCheckoutIntentUrl"
+          >
+            <span>
+              <a
+                :href="payment.helloassoCheckoutIntentUrl"
+                class="btn btn-primary d-flex align-items-center"
+              >
+                <img
+                  aspect-ratio="1"
+                  class="size-one-em"
+                  src="https://backoffice.helloasso.com/Assets/dist/img/helloasso-badge.svg"
+                />
+                <p class="ms-2 m-0 p-0">Payer {{ computeTotalAmount() }}€</p>
+              </a>
+            </span>
+          </button>
+        </div>
+        <p class="error">{{ errorMsg }}</p>
       </div>
     </div>
   </div>
@@ -176,6 +236,7 @@
 <script lang="ts">
 import StepBar from "@/components/stepBar/StepBar.vue";
 import { Inscription } from "@/types/interface";
+import { Payment } from "@/types/payment";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -185,36 +246,38 @@ export default defineComponent({
   },
   data() {
     return {
-      wantToDonate: null,
+      wantToDonate: null as boolean | null,
       otherDonationAmount: false,
-      payment: {
-        id: 9,
-        status: "NOT_STARTED",
-        totalAmount: 1500,
-        donationAmount: 0,
-        helloassoCheckoutIntentId: null,
-        helloassoCheckoutIntentUrl: null,
-        helloassoCheckoutExpiresAt: null,
-        helloassoPaymentReceiptUrl: null,
-        inscription: {
-          id: 9,
-          athlete: { id: 9 },
-          race: {
-            id: 2,
-            name: "Vélo equipe",
-            registrationPrice: 1500,
-            vaRegistrationPrice: 2500,
-          },
-        },
-      },
+      loading: false,
+      errorMsg: "",
+      payment: {} as Payment,
     };
+  },
+  computed: {
+    inscription(): Inscription {
+      return this.$store.getters["user/getMe"].inscriptions.find(
+        (inscription: Inscription) =>
+          inscription.edition.id === this.$store.getters["edition/getEditionId"]
+      );
+    },
   },
   methods: {
     passPayment() {
       this.$router.push({ name: "Home" });
     },
-    redirectPaymentSite() {
-      console.log("Upload Certificate");
+    async getHelloassoRedirectLink() {
+      this.loading = true;
+      const response = await axios.post(
+        `/payments/${this.payment.id}/initiate`,
+        {
+          donationAmount: this.wantToDonate ? this.payment.donationAmount : 0,
+        }
+      );
+      if (response.status !== 200)
+        return (this.errorMsg = "Une erreur est survenue");
+
+      this.payment = response.data;
+      this.loading = false;
     },
     centimesToEuro(centimes: number) {
       return centimes / 100;
@@ -222,20 +285,60 @@ export default defineComponent({
     euroToCentimes(euro: number) {
       return euro * 100;
     },
+    computeTotalAmount() {
+      return this.centimesToEuro(
+        this.payment.totalAmount +
+          (this.wantToDonate ? this.payment.donationAmount : 0)
+      );
+    },
+    async createPayment() {
+      const response = await axios.post("/payments", {
+        inscriptionId: this.inscription.id,
+      });
+      if (response.status === 409) {
+        this.getMyPayment();
+        return;
+      }
+      if (response.status !== 200) return alert("Une erreur est survenue");
+      this.payment = response.data;
+    },
+    async getMyPayment() {
+      const response = await axios.get("/payments/me");
+      if (response.status !== 200) return alert("Une erreur est survenue");
+      this.payment = response.data.find(
+        (payment: Payment) =>
+          payment.inscription.edition.id ===
+          this.$store.getters["edition/getEditionId"]
+      );
+    },
   },
   async mounted() {
-    const inscriptions = this.$store.getters["user/getMe"].inscriptions;
-    const inscription = inscriptions.find(
-      (inscription: Inscription) =>
-        inscription.edition.id === this.$store.getters["edition/getEditionId"]
-    );
-    const response = await axios.post("/payments", {
-      inscriptionId: inscription.id,
-    });
-    if (response.status !== 200) return alert("Une erreur est survenue");
-    this.payment = response.data;
+    if (this.$route.query.token && this.$route.query?.donationAmount) {
+      await this.getMyPayment();
+      this.payment.donationAmount = parseInt(
+        this.$route.query.donationAmount as string
+      );
+      this.wantToDonate = true;
+      return;
+    }
+    if (this.$route.query.token) {
+      await this.getMyPayment();
+      return;
+    }
+    await this.createPayment();
   },
 });
 </script>
 
-<style></style>
+<style scoped>
+.size-one-em {
+  height: 1em;
+}
+
+.error {
+  color: red;
+  flex-basis: 50%;
+  padding: 0;
+  margin: 0;
+}
+</style>

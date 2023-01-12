@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   ActionContext,
   CommitOptions,
@@ -35,6 +36,7 @@ export type Mutations<S = State> = {
 export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SET_ACCESS_TOKEN](state, payload: string) {
     state.accessToken = payload;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${payload}`;
   },
   [MutationTypes.SET_REFRESH_TOKEN](state, payload: string) {
     state.refreshToken = payload;

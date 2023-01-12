@@ -1,14 +1,15 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import BeforeRegistrationVue from "@/views/registration/BeforeRegistration.vue";
-import RegisterFormVue from "@/views/registration/RegisterForm.vue";
-import VaFormlVue from "@/views/registration/VaForm.vue";
-import TeamFormVue from "@/views/registration/TeamForm.vue";
-import CertificateFormVue from "@/views/registration/CertificateForm.vue";
 import DashboardVue from "@/views/dashboard/Dashboard.vue";
-import ResetPasswordVue from "@/views/reset/ResetPassword.vue";
-import PaymentFormVue from "@/views/registration/PaymentForm.vue";
 import LoginVue from "@/views/login/Login.vue";
+import BeforeRegistrationVue from "@/views/registration/BeforeRegistration.vue";
+import CertificateFormVue from "@/views/registration/CertificateForm.vue";
+import PaymentFormVue from "@/views/registration/PaymentForm.vue";
+import RegisterFormVue from "@/views/registration/RegisterForm.vue";
+import TeamFormVue from "@/views/registration/TeamForm.vue";
+import VaFormlVue from "@/views/registration/VaForm.vue";
+import ResetPasswordVue from "@/views/reset/ResetPassword.vue";
 import userSettings from "@/views/userSettings/userSettings.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { setUserWithJWT } from "./queryParams";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -45,6 +46,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register/payment",
     name: "RegisterPayment",
     component: PaymentFormVue,
+    beforeEnter: [setUserWithJWT],
   },
   {
     path: "/reset",

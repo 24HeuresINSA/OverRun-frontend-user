@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createApp } from "vue";
 import App from "./App.vue";
 import "./axios";
@@ -11,13 +10,11 @@ router.beforeEach(async (to, from) => {
     to.name !== "BeforeReagistration" &&
     to.name !== "Login" &&
     to.name !== "Register" &&
-    to.name !== "ResetPassword"
+    to.name !== "ResetPassword" &&
+    (to.name !== "RegisterPayment" || to.query.token === undefined)
   ) {
     return { name: "BeforeReagistration" };
   }
-  axios.defaults.headers.common[
-    "Authorization"
-  ] = `Bearer ${store.getters["auth/getAccessToken"]}`;
 });
 
 store.dispatch("edition/setEdition").then(() => {

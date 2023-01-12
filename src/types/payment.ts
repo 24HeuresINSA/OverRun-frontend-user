@@ -22,6 +22,7 @@ export interface Inscription {
   athlete: { id: number };
   id: number;
   race: Race;
+  edition: { id: number };
 }
 
 export interface Race {
