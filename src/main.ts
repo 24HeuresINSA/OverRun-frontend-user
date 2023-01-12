@@ -11,7 +11,8 @@ router.beforeEach(async (to, from) => {
     to.name !== "Login" &&
     to.name !== "Register" &&
     to.name !== "ResetPassword" &&
-    (to.name !== "RegisterPayment" || to.query.token === undefined)
+    (to.name !== "RegisterPayment" || to.query.token === undefined) &&
+    (to.name !== "HelloAssoReturn" || to.query.type === undefined)
   ) {
     return { name: "BeforeReagistration" };
   }

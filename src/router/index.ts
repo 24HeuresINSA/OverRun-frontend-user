@@ -1,5 +1,6 @@
 import DashboardVue from "@/views/dashboard/Dashboard.vue";
 import LoginVue from "@/views/login/Login.vue";
+import HelloassoReturn from "@/views/payment/helloassoReturn.vue";
 import BeforeRegistrationVue from "@/views/registration/BeforeRegistration.vue";
 import CertificateFormVue from "@/views/registration/CertificateForm.vue";
 import PaymentFormVue from "@/views/registration/PaymentForm.vue";
@@ -46,6 +47,12 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register/payment",
     name: "RegisterPayment",
     component: PaymentFormVue,
+    beforeEnter: [setUserWithJWT],
+  },
+  {
+    path: "/payment/helloassoreturn",
+    name: "HelloAssoReturn",
+    component: HelloassoReturn,
     beforeEnter: [setUserWithJWT],
   },
   {
