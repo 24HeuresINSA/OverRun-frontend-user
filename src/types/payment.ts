@@ -1,5 +1,6 @@
 export interface Payment {
   id: number;
+  raceAmount: number;
   donationAmount: number;
   totalAmount: number;
   status: PaymentStatus;

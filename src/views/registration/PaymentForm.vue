@@ -28,8 +28,8 @@
             <tr>
               <td>{{ payment?.inscription?.race?.name }}</td>
               <td>1</td>
-              <td>{{ centimesToEuro(payment.totalAmount) }}€</td>
-              <td>{{ centimesToEuro(payment.totalAmount) }}€</td>
+              <td>{{ centimesToEuro(payment.raceAmount) }}€</td>
+              <td>{{ centimesToEuro(payment.raceAmount) }}€</td>
             </tr>
             <tr v-show="wantToDonate">
               <td>Don pour la course caritative</td>
@@ -199,7 +199,7 @@
         <div>
           <button
             class="btn btn-lg btn-primary mx-5"
-            v-show="!loading"
+            v-show="!loading && payment?.helloassoCheckoutIntentUrl === null"
             @click="getHelloassoRedirectLink"
             :disabled="wantToDonate === null"
           >
@@ -210,7 +210,7 @@
           </button>
           <button
             class="btn btn-lg btn-primary mx-5"
-            v-show="loading && payment.helloassoCheckoutIntentUrl"
+            v-show="!loading && payment.helloassoCheckoutIntentUrl"
           >
             <span>
               <a
@@ -287,7 +287,7 @@ export default defineComponent({
     },
     computeTotalAmount() {
       return this.centimesToEuro(
-        this.payment.totalAmount +
+        this.payment.raceAmount +
           (this.wantToDonate ? this.payment.donationAmount : 0)
       );
     },
