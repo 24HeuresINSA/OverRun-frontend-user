@@ -15,11 +15,14 @@
     <div class="row mt-4">
       <div class="col"></div>
       <div class="col-lg-4 bg-primary rounded text-light text-start pt-2">
-        <strong> <u>Attention:</u> </strong>
+        <strong> <u>Information:</u> </strong>
         <p>
-          Si vous disposez d'une carte VA, assurez-vous que les nom et prénom
-          saisies dans le formulaire d'inscription correspondent bien aux nom et
-          prénom figurant sur votre carte VA.
+          Il n'est pas possible d'utiliser la même adresse email pour plusieurs
+          comptes. Vous pouvez utiliser une sous adresse si vous en avez une
+          adresse gmail. <br />
+          Par exemple, si votre adresse email est "monemail@gmail.com", vous
+          pouvez utiliser "monemail+overrun@gmail.com", 'overrun' étant un mot
+          de votre choix.
         </p>
       </div>
       <div class="col"></div>

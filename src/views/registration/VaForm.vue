@@ -21,6 +21,20 @@
       <div class="col-lg"></div>
     </div>
     <div class="row mt-4">
+      <div class="col"></div>
+      <div class="col-lg-4 bg-primary rounded text-light text-start pt-2">
+        <strong> <u>Attention:</u> </strong>
+        <p>
+          Si vous disposez d'une carte VA, assurez-vous que les nom et prénom
+          saisies dans le formulaire d'inscription correspondent bien aux nom et
+          prénom figurant sur votre carte VA. <br />
+          Le numéro de la carte VA est le numéro commençant par 'c' suivit de 12
+          chiffres. Il se trouve en-dessous du code-barres sur la carte.
+        </p>
+      </div>
+      <div class="col"></div>
+    </div>
+    <div class="row mt-4">
       <div class="col-lg"></div>
       <div class="col col-lg-4 fw-bold text-start">
         <div class="row m-2">

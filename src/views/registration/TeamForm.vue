@@ -49,7 +49,7 @@
           <form @submit.prevent="submitSoloRace()">
             <div class="row m-2">
               <div class="col form-group">
-                <label for="inputBirthDate">Selection votre course: </label>
+                <label for="inputBirthDate">Sélectionnez votre course: </label>
                 <select
                   class="form-select"
                   aria-label="Default select example"
@@ -201,7 +201,7 @@
             </div>
             <div class="row m-2">
               <div class="col-12 form-group">
-                <label for="inputCreateCategory">Category: </label>
+                <label for="inputCreateCategory">Categorie: </label>
                 <select
                   class="form-select"
                   id="inputCreateCategory"
@@ -217,7 +217,8 @@
                     :value="category.id"
                   >
                     {{ category.name }} ({{ category.minTeamMembers }} à
-                    {{ category.maxTeamMembers }} personnes)
+                    {{ category.maxTeamMembers }}
+                    personnes)
                   </option>
                 </select>
               </div>
@@ -457,6 +458,10 @@ export default defineComponent({
     });
     if (categoriesResponse.status < 300) {
       this.categories = categoriesResponse.data.data;
+      // reduce categories to only those have more than one min and max team members
+      this.categories = this.categories.filter(
+        (category) => category.maxTeamMembers > 1 && category.minTeamMembers > 1
+      );
     }
     const soloRacesResponse = await axios.get("races", {
       params: {
