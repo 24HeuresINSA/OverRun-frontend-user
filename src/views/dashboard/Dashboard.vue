@@ -199,18 +199,83 @@
           >
             <div class="row pt-1 pb-1">
               <div class="col">
-                <h5>Mon Payement</h5>
+                <h5>Mon Paiement</h5>
                 <hr />
                 <h5
+                  v-if="
+                    inscription?.payment?.status ===
+                      PaymentStatus.NOT_STARTED || inscription?.payment === null
+                  "
+                  class="big-emoji pb-0 mb-0 pt-3"
+                  @click="togglePaymentModal"
+                >
+                  🤔
+                </h5>
+                <h5
+                  v-if="inscription?.payment?.status === PaymentStatus.PENDING"
+                  class="big-emoji pb-0 mb-0 pt-3"
+                  @click="togglePaymentModal"
+                >
+                  ⌛
+                </h5>
+                <h5
+                  v-if="
+                    inscription?.payment?.status === PaymentStatus.VALIDATED
+                  "
+                  class="big-emoji pb-0 mb-0 pt-3"
+                >
+                  🎉
+                </h5>
+                <h5
+                  v-if="inscription?.payment?.status === PaymentStatus.REFUSED"
                   class="big-emoji pb-0 mb-0 pt-3"
                   @click="togglePaymentModal"
                 >
                   😢
                 </h5>
+                <h5
+                  v-if="inscription?.payment?.status === PaymentStatus.REFUND"
+                  class="big-emoji pb-0 mb-0 pt-3"
+                  @click="togglePaymentModal"
+                >
+                  🤑
+                </h5>
               </div>
             </div>
             <div class="row pt-1 text-center">
-              <p class="mb-0">Payement refusé</p>
+              <p
+                class="mb-0"
+                v-if="
+                  inscription?.payment?.status === PaymentStatus.NOT_STARTED ||
+                  inscription?.payment === null
+                "
+              >
+                Paiement non initié
+              </p>
+              <p
+                class="mb-0"
+                v-if="inscription?.payment?.status === PaymentStatus.PENDING"
+              >
+                Paiement en cours
+              </p>
+              <p
+                class="mb-0"
+                v-if="inscription?.payment?.status === PaymentStatus.VALIDATED"
+              >
+                Paiement validé
+              </p>
+              <p
+                class="mb-0"
+                v-if="inscription?.payment?.status === PaymentStatus.REFUSED"
+              >
+                Paiement refusé
+              </p>
+              <p
+                class="mb-0"
+                v-if="inscription?.payment?.status === PaymentStatus.REFUND"
+              >
+                Remboursé
+              </p>
             </div>
           </div>
         </div>
@@ -397,7 +462,7 @@
 
       <div class="row m-2 mt-4 text-start">
         <div class="col col-md-4 border-bottom">
-          <h2>Mes Payements</h2>
+          <h2>Mes Paiements</h2>
         </div>
       </div>
 
@@ -470,12 +535,13 @@ import ErrorModal from "@/components/modal/Error.vue";
 import PaymentModal from "@/components/modal/PaymentModal.vue";
 import SuccessModal from "@/components/modal/Success.vue";
 import TeamAdminModal, {
-TeamAdminModalType
+  TeamAdminModalType,
 } from "@/components/modal/TeamAdminModal.vue";
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
 import { Inscription } from "@/types/interface";
+import { PaymentStatus } from "@/types/payment";
 import { Athlete, Team } from "@/types/team";
 import axios from "axios";
 import { defineComponent } from "vue";
@@ -511,7 +577,6 @@ export default defineComponent({
       },
       showDisplayCertificateModal: false,
       certificateFile: "",
-      paymentStatus: 0,
       newTeamPassword: "",
       confirmTeamPassword: "",
       matchError: false,
@@ -520,6 +585,7 @@ export default defineComponent({
       athlete: {} as Athlete,
       TeamAdminModalType,
       actionType: "" as TeamAdminModalType,
+      PaymentStatus,
     };
   },
   computed: {
