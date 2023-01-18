@@ -188,7 +188,7 @@
                 v-if="inscription?.va === null"
                 @click="toggleVaModal"
               >
-                Carte VA manquante!
+                Pas de carte VA!
               </p>
             </div>
           </div>
