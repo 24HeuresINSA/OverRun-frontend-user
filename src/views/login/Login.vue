@@ -61,6 +61,11 @@
             </div>
           </form>
         </div>
+        <div class="row m-2 mt-4" v-show="errorMsg">
+          <div class="col text-center">
+            <p class="text-danger">{{ errorMsg }}</p>
+          </div>
+        </div>
       </div>
       <div class="col-lg"></div>
     </div>
@@ -83,6 +88,7 @@ export default defineComponent({
       email: null,
       password: null,
       showResetPasswordModal: false,
+      errorMsg: "",
     };
   },
   methods: {
@@ -91,6 +97,10 @@ export default defineComponent({
         email: this.email,
         password: this.password,
       });
+
+      if (response.status === 401) return (this.errorMsg = "Email incorrect");
+      if (response.status === 400)
+        return (this.errorMsg = "Mot de passe incorrect");
 
       if (response.status === 200) {
         this.$store.commit(
