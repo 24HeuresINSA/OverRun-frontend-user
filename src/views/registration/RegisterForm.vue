@@ -194,7 +194,7 @@
                 required
               />
               <label for="checkRules">
-                Je confirme que j'ai bien pris connaissance du
+                J'ai lu et j'accepte le
                 <a
                   href="https://www.24heures.org/wp-content/uploads/2022/01/2022-01-19_Reglement-Interieur-Courses.pdf"
                   >règlement en vigueur</a
