@@ -709,6 +709,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    this.$store.dispatch("user/setMe");
     this.getTeamInfos();
   },
 });

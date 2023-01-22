@@ -251,7 +251,7 @@
 <script lang="ts">
 import StepBar from "@/components/stepBar/StepBar.vue";
 import { Inscription } from "@/types/interface";
-import { Payment } from "@/types/payment";
+import { Payment, PaymentStatus } from "@/types/payment";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -292,6 +292,8 @@ export default defineComponent({
       );
       if (response.status !== 200)
         return (this.errorMsg = "Une erreur est survenue");
+      if (response.data?.status === PaymentStatus.VALIDATED)
+        return this.passPayment();
 
       this.payment = response.data;
       this.loading = false;
