@@ -465,7 +465,7 @@ export default defineComponent({
     }
     const soloRacesResponse = await axios.get("races", {
       params: {
-        maxTeamMembers: 1,
+        minTeamMembers: 1,
         editionId: this.$store.getters["edition/getEditionId"],
       },
     });
