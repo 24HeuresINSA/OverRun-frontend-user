@@ -454,14 +454,11 @@ export default defineComponent({
     const categoriesResponse = await axios.get("categories/light", {
       params: {
         editionId: this.$store.getters["edition/getEditionId"],
+        maxTeamMembers: 1,
       },
     });
     if (categoriesResponse.status < 300) {
       this.categories = categoriesResponse.data.data;
-      // reduce categories to only those have more than one min and max team members
-      this.categories = this.categories.filter(
-        (category) => category.maxTeamMembers > 1 && category.minTeamMembers > 1
-      );
     }
     const soloRacesResponse = await axios.get("races", {
       params: {
