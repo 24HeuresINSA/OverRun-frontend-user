@@ -1,5 +1,5 @@
 <template>
-  <div class="backdrop" @click.self="closeModal">
+  <div class="backdrop overflow-scroll" @click.self="closeModal">
     <div
       class="col-10 col-lg-4 p-3 bg-light custom-modal m-auto rounded-3 mt-5"
     >

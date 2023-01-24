@@ -54,7 +54,7 @@
           <div class="col">
             <p>
               Un email de réinitialisation a été envoyé à l'adresse
-              <strong>TODO : francois.rlt@orange.fr</strong>!
+              <strong>overrun@24heures.org</strong>!
             </p>
           </div>
         </div>
