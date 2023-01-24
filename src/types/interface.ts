@@ -14,6 +14,13 @@ export interface Athlete {
   inscriptions: Inscription[];
 }
 
+export interface Payment {
+  id: number;
+  raceAmount: number;
+  donationAmount: number;
+  helloassoPaymentReceiptUrl: string;
+}
+
 export interface Inscription {
   id: number;
   edition: Edition;
@@ -22,6 +29,7 @@ export interface Inscription {
   certificate: Certificate;
   race: Race;
   team: Team;
+  payment: Payment;
 }
 
 export interface Edition {

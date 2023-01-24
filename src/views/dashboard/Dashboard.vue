@@ -474,12 +474,54 @@
       <div class="row m-2 mt-4 text-start" v-show="false">
         <div class="col col-md-4 border-bottom">
           <h2>Mes Résultats</h2>
+          <!-- TODO -->
         </div>
       </div>
 
       <div class="row m-2 mt-4 text-start">
         <div class="col col-md-4 border-bottom">
           <h2>Mes Paiements</h2>
+        </div>
+        <div class="d-sm-felx row mx-3 mt-3">
+          <div class="col mx-2 bg-light rounded-3 shadow-sm">
+            <table class="table table-striped table-hover w-100">
+              <thead>
+                <tr>
+                  <th scope="col">Édition</th>
+                  <th scope="col">Course</th>
+                  <th scope="col">Montant inscription</th>
+                  <th scope="col">Montant don</th>
+                  <th scope="col">Reçu HelloAsso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="inscription in me.inscriptions"
+                  :key="inscription.payement?.id"
+                >
+                  <td>{{ inscription.edition?.name }}</td>
+                  <td>
+                    {{ inscription.race.name }}
+                  </td>
+                  <td>
+                    {{ centimesToEuros(inscription.payment?.raceAmount) }}
+                  </td>
+                  <td>
+                    {{ centimesToEuros(inscription.payment?.donationAmount) }}
+                  </td>
+                  <td>
+                    <a
+                      :href="inscription.payment?.helloassoPaymentReceiptUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ inscription.payment?.helloassoPaymentReceiptUrl }}
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -617,6 +659,9 @@ export default defineComponent({
     },
   },
   methods: {
+    centimesToEuros(price: number) {
+      return price / 100;
+    },
     toggleTeamSettings() {
       this.newTeamPassword = "";
       this.confirmTeamPassword = "";
