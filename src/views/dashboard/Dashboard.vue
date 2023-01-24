@@ -386,6 +386,7 @@
               <tr>
                 <th scope="col">Admin</th>
                 <th scope="col">Athlète</th>
+                <th scope="col">Statut de l'inscription</th>
                 <th v-show="isTeamAdmin(me.id)" scope="col">Actions</th>
               </tr>
             </thead>
@@ -401,6 +402,22 @@
                 </th>
                 <td>
                   {{ member.athlete.firstName }} {{ member.athlete.lastName }}
+                </td>
+                <td>
+                  <span
+                    class="material-icons-outlined"
+                    style="color: green"
+                    v-if="member.validated"
+                  >
+                    check_circle
+                  </span>
+                  <span
+                    class="material-icons-outlined"
+                    style="color: red"
+                    v-if="!member.validated"
+                  >
+                    cancel
+                  </span>
                 </td>
                 <td v-show="isTeamAdmin(me.id)">
                   <button
