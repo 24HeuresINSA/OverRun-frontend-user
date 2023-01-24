@@ -94,10 +94,30 @@
                     :value="soloRace.id"
                     :disabled="raceSoloIsComplete(soloRace.id)"
                   >
+                    <!-- For every soloRace, get the raceDisciplines to get discipline's name and the duration -->
                     {{
                       soloRace.name +
                       (raceSoloIsComplete(soloRace.id) ? " (Complète)" : "")
                     }}
+                    -
+                    <span
+                      v-for="(
+                        raceDiscipline, indexRaceDiscipline
+                      ) in soloRace.disciplines"
+                      :key="raceDiscipline.id"
+                    >
+                      {{ raceDiscipline.discipline.name }} ({{
+                        raceDiscipline.duration
+                      }}h)
+                      <!-- If the item is the last one in the array, don't add the / symbol -->
+                      <span
+                        v-if="
+                          indexRaceDiscipline < soloRace.disciplines.length - 1
+                        "
+                      >
+                        /
+                      </span>
+                    </span>
                   </option>
                 </select>
               </div>
@@ -342,6 +362,12 @@ export interface Race {
   inscriptions: Inscription[];
   teams: Team[];
   maxParticipants: number;
+  disciplines: RaceDiscipline[];
+}
+
+export interface TeamRace {
+  id: number;
+  name: string;
 }
 
 export interface Team {
@@ -349,6 +375,17 @@ export interface Team {
   name: string;
   race: Race;
   members: Inscription[];
+}
+
+export interface RaceDiscipline {
+  discipline: Discipline;
+  duration: number;
+  id: number;
+}
+
+export interface Discipline {
+  id: number;
+  name: string;
 }
 
 export default defineComponent({
