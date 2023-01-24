@@ -52,6 +52,21 @@
                 </div>
               </div>
             </div>
+
+            <div class="mb-3 row ms-2 form-check">
+              <div class="col">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="exampleCheck1"
+                  v-model="persistentLogin"
+                />
+                <label class="form-check-label" for="exampleCheck1"
+                  >Rester connecté</label
+                >
+              </div>
+            </div>
+
             <div class="row m-2 mt-5">
               <div class="col text-center">
                 <button type="submit" class="btn btn-primary">
@@ -89,6 +104,7 @@ export default defineComponent({
       password: null,
       showResetPasswordModal: false,
       errorMsg: "",
+      persistentLogin: false,
     };
   },
   methods: {
@@ -143,6 +159,10 @@ export default defineComponent({
           }
           this.$router.push("/");
         });
+        if (this.persistentLogin) {
+          localStorage.setItem("accessToken", response.data.accessToken);
+          localStorage.setItem("refreshToken", response.data.refreshToken);
+        }
       }
     },
     toggleResetPasswordModal() {
