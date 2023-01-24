@@ -46,13 +46,11 @@
           <p>
             Vous êtes inscrit dans la course:
             <strong>{{ inscription?.race?.name || "aucune" }}</strong>
-          </p>
-          <p
-            class="d-inline"
-            v-for="raceDiscipline in race?.disciplines"
-            :key="raceDiscipline.id"
-          >
-            <span class="badge rounded-pill bg-secondary me-1">
+            <span
+              class="badge rounded-pill bg-secondary ms-1"
+              v-for="raceDiscipline in race?.disciplines"
+              :key="raceDiscipline.id"
+            >
               {{ raceDiscipline.discipline.name }} ({{
                 raceDiscipline.duration
               }}h)
