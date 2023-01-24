@@ -10,7 +10,7 @@
       </div>
       <div class="row pt-3">
         <div class="col mx-2 text-center">
-          <p>Victoire! Votre mot de passe à bien été mis à jour!</p>
+          <p>Victoire! Votre mot de passe a bien été mis à jour!</p>
         </div>
       </div>
       <div class="row text-start">

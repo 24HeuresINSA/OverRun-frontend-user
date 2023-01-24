@@ -26,9 +26,9 @@
         <strong> <u>Attention:</u> </strong>
         <p>
           Si vous disposez d'une carte VA, assurez-vous que les nom et prénom
-          saisies dans le formulaire d'inscription correspondent bien aux nom et
+          saisis dans le formulaire d'inscription correspondent bien aux nom et
           prénom figurant sur votre carte VA. <br />
-          Le numéro de la carte VA est le numéro commençant par 'c' suivit de 12
+          Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12
           chiffres. Il se trouve en-dessous du code-barres sur la carte.
         </p>
       </div>
@@ -106,7 +106,7 @@
             </div>
             <div class="row mt-2">
               <div class="col form-group">
-                <label for="inputVA">Numero de carte VA: </label>
+                <label for="inputVA">Numéro de carte VA: </label>
                 <input
                   v-model="vaNumber"
                   type="text"

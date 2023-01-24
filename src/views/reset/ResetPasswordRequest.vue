@@ -10,7 +10,7 @@
 
     <div class="row mt-5">
       <div class="col m-2">
-        <h2>Reinitialisation mot de passe</h2>
+        <h2>Réinitialisation mot de passe</h2>
       </div>
     </div>
 
@@ -18,8 +18,8 @@
       <div class="col-md col-lg"></div>
       <div class="col col-md-6 col-lg-4 m-2 text-start">
         <p>
-          Veuillez entrez l'adresse mail avec laquelle votre compte a été créée.
-          Si votre compte existe bien, une invitation de reinitialisation de mot
+          Veuillez entrer l'adresse mail avec laquelle votre compte a été créé.
+          Si votre compte existe bien, une invitation de réinitialisation de mot
           de passe vous sera envoyée à cette adresse.
         </p>
       </div>
@@ -45,7 +45,7 @@
           <div class="row mt-5">
             <div class="col form-group text-center text-md-end">
               <button class="btn btn-primary" type="submit">
-                Envoyer un mail de reinitialisation
+                Envoyer un mail de réinitialisation
               </button>
             </div>
           </div>

@@ -17,13 +17,13 @@
           <ul class="ms-5">
             <li class="fw-bold">Votre pseudo</li>
             <li class="fw-bold">Votre nom</li>
-            <li class="fw-bold">Votre prenom</li>
+            <li class="fw-bold">Votre prénom</li>
             <li class="fw-bold">Votre numéro de carte VA</li>
           </ul>
           <p>
             Attendez la validation de votre carte VA avant de procéder au
-            payement (passez l'étape)... du moins si vous souhaitez bénéficier
-            de la réduction associée &#128521;.
+            paiement (cliquer sur Passer l'étape)... du moins si vous souhaitez
+            bénéficier de la réduction associée &#128521;.
           </p>
         </div>
       </div>

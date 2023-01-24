@@ -18,7 +18,7 @@
         <strong> <u>Information:</u> </strong>
         <p>
           Il n'est pas possible d'utiliser la même adresse email pour plusieurs
-          comptes. Vous pouvez utiliser une sous adresse si vous en avez une
+          comptes. Vous pouvez utiliser une sous adresse si vous avez une
           adresse gmail. <br />
           Par exemple, si votre adresse email est "monemail@gmail.com", vous
           pouvez utiliser "monemail+overrun@gmail.com", 'overrun' étant un mot
@@ -65,7 +65,7 @@
               />
             </div>
             <div class="col-12 col-lg-6 form-group">
-              <label for="inputPhoneNumber">Télephone: </label>
+              <label for="inputPhoneNumber">Téléphone: </label>
               <input
                 v-model="phoneNumber"
                 type="text"
@@ -103,7 +103,7 @@
                 >Confirmez le mot de passe:
               </label>
               <label for="inputConfirmPassword" class="d-inline d-md-none"
-                >Confirmez le mdp:
+                >Confirmez le mot de passe:
               </label>
               <input
                 type="password"

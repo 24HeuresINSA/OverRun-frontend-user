@@ -11,10 +11,10 @@
       <div class="row pt-3">
         <div class="col m-2 text-start">
           <p>
-            Il s'emblerait qu'il y ait eu un problème lors de la verification de
-            votre carte VA. Assurez-vous d'avoir renseigner les bonnes valeurs
-            dans les différents champs. Si le problème perciste, cliquez sur le
-            button "J'ai un problème"
+            Il semblerait qu'il y ait eu un problème lors de la vérification de
+            votre carte VA. Assurez-vous d'avoir renseigné les bonnes valeurs
+            dans les différents champs. Si le problème persiste, cliquez sur le
+            bouton "J'ai un problème".
           </p>
         </div>
       </div>

@@ -27,8 +27,8 @@
       <div class="row">
         <div class="col">
           <ul class="list-group text-light text-start mt-2">
-            <li class="list-group-item" @click="settings">Parametres</li>
-            <li class="list-group-item" @click="disconnect">Déconnection</li>
+            <li class="list-group-item" @click="settings">Paramètres</li>
+            <li class="list-group-item" @click="disconnect">Déconnexion</li>
           </ul>
         </div>
       </div>

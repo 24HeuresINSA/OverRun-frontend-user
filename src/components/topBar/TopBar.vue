@@ -55,7 +55,7 @@
                   <span class="material-icons-outlined icon d-inline m-0 p-0">
                     meeting_room
                   </span>
-                  <p class="d-inline">Deconnection</p>
+                  <p class="d-inline">Déconnexion</p>
                 </a>
               </li>
             </ul>

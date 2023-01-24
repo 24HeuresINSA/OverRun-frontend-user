@@ -13,17 +13,17 @@
           <p>
             <strong><u>Attention!</u></strong> La suppression de votre compte
             entrainera la suppression de toutes vos données personnelles de
-            manière irreverssible. Il ne vous sera plus possible de vous
+            manière irreversible. Il ne vous sera plus possible de vous
             connecter et d'accéder notamment à vos factures.
           </p>
           <p>
-            Pour a nouveau participer aux courses, il faudra vous reinscrire et
-            repayer les droits d'admission (sauf derogation).
+            Pour à nouveau participer aux courses, il faudra vous réinscrire et
+            repayer les droits d'admission (sauf dérogation).
           </p>
           <p>
             Si vous souhaitez poursuivre la suppression de votre compte,
-            veuillez renseignez votre mot de passe ci-dessous, puis cliquez sur
-            le button supprimer.
+            veuillez renseignez votre mot de passe ci-dessous, puis cliquer sur
+            le bouton Supprimer.
           </p>
         </div>
       </div>

@@ -15,7 +15,7 @@
 
     <div class="row mt-5">
       <div class="col m-2">
-        <h2>Reinitialisation mot de passe</h2>
+        <h2>Réinitialisation mot de passe</h2>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
       <div class="col col-md-6 col-lg-3 text-start">
         <div class="row fw-bold" v-show="wrongPassword">
           <div class="col text-danger">
-            Les deux mots de passes ne correspondent pas!
+            Les deux mots de passe ne correspondent pas!
           </div>
         </div>
         <form @submit.prevent="sendInvite">
@@ -61,7 +61,7 @@
                 type="button"
                 @click="checkPassword"
               >
-                Reinitialiser mon mot de passe
+                Réinitialiser mon mot de passe
               </button>
             </div>
           </div>

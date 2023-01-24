@@ -55,7 +55,7 @@
           >
             <div class="row pt-1">
               <div class="col">
-                <h5>Status de mon inscription</h5>
+                <h5>Statut de mon inscription</h5>
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
@@ -283,7 +283,7 @@
 
       <div class="row m-2 mt-4 text-start">
         <div class="col col-md-4 border-bottom">
-          <h2>Mon Equipe</h2>
+          <h2>Mon Équipe</h2>
         </div>
       </div>
       <div class="row m-2 mt-3 text-start">
@@ -332,7 +332,7 @@
           <div class="col mx-2 bg-light rounded-bottom shadow-sm">
             <div class="row fw-bold text-start" v-show="matchError">
               <div class="col text-danger">
-                Les deux mots de passes ne correspondent pas!
+                Les deux mots de passe ne correspondent pas!
               </div>
             </div>
             <div class="row fw-bold text-start" v-show="lengthError">
@@ -456,7 +456,7 @@
 
       <div class="row m-2 mt-4 text-start" v-show="false">
         <div class="col col-md-4 border-bottom">
-          <h2>Mes Resultats</h2>
+          <h2>Mes Résultats</h2>
         </div>
       </div>
 

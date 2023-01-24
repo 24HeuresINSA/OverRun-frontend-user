@@ -13,8 +13,8 @@
           <div class="col mx-2 text-start">
             <p>
               Pas de panique, entrez l'adresse mail avec laquelle votre compte a
-              été créée. Si votre compte existe bien, une invitation de
-              reinitialisation de mot de passe vous sera envoyée à cette
+              été créé. Si votre compte existe bien, une invitation de
+              réinitialisation de mot de passe vous sera envoyée à cette
               adresse.
             </p>
           </div>
@@ -36,7 +36,7 @@
               <div class="row mt-4">
                 <div class="col form-group text-center">
                   <button class="btn btn-primary" type="submit">
-                    Envoyer un mail de reinitialisation
+                    Envoyer un mail de réinitialisation
                   </button>
                 </div>
               </div>
@@ -53,8 +53,8 @@
         <div class="row">
           <div class="col">
             <p>
-              Un email de reinistialisation a été envoyé à l'adresse
-              <strong>francois.rlt@orange.fr</strong>!
+              Un email de réinitialisation a été envoyé à l'adresse
+              <strong>TODO : francois.rlt@orange.fr</strong>!
             </p>
           </div>
         </div>

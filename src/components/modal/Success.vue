@@ -6,7 +6,7 @@
       <div>
         <div class="row pt-3">
           <div class="col">
-            <h4>Sucès 🎉</h4>
+            <h4>Succès 🎉</h4>
           </div>
           <div class="col-1">
             <button id="close-arrow" @click="closeModal">

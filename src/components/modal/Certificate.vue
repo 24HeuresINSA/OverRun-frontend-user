@@ -5,7 +5,7 @@
     >
       <div class="row pt-3">
         <div class="col">
-          <h4>Vous avez un certificat medical à charger? 🩺</h4>
+          <h4>Vous avez un certificat médical à charger? 🩺</h4>
         </div>
         <div class="col-1">
           <button id="close-arrow" @click="closeModal">
@@ -17,9 +17,9 @@
         <div class="col bg-primary text-start text-light rounded pt-3 mx-3">
           <p>
             Le certificat doit dater de moins d'un an au moment de la
-            compétition et doit comporter l'autorisation de la pratiques des
-            disciplines en compétition selon votre course. Les liscences des
-            fédérations corrspondant aux courses sont accéptées (FFC pour le
+            compétition et doit comporter l'autorisation de la pratique des
+            disciplines en compétition selon votre course. Les licences des
+            fédérations correspondant aux courses sont acceptées (FFC pour le
             vélo par exemple).
           </p>
         </div>

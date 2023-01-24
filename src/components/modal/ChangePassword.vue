@@ -13,7 +13,7 @@
           <div class="col m-2">
             <div class="row px-2 fw-bold" v-show="matchError">
               <div class="col text-danger">
-                Les deux mots de passes ne correspondent pas!
+                Les deux mots de passe ne correspondent pas!
               </div>
             </div>
             <div class="row px-2 fw-bold" v-show="lengthError">
@@ -74,7 +74,7 @@
         </div>
         <div class="row pt-3">
           <div class="col mx-2 text-center">
-            <p>Victoire! Votre mot de passe à bien été mis à jour!</p>
+            <p>Victoire! Votre mot de passe a bien été mis à jour!</p>
           </div>
         </div>
         <div class="row text-start">

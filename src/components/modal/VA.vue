@@ -25,7 +25,7 @@
           <ul class="ms-5">
             <li class="fw-bold">Votre pseudo</li>
             <li class="fw-bold">Votre nom</li>
-            <li class="fw-bold">Votre prenom</li>
+            <li class="fw-bold">Votre prénom</li>
             <li class="fw-bold">Votre numéro de carte VA</li>
           </ul>
         </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="row mt-2">
               <div class="col form-group">
-                <label for="inputVA">Numero de carte VA: </label>
+                <label for="inputVA">Numéro de carte VA: </label>
                 <input
                   v-model="vaNumber"
                   type="text"

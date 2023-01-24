@@ -122,7 +122,7 @@
             <div class="row m-2">
               <div class="col-12 col-lg form-group">
                 <label for="selectTeam"
-                  >Selectionnez l'équipe à rejoindre:
+                  >Sélectionnez l'équipe à rejoindre:
                 </label>
                 <select
                   class="form-select"
@@ -201,7 +201,7 @@
             </div>
             <div class="row m-2">
               <div class="col-12 form-group">
-                <label for="inputCreateCategory">Categorie: </label>
+                <label for="inputCreateCategory">Catégorie: </label>
                 <select
                   class="form-select"
                   id="inputCreateCategory"
