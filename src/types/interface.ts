@@ -63,9 +63,21 @@ export interface Certificate {
 export interface Race {
   id: number;
   name: string;
+  disciplines: RaceDiscipline[];
 }
 
 export interface Team {
+  id: number;
+  name: string;
+}
+
+export interface RaceDiscipline {
+  discipline: Discipline;
+  duration: number;
+  id: number;
+}
+
+export interface Discipline {
   id: number;
   name: string;
 }
