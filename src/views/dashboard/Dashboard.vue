@@ -43,8 +43,21 @@
       </div>
       <div class="row m-2 mt-3 text-start">
         <div class="col-12 mx-2">
-          Vous êtes inscrit dans la course:
-          <strong>{{ inscription?.race?.name || "aucune" }}</strong>
+          <p>
+            Vous êtes inscrit dans la course:
+            <strong>{{ inscription?.race?.name || "aucune" }}</strong>
+          </p>
+          <p
+            class="d-inline"
+            v-for="raceDiscipline in race?.disciplines"
+            :key="raceDiscipline.id"
+          >
+            <span class="badge rounded-pill bg-secondary me-1">
+              {{ raceDiscipline.discipline.name }} ({{
+                raceDiscipline.duration
+              }}h)
+            </span>
+          </p>
         </div>
       </div>
 
@@ -668,9 +681,9 @@ import TeamAdminModal, {
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
-import { Inscription, InscriptionStatus } from "@/types/interface";
+import { Inscription, InscriptionStatus, Race } from "@/types/interface";
 import { PaymentStatus } from "@/types/payment";
-import { Athlete, Member, Team } from "@/types/team";
+import { Athlete, Team } from "@/types/team";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -716,6 +729,7 @@ export default defineComponent({
       mailTemplate: "",
       PaymentStatus,
       InscriptionStatus,
+      race: {} as Race,
     };
   },
   computed: {
@@ -792,6 +806,15 @@ export default defineComponent({
       }
       return !error;
     },
+    async getRaceDetails() {
+      if (!this.inscription?.race) return;
+      const raceResponse = await axios.get(
+        `/races/${this.inscription.race.id}`
+      );
+      if (raceResponse.status === 200) {
+        this.race = raceResponse.data;
+      }
+    },
     async getTeamInfos() {
       if (!this.inscription?.team) return;
       const teamResponse = await axios.get(
@@ -865,7 +888,9 @@ Merci d'avance pour votre aide.
   mounted() {
     this.fillMailTemplate();
     this.$store.dispatch("user/setMe");
+    // get disciplines details based on inscription raceId
     this.getTeamInfos();
+    this.getRaceDetails();
   },
 });
 </script>
