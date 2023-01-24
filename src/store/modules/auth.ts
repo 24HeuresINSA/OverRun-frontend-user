@@ -51,8 +51,8 @@ export const mutations: MutationTree<State> & Mutations = {
     state.user = null;
     state.accessToken = "";
     state.refreshToken = "";
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
   },
 };
 

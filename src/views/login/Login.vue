@@ -160,8 +160,8 @@ export default defineComponent({
           this.$router.push("/");
         });
         if (this.persistentLogin) {
-          localStorage.setItem("accessToken", response.data.accessToken);
-          localStorage.setItem("refreshToken", response.data.refreshToken);
+          sessionStorage.setItem("accessToken", response.data.accessToken);
+          sessionStorage.setItem("refreshToken", response.data.refreshToken);
         }
       }
     },

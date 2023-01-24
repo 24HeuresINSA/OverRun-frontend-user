@@ -6,8 +6,8 @@ import store from "./store";
 import { MutationTypes } from "./store/modules/auth";
 
 router.beforeEach(async (to, from) => {
-  const accessToken = localStorage.getItem("accessToken");
-  const refreshToken = localStorage.getItem("refreshToken");
+  const accessToken = sessionStorage.getItem("accessToken");
+  const refreshToken = sessionStorage.getItem("refreshToken");
   if (accessToken && refreshToken && from.name === undefined) {
     store.commit(`auth/${MutationTypes.SET_ACCESS_TOKEN}`, accessToken);
     store.commit(`auth/${MutationTypes.SET_REFRESH_TOKEN}`, refreshToken);
