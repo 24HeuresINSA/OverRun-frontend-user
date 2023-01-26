@@ -92,6 +92,7 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -128,9 +129,16 @@ export default defineComponent({
       }
       return !error;
     },
-    updatePassword() {
+    async updatePassword() {
       if (this.checkPassword() === true) {
-        this.passwordReseted = true;
+        const userId = this.$store.getters[`user/getMe`].user.id;
+        const newPasswordResponse = await axios.patch(
+          `/users/${userId}/updatePassword`,
+          {
+            password: this.newPassword,
+          }
+        );
+        this.passwordReseted = newPasswordResponse.status < 300;
       }
     },
   },

@@ -21,7 +21,7 @@
     <div class="container mt-5">
       <div class="row m-2 mt-4 text-start">
         <div class="col col-sm-12 col-md-5 boder-bottom">
-          <h2>Réinitialiser mon mot de passe</h2>
+          <h2>Modifier mon mot de passe</h2>
         </div>
       </div>
       <div class="row m-2 mt-4 text-start">
@@ -31,7 +31,7 @@
             class="btn btn-primary"
             @click="toggleChangePasswordModal"
           >
-            Réinitialiser mon mot de passe
+            Modifier mon mot de passe
           </button>
         </div>
       </div>
