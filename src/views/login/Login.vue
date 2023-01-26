@@ -145,9 +145,9 @@ export default defineComponent({
         this.$store.dispatch("user/setMe").then(() => {
           if (
             this.$store.getters["user/getMe"].inscriptions.length == 0 ||
-            this.$store.getters["user/getMe"].inscriptions.some(
+            !this.$store.getters["user/getMe"].inscriptions.some(
               (inscription: Inscription) =>
-                inscription.edition.id !==
+                inscription.edition.id ===
                 this.$store.getters["edition/getEditionId"]
             )
           ) {
