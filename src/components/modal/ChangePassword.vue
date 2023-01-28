@@ -131,9 +131,8 @@ export default defineComponent({
     },
     async updatePassword() {
       if (this.checkPassword() === true) {
-        const userId = this.$store.getters[`user/getMe`].user.id;
         const newPasswordResponse = await axios.patch(
-          `/users/${userId}/updatePassword`,
+          `/users/me/updatepassword`,
           {
             password: this.newPassword,
           }
