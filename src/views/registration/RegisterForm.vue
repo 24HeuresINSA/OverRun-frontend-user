@@ -196,7 +196,7 @@
               <label for="checkRules">
                 J'ai lu et j'accepte le
                 <a
-                  href="https://www.24heures.org/wp-content/uploads/2022/01/2022-01-19_Reglement-Interieur-Courses.pdf"
+                  href="https://www.24heures.org/reglements/courses"
                   target="_blank"
                   >règlement en vigueur</a
                 >
