@@ -27,7 +27,7 @@
             Les deux mots de passe ne correspondent pas!
           </div>
         </div>
-        <form @submit.prevent="sendInvite">
+        <form @submit.prevent="updatePassword">
           <div class="row mt-2 fw-bold">
             <div class="col form-group">
               <label for="inputNewPassword">Nouveau mot de passe: </label>
@@ -56,13 +56,17 @@
           </div>
           <div class="row mt-5">
             <div class="col form-group text-center text-md-end">
-              <button
-                class="btn btn-primary"
-                type="button"
-                @click="checkPassword"
-              >
+              <button class="btn btn-primary" type="submit">
                 Réinitialiser mon mot de passe
               </button>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div
+              v-show="error"
+              class="col form-group text-center text-md-end error"
+            >
+              {{ errorMsg }}
             </div>
           </div>
         </form>
@@ -76,6 +80,7 @@
 import PasswordReseted from "@/components/modal/PasswordReseted.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -84,29 +89,65 @@ export default defineComponent({
     MiniTopBar,
     PasswordReseted,
   },
+  props: {
+    token: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       newPassword: "",
       confirmPassword: "",
       wrongPassword: false,
-      showPasswordResetedModal: true,
+      showPasswordResetedModal: false,
+      error: false,
+      errorMsg: "",
     };
   },
   methods: {
     checkPassword() {
-      console.log("Check password");
-      console.log(this.newPassword);
-      console.log(this.confirmPassword);
       if (this.confirmPassword !== this.newPassword) {
         this.wrongPassword = true;
         this.newPassword = "";
         this.confirmPassword = "";
         return false;
       }
+      this.wrongPassword = false;
       return true;
     },
-    sendInvite() {
-      console.log("Envoyer une invite");
+    async updatePassword() {
+      if (!this.checkPassword()) return;
+      const response = await axios.patch(
+        "users/" + this.id + "/resetpassword",
+        {
+          token: this.token,
+          password: this.newPassword,
+        }
+      );
+
+      if (response.status === 401) {
+        this.error = true;
+        this.errorMsg = "Le lien a expiré";
+        return;
+      }
+      if (response.status === 400) {
+        this.error = true;
+        this.errorMsg = "Le lien est incorrect";
+        return;
+      }
+      if (response.status >= 300) {
+        this.error = true;
+        this.errorMsg = "Une erreur s'est produite";
+        return;
+      }
+      this.error = false;
+      this.errorMsg = "";
+      this.togglePasswordResetedModal();
     },
     togglePasswordResetedModal() {
       this.showPasswordResetedModal = !this.showPasswordResetedModal;
@@ -114,3 +155,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.error {
+  color: red;
+}
+</style>

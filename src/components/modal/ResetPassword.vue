@@ -21,7 +21,7 @@
         </div>
         <div class="row text-start">
           <div class="col m-2">
-            <form action="">
+            <form @submit.prevent="sendInvite">
               <div class="row fw-bold">
                 <div class="col form-group">
                   <label for="inputEmail"> Adresse email:</label>
@@ -30,6 +30,7 @@
                     class="form-control"
                     id="inputEmail"
                     required
+                    v-model="email"
                   />
                 </div>
               </div>
@@ -44,6 +45,7 @@
           </div>
         </div>
       </div>
+      <div v-show="error" class="error">{{ errorMsg }}</div>
       <div v-show="resetEmailSend">
         <div class="row pt-3">
           <div class="col text-center">
@@ -54,7 +56,8 @@
           <div class="col">
             <p>
               Un email de réinitialisation a été envoyé à l'adresse
-              <strong>overrun@24heures.org</strong>!
+              <strong>{{ email }}</strong
+              >!
             </p>
           </div>
         </div>
@@ -71,18 +74,40 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
     return {
       resetEmailSend: false,
+      email: "",
+      errorMsg: "",
+      error: false,
     };
   },
   methods: {
     closeModal() {
       this.resetEmailSend = false;
       this.$emit("closeResetPasswordModal");
+      this.error = false;
+      this.errorMsg = "";
+    },
+    async sendInvite() {
+      const response = await axios.post("/users/resetpassword", {
+        email: this.email,
+      });
+      if (response.status === 400) {
+        this.errorMsg = "L'adresse e-mail ne correspond à aucun utilisateur.";
+        this.error = true;
+        return;
+      }
+      if (response.status >= 300) {
+        this.errorMsg = "Une erreur s'est produite.";
+        this.error = true;
+        return;
+      }
+      this.resetEmailSend = true;
     },
   },
 });
@@ -103,5 +128,9 @@ export default defineComponent({
   font-size: 120px;
   vertical-align: middle;
   line-height: 1;
+}
+
+.error {
+  color: red;
 }
 </style>

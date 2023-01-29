@@ -59,6 +59,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/reset",
     name: "ResetPassword",
     component: ResetPasswordVue,
+    props: (route) => ({ token: route.query.token, id: route.query.id }),
   },
   {
     path: "/login",
