@@ -27,7 +27,7 @@
           <ul class="ms-5">
             <li class="fw-bold">Votre pseudo</li>
             <li class="fw-bold">Votre nom</li>
-            <li class="fw-bold">Votre prenom</li>
+            <li class="fw-bold">Votre prénom</li>
             <li class="fw-bold">Les informations qui vous semblent érronées</li>
           </ul>
         </div>
@@ -264,7 +264,7 @@
 </template>
 
 <script lang="ts">
-import { Inscription } from "@/types/interface";
+import { Inscription, InscriptionStatus } from "@/types/interface";
 import { Payment } from "@/types/payment";
 import axios from "axios";
 import { defineComponent } from "vue";
@@ -286,7 +286,9 @@ export default defineComponent({
     inscription(): Inscription {
       return this.$store.getters["user/getMe"].inscriptions.find(
         (inscription: Inscription) =>
-          inscription.edition.id === this.$store.getters["edition/getEditionId"]
+          inscription.edition.id ===
+            this.$store.getters["edition/getEditionId"] &&
+          inscription.status !== InscriptionStatus.CANCELLED
       );
     },
   },
@@ -329,9 +331,7 @@ export default defineComponent({
       const response = await axios.get("/payments/me");
       if (response.status !== 200) return alert("Une erreur est survenue");
       this.payment = response.data.find(
-        (payment: Payment) =>
-          payment.inscription.edition.id ===
-          this.$store.getters["edition/getEditionId"]
+        (payment: Payment) => payment.inscription.id === this.inscription.id
       );
       this.wantToDonate = this.payment.donationAmount > 0;
     },

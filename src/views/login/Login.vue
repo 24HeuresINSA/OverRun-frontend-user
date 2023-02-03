@@ -90,7 +90,7 @@
 <script lang="ts">
 import ResetPassword from "@/components/modal/ResetPassword.vue";
 import { MutationTypes } from "@/store/modules/auth";
-import { Inscription } from "@/types/interface";
+import { Inscription, InscriptionStatus } from "@/types/interface";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -148,7 +148,8 @@ export default defineComponent({
             !this.$store.getters["user/getMe"].inscriptions.some(
               (inscription: Inscription) =>
                 inscription.edition.id ===
-                this.$store.getters["edition/getEditionId"]
+                  this.$store.getters["edition/getEditionId"] &&
+                inscription.status !== InscriptionStatus.CANCELLED
             )
           ) {
             if (!this.$store.getters["edition/isRegistrationOpen"]) {

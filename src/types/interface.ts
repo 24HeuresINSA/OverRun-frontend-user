@@ -1,3 +1,9 @@
+export enum InscriptionStatus {
+  PENDING = "PENDING",
+  VALIDATED = "VALIDATED",
+  CANCELLED = "CANCELLED",
+}
+
 export interface User {
   id: number;
   email: string;
@@ -24,7 +30,7 @@ export interface Payment {
 export interface Inscription {
   id: number;
   edition: Edition;
-  validated: boolean;
+  status: InscriptionStatus;
   va: VA;
   certificate: Certificate;
   race: Race;

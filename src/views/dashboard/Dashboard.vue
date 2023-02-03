@@ -65,13 +65,15 @@
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-else-if="inscription?.validated"
+                  v-else-if="
+                    inscription?.status === InscriptionStatus.VALIDATED
+                  "
                 >
                   🎉
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-else-if="!inscription?.validated"
+                  v-else-if="inscription?.status === InscriptionStatus.PENDING"
                 >
                   ⌛
                 </h5>
@@ -81,10 +83,16 @@
               <p class="mb-0" v-if="inscription === undefined">
                 Inscription incomplète
               </p>
-              <p class="mb-0" v-else-if="inscription?.validated">
+              <p
+                class="mb-0"
+                v-else-if="inscription?.status === InscriptionStatus.VALIDATED"
+              >
                 Inscription complète
               </p>
-              <p class="mb-0" v-else-if="!inscription?.validated">
+              <p
+                class="mb-0"
+                v-else-if="inscription?.status === InscriptionStatus.PENDING"
+              >
                 En cours de validation ...
               </p>
             </div>
@@ -599,7 +607,7 @@ import TeamAdminModal, {
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
-import { Inscription } from "@/types/interface";
+import { Inscription, InscriptionStatus } from "@/types/interface";
 import { PaymentStatus } from "@/types/payment";
 import { Athlete, Team } from "@/types/team";
 import axios from "axios";
@@ -645,6 +653,7 @@ export default defineComponent({
       TeamAdminModalType,
       actionType: "" as TeamAdminModalType,
       PaymentStatus,
+      InscriptionStatus,
     };
   },
   computed: {
@@ -654,7 +663,9 @@ export default defineComponent({
     inscription() {
       return this.$store.getters["user/getMe"].inscriptions?.filter(
         (inscription: Inscription) =>
-          inscription.edition.id === this.$store.getters["edition/getEditionId"]
+          inscription.edition.id ===
+            this.$store.getters["edition/getEditionId"] &&
+          inscription.status !== InscriptionStatus.CANCELLED
       )[0];
     },
   },
