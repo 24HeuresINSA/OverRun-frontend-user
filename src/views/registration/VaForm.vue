@@ -20,9 +20,24 @@
       </div>
       <div class="col-lg"></div>
     </div>
+
     <div class="row mt-4">
       <div class="col"></div>
-      <div class="col-lg-4 bg-primary rounded text-light text-start pt-2">
+      <div
+        class="col-lg-4 bg-primary rounded text-light text-start pt-2"
+        v-if="previousVaExists"
+      >
+        <strong> <u>Attention:</u> </strong>
+        <p>
+          Une carte VA est déjà enregistrée pour ce compte. Assurez-vous que les
+          informations renseignées soient correctes. Si ce n'est pas le cas,
+          vous pouvez cliquer sur Modifier afin de les mettre à jour.
+        </p>
+      </div>
+      <div
+        class="col-lg-4 bg-primary rounded text-light text-start pt-2"
+        v-else
+      >
         <strong> <u>Attention:</u> </strong>
         <p>
           Si vous disposez d'une carte VA, assurez-vous que les nom et prénom
@@ -34,7 +49,66 @@
       </div>
       <div class="col"></div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4" v-if="previousVaExists">
+      <div class="col-lg"></div>
+      <div class="col col-lg-4 fw-bold text-start">
+
+        <div class="row m-2 mt-4">
+          <form>
+            <div class="row">
+              <div class="col-12 my-2 my-lg-0 col-lg form-group">
+                <label for="inputFirstName">Prénom sur la carte VA: </label>
+                <input
+                  v-model="vaFirstName"
+                  type="text"
+                  class="form-control"
+                  id="inputFirstName"
+                  disabled
+                />
+              </div>
+              <div class="col-12 my-2 my-lg-0 col-lg form-group">
+                <label for="inputLastName">Nom sur la carte VA:</label>
+                <input
+                  v-model="vaLastName"
+                  type="text"
+                  class="form-control"
+                  id="inputLastName"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col form-group">
+                <label for="inputVA">Numéro de carte VA: </label>
+                <input
+                  v-model="vaNumber"
+                  type="text"
+                  class="form-control"
+                  id="inputVA"
+                  disabled
+                />
+              </div>
+            </div>
+          </form>
+          <div class="row m-2 mt-4">
+          <div class="col text-end">
+            <button type="button" class="btn btn-success" @click="updateVa">
+              Les informations sont correctes
+            </button>
+          </div>
+        </div>
+        <div class="row m-2 mt-4">
+          <div class="col text-end">
+            <button type="button" class="btn btn-primary" @click="toogleUpdateVa">
+              Modifier
+            </button>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="col-lg"></div>
+    </div>
+    <div v-else class="row mt-4">
       <div class="col-lg"></div>
       <div class="col col-lg-4 fw-bold text-start">
         <div class="row m-2">
@@ -159,6 +233,8 @@ export default defineComponent({
       vaFirstName: "",
       vaLastName: "",
       vaNumber: "",
+      lastVaId: -1,
+      previousVaExists: false,
       VA: false,
     };
   },
@@ -192,12 +268,45 @@ export default defineComponent({
 
       this.toggleUnfoundModal();
     },
+    async findPreviousVa() {
+      const editionId = this.$store.getters["edition/getEditionId"];
+      const lastVa = await axios.get("vas/me/last/"+editionId, 
+    );
+      if (lastVa.status >= 300) {
+        return;
+      }
+      if (lastVa.data.empty) return;
+
+      this.previousVaExists = true;
+      this.vaFirstName = lastVa.data.inscription.athlete.firstName;
+      this.vaLastName = lastVa.data.inscription.athlete.lastName;
+      this.vaNumber = lastVa.data.va;
+      this.lastVaId = lastVa.data.id;
+    },
+    async updateVa() {
+      const vaResponse = await axios.patch("vas/"+this.lastVaId, {
+        vaNumber: this.vaNumber,
+        vaFirstName: this.vaFirstName,
+        vaLastName: this.vaLastName,
+      });
+      if (vaResponse.status === 200) {
+        return this.next();
+      }
+      this.toggleUnfoundModal();
+    },
+    toogleUpdateVa() {
+      this.previousVaExists = false;
+      this.VA = true;
+    },
     toggleProblemModal() {
       this.showProblemModal = !this.showProblemModal;
     },
     toggleUnfoundModal() {
       this.showUnfoundModal = !this.showUnfoundModal;
     },
+  },
+  beforeMount() {
+    this.findPreviousVa();
   },
 });
 </script>
