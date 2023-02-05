@@ -242,6 +242,14 @@
                   😢
                 </h5>
                 <h5
+                  v-if="
+                    inscription?.payment?.status === PaymentStatus.REFUNDING
+                  "
+                  class="big-emoji pb-0 mb-0 pt-3"
+                >
+                  🏦
+                </h5>
+                <h5
                   v-if="inscription?.payment?.status === PaymentStatus.REFUND"
                   class="big-emoji pb-0 mb-0 pt-3"
                   @click="togglePaymentModal"
@@ -277,6 +285,12 @@
                 v-if="inscription?.payment?.status === PaymentStatus.REFUSED"
               >
                 Paiement refusé
+              </p>
+              <p
+                class="mb-0"
+                v-if="inscription?.payment?.status === PaymentStatus.REFUNDING"
+              >
+                Remboursement en cours
               </p>
               <p
                 class="mb-0"
