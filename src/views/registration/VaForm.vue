@@ -49,7 +49,7 @@
       </div>
       <div class="col"></div>
     </div>
-    <div class="row mt-4" v-if="previousVaExists">
+    <div class="row mt-4" v-if="previousVaExists && !updatePreviousVa">
       <div class="col-lg"></div>
       <div class="col col-lg-4 fw-bold text-start">
 
@@ -92,7 +92,7 @@
           </form>
           <div class="row m-2 mt-4">
           <div class="col text-end">
-            <button type="button" class="btn btn-success" @click="updateVa">
+            <button type="button" class="btn btn-success" @click="sendVa">
               Les informations sont correctes
             </button>
           </div>
@@ -131,6 +131,7 @@
                 name="flexRadioDefault"
                 id="yesRadioButton"
                 @change="onChange($event)"
+                checked
               />
               <label class="form-check-label" for="yesRadioButton"> Oui </label>
             </div>
@@ -141,7 +142,6 @@
                 name="flexRadioDefault"
                 id="noRadioButton"
                 @change="onChange($event)"
-                checked
               />
               <label class="form-check-label" for="noRadioButton"> Non </label>
             </div>
@@ -235,7 +235,8 @@ export default defineComponent({
       vaNumber: "",
       lastVaId: -1,
       previousVaExists: false,
-      VA: false,
+      updatePreviousVa: false,
+      VA: true,
     };
   },
   methods: {
@@ -255,7 +256,14 @@ export default defineComponent({
       this.$store.dispatch("user/setMe");
       this.$router.push({ name: "RegisterCertificate" });
     },
-    async sendVa() {
+    sendVa() {
+      if (this.previousVaExists) {
+        this.updateVa();
+      } else {
+        this.createVA();
+      }
+    },
+    async createVA() {
       const vaCheckResponse = await axios.post("/checkVA", {
         vaNumber: this.vaNumber,
         vaFirstName: this.vaFirstName,
@@ -284,7 +292,7 @@ export default defineComponent({
       this.lastVaId = lastVa.data.id;
     },
     async updateVa() {
-      const vaResponse = await axios.patch("vas/"+this.lastVaId, {
+      const vaResponse = await axios.put("vas/"+this.lastVaId, {
         vaNumber: this.vaNumber,
         vaFirstName: this.vaFirstName,
         vaLastName: this.vaLastName,
@@ -295,7 +303,7 @@ export default defineComponent({
       this.toggleUnfoundModal();
     },
     toogleUpdateVa() {
-      this.previousVaExists = false;
+      this.updatePreviousVa = true;
       this.VA = true;
     },
     toggleProblemModal() {
