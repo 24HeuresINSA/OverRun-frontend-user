@@ -283,7 +283,6 @@ export default defineComponent({
       if (lastVa.status >= 300) {
         return;
       }
-      if (lastVa.data.empty) return;
 
       this.previousVaExists = true;
       this.vaFirstName = lastVa.data.inscription.athlete.firstName;
