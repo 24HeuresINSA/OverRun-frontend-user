@@ -277,9 +277,7 @@ export default defineComponent({
       this.toggleUnfoundModal();
     },
     async findPreviousVa() {
-      const editionId = this.$store.getters["edition/getEditionId"];
-      const lastVa = await axios.get("vas/me/last/"+editionId, 
-    );
+      const lastVa = await axios.get("vas/me/last");
       if (lastVa.status >= 300) {
         return;
       }
