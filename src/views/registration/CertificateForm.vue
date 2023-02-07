@@ -152,7 +152,7 @@ export default defineComponent({
       this.toggleDisplayCertificateModal();
     },
     uploadCertificate() {
-      if (this.previousCertificateExists) {
+      if (this.previousCertificateExists && !this.updatePreviousCertificate) {
         this.updateCertificate();
       } else {
         this.createCertificate();
