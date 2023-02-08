@@ -313,22 +313,41 @@
           Vous êtes inscrit dans l'équipe:
           <strong> {{ inscription?.team?.name || "aucune" }}</strong>
         </div>
-        <div class="col-12 mx-2">
+        <div
+          class="col-12 bg-primary rounded text-light text-start pt-2"
+          v-if="inscription?.team?.name"
+        >
           <p>
             Si vous souhaitez quitter l'équipe, merci de contacter l'équipe des
-            courses en leur indiquant vos nom, prénom et nom d'équipe. Nous nous
-            chargerons d'effectuer le remboursement de votre paiement le cas
-            échéant avant de vous retirer de l'équipe. Vous pourrez ensuite
-            choisir une nouvelle course et/ou équipe.
+            courses à l'adresse <a :href="mailURL()">overrun@24heures.org</a> en
+            leur indiquant vos nom, prénom et nom d'équipe. Nous nous chargerons
+            d'effectuer le remboursement de votre paiement le cas échéant avant
+            de vous retirer de l'équipe. Vous pourrez ensuite choisir une
+            nouvelle course et/ou équipe.
           </p>
           <p v-show="isTeamAdmin(me.id)">
-            Attention: si vous êtes le seul responsable d'équipe, il ne sera pas
-            possible pour vous de quitter l'équipe. Si vous souhaitez retirer un
-            membre de votre équipe, merci de contacter l'équipe des courses en
-            leur indiquant son nom, prénom et nom d'équipe. Nous nous chargerons
-            d'effectuer le remboursement de son paiement le cas échéant avant de
-            le retirer de l'équipe. Il pourra ensuite choisir une nouvelle
-            course et/ou équipe.
+            <strong><u>Attention:</u></strong> si vous êtes le seul responsable
+            d'équipe, il ne sera pas possible pour vous de quitter l'équipe. Si
+            vous souhaitez retirer un membre de votre équipe, merci de contacter
+            l'équipe des courses à l'adresse
+            <a :href="mailURL()">overrun@24heures.org</a> en leur indiquant son
+            nom, prénom et nom d'équipe. Nous nous chargerons d'effectuer le
+            remboursement de son paiement le cas échéant avant de le retirer de
+            l'équipe. Il pourra ensuite choisir une nouvelle course et/ou
+            équipe.
+          </p>
+        </div>
+        <div
+          class="col-12 bg-primary rounded text-light text-start pt-2"
+          v-else
+        >
+          <p>
+            Si vous souhaitez rejoindre une équipe, merci de contacter l'équipe
+            des courses à l'adresse
+            <a :href="mailURL()">overrun@24heures.org</a> en leur indiquant vos
+            nom et prénom. Nous nous chargerons d'effectuer le remboursement de
+            votre paiement le cas échéant. Vous pourrez ensuite choisir une
+            nouvelle course et/ou équipe.
           </p>
         </div>
       </div>
@@ -412,7 +431,10 @@
 
       <div class="d-sm-felx row mx-3 mt-3">
         <div class="col mx-2 bg-light rounded-3 shadow-sm">
-          <table class="table table-striped table-hover w-100">
+          <table
+            class="table table-striped table-hover w-100"
+            v-show="inscription?.team?.name"
+          >
             <thead>
               <tr>
                 <th scope="col">Responsable d'équipe</th>
@@ -691,6 +713,7 @@ export default defineComponent({
       athlete: {} as Athlete,
       TeamAdminModalType,
       actionType: "" as TeamAdminModalType,
+      mailTemplate: "",
       PaymentStatus,
       InscriptionStatus,
     };
@@ -813,6 +836,25 @@ export default defineComponent({
       this.successMessage = "Vous avez quitté l'équipe";
       this.toggleSuccessModal();
       this.$store.dispatch("user/setMe");
+    },
+    fillMailTemplate() {
+      this.mailTemplate = `Bonjour,
+Je souhaite modifier mon inscription.
+Voici mes informations:
+- Pseudo: ${this.me.pseudo}
+- Nom: ${this.me.lastName}
+- Prénom: ${this.me.firstName}
+
+[Merci de compléter ce mail avec les raisons de la modification 
+(changer de course, d'équipe, retirer un membre de l'équipe,...)]
+
+Merci d'avance pour votre aide.
+      `;
+    },
+    mailURL() {
+      return `mailto:overrun@24heures.org?subject=${encodeURI(
+        "Modification d'une inscription"
+      )}&body=${encodeURI(this.mailTemplate)}`;
     },
   },
   watch: {
