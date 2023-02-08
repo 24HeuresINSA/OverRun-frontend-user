@@ -131,8 +131,17 @@
                   v-model="joinedTeamId"
                 >
                   <option value="" disabled selected hidden></option>
-                  <option v-for="team in teams" :key="team.id" :value="team.id">
-                    {{ team.name }}
+                  <option
+                    v-for="team in teams"
+                    :key="team.id"
+                    :value="team.id"
+                    :disabled="isComplete(team.id)"
+                  >
+                    {{
+                      team.name +
+                      " " +
+                      (isComplete(team.id) ? "(Complète)" : "")
+                    }}
                   </option>
                 </select>
               </div>
@@ -269,6 +278,7 @@
 <script lang="ts">
 import ErrorModal from "@/components/modal/Error.vue";
 import StepBar from "@/components/stepBar/StepBar.vue";
+import { Inscription, InscriptionStatus } from "@/types/interface";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -287,15 +297,11 @@ export interface Race {
   category: Category;
 }
 
-export interface TeamRace {
-  id: number;
-  name: string;
-}
-
 export interface Team {
   id: number;
   name: string;
-  race: TeamRace;
+  race: Race;
+  members: Inscription[];
 }
 
 export default defineComponent({
@@ -408,6 +414,15 @@ export default defineComponent({
         }
         this.createdTeamCategory = null;
       }
+    },
+    isComplete(id: number) {
+      const team = this.teams.find((t: Team) => t.id === id);
+      const sizeTeam = team?.members.filter(
+        (i: Inscription) => i.status !== InscriptionStatus.CANCELLED
+      ).length;
+      if (sizeTeam !== undefined && team?.race.category.maxTeamMembers)
+        return sizeTeam >= team?.race.category.maxTeamMembers;
+      else return false;
     },
     async fetchRaces() {
       const racesResponse = await axios.get("races", {
