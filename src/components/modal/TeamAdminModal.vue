@@ -22,10 +22,10 @@
                 supprimer
               </span>
               <span v-else-if="actionType === TeamAdminModalType.PROMOTE_ADMIN">
-                proumovoir en administrateur
+                proumovoir en responsable d'équipe
               </span>
               <span v-else-if="actionType === TeamAdminModalType.REVOKE_ADMIN">
-                révoquer les droits d'administrateur de
+                retirer les droits de responsable d'équipe de
               </span>
               <strong> {{ athlete.firstName }} {{ athlete.lastName }} </strong>
               de votre équipe ?
@@ -54,7 +54,7 @@
               @click="revokeAdmin(athlete.id)"
               v-else-if="actionType === TeamAdminModalType.REVOKE_ADMIN"
             >
-              Révoquer
+              Retirer
             </button>
           </div>
         </div>

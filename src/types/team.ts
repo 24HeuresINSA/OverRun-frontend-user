@@ -1,3 +1,5 @@
+import { InscriptionStatus } from "./interface";
+
 export interface Team {
   id: number;
   name: string;
@@ -9,7 +11,7 @@ export interface Team {
 export interface Member {
   id: number;
   athlete: Athlete;
-  validated: boolean;
+  status: InscriptionStatus;
 }
 
 export interface Athlete {

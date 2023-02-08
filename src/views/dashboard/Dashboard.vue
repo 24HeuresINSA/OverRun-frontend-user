@@ -314,13 +314,22 @@
           <strong> {{ inscription?.team?.name || "aucune" }}</strong>
         </div>
         <div class="col-12 mx-2">
-          <button
-            class="btn btn-danger"
-            v-if="inscription?.team"
-            @click="openLeaveTeamModal"
-          >
-            Quitter l'équipe
-          </button>
+          <p>
+            Si vous souhaitez quitter l'équipe, merci de contacter l'équipe des
+            courses en leur indiquant vos nom, prénom et nom d'équipe. Nous nous
+            chargerons d'effectuer le remboursement de votre paiement le cas
+            échéant avant de vous retirer de l'équipe. Vous pourrez ensuite
+            choisir une nouvelle course et/ou équipe.
+          </p>
+          <p v-show="isTeamAdmin(me.id)">
+            Attention: si vous êtes le seul responsable d'équipe, il ne sera pas
+            possible pour vous de quitter l'équipe. Si vous souhaitez retirer un
+            membre de votre équipe, merci de contacter l'équipe des courses en
+            leur indiquant son nom, prénom et nom d'équipe. Nous nous chargerons
+            d'effectuer le remboursement de son paiement le cas échéant avant de
+            le retirer de l'équipe. Il pourra ensuite choisir une nouvelle
+            course et/ou équipe.
+          </p>
         </div>
       </div>
 
@@ -406,14 +415,19 @@
           <table class="table table-striped table-hover w-100">
             <thead>
               <tr>
-                <th scope="col">Admin</th>
+                <th scope="col">Responsable d'équipe</th>
                 <th scope="col">Athlète</th>
                 <th scope="col">Statut de l'inscription</th>
                 <th v-show="isTeamAdmin(me.id)" scope="col">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="member in team.members" :key="member.id">
+            <tbody v-if="team.members">
+              <tr
+                v-for="member in team.members.filter(
+                  (m: Member) => m.status !== InscriptionStatus.CANCELLED
+                )"
+                :key="member.id"
+              >
                 <th scope="row">
                   <span
                     class="material-icons-outlined"
@@ -429,14 +443,14 @@
                   <span
                     class="material-icons-outlined"
                     style="color: green"
-                    v-if="member.validated"
+                    v-if="member.status === InscriptionStatus.VALIDATED"
                   >
                     check_circle
                   </span>
                   <span
                     class="material-icons-outlined"
                     style="color: red"
-                    v-if="!member.validated"
+                    v-else
                   >
                     cancel
                   </span>
@@ -444,7 +458,7 @@
                 <td v-show="isTeamAdmin(me.id)">
                   <button
                     class="btn btn-success mx-1"
-                    title="Ajoute l'athlète de la liste d'admin"
+                    title="Ajoute l'athlète à la liste de responsables d'équipe"
                     @click="
                       openTeamAdminModal(
                         member.athlete,
@@ -453,7 +467,7 @@
                     "
                     v-show="!isTeamAdmin(member.athlete.id)"
                   >
-                    Promouvoir admin
+                    Promouvoir responsable d'équipe
                   </button>
                   <button
                     v-show="
@@ -461,7 +475,7 @@
                       member.athlete.id !== me.id
                     "
                     class="btn btn-danger mx-1"
-                    title="Supprime l'athlète de la liste d'admin"
+                    title="Supprime l'athlète de la liste de responsables d'équipe"
                     @click="
                       openTeamAdminModal(
                         member.athlete,
@@ -469,22 +483,7 @@
                       )
                     "
                   >
-                    Révoquer admin
-                  </button>
-                  <button
-                    v-show="
-                      isTeamAdmin(me.id) && !isTeamAdmin(member.athlete.id)
-                    "
-                    class="btn btn-warning mx-1"
-                    title="Retir l'athlète de l'équipe"
-                    @click="
-                      openTeamAdminModal(
-                        member.athlete,
-                        TeamAdminModalType.DELETE_ATHLETE
-                      )
-                    "
-                  >
-                    Retirer
+                    Retirer responsable d'équipe
                   </button>
                 </td>
               </tr>
@@ -511,29 +510,56 @@
                 <tr>
                   <th scope="col">Édition</th>
                   <th scope="col">Course</th>
-                  <th scope="col">Montant inscription</th>
-                  <th scope="col">Montant don</th>
+                  <th scope="col">Prix inscription</th>
+                  <th scope="col">Prix don</th>
+                  <th scope="col">Statut</th>
                   <th scope="col">Reçu HelloAsso</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
-                  v-for="inscription in me.inscriptions"
-                  :key="inscription.payement?.id"
+                  v-for="inscription in me.inscriptions.filter((i: Inscription) => 
+                     i.payment && 
+                  (  i.payment.status === PaymentStatus.VALIDATED 
+                  || i.payment.status === PaymentStatus.REFUNDING 
+                  || i.payment.status === PaymentStatus.REFUND))"
+                  :key="inscription.payment.id"
                 >
                   <td>{{ inscription.edition?.name }}</td>
                   <td>
                     {{ inscription.race.name }}
                   </td>
                   <td>
-                    {{ centimesToEuros(inscription.payment?.raceAmount) }}
+                    {{ centimesToEuros(inscription.payment.raceAmount) }} €
                   </td>
                   <td>
-                    {{ centimesToEuros(inscription.payment?.donationAmount) }}
+                    {{ centimesToEuros(inscription.payment.donationAmount) }} €
                   </td>
+                  <td
+                    v-if="
+                      inscription.payment?.status === PaymentStatus.VALIDATED
+                    "
+                  >
+                    Validé
+                  </td>
+                  <td
+                    v-else-if="
+                      inscription.payment.status === PaymentStatus.REFUND
+                    "
+                  >
+                    Remboursé
+                  </td>
+                  <td
+                    v-else-if="
+                      inscription.payment.status === PaymentStatus.REFUNDING
+                    "
+                  >
+                    En cours de remboursement
+                  </td>
+                  <td v-else></td>
                   <td>
                     <a
-                      :href="inscription.payment?.helloassoPaymentReceiptUrl"
+                      :href="inscription.payment.helloassoPaymentReceiptUrl"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -563,18 +589,17 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="inscription in me.inscriptions"
-                  :key="inscription.certificate?.id"
+                  v-for="inscription in me.inscriptions.filter((i: Inscription) => i.certificate)"
+                  :key="inscription.certificate.id"
                 >
-                  <td>{{ inscription?.edition?.name }}</td>
+                  <td>{{ inscription.edition?.name }}</td>
                   <td>
                     <span
-                      v-show="inscription?.certificate"
                       @click="
-                        openCertificateModal(inscription?.certificate?.filename)
+                        openCertificateModal(inscription.certificate.filename)
                       "
                     >
-                      {{ inscription?.certificate?.filename }}
+                      {{ inscription.certificate.filename }}
                     </span>
                   </td>
                 </tr>
@@ -623,7 +648,7 @@ import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
 import { Inscription, InscriptionStatus } from "@/types/interface";
 import { PaymentStatus } from "@/types/payment";
-import { Athlete, Team } from "@/types/team";
+import { Athlete, Member, Team } from "@/types/team";
 import axios from "axios";
 import { defineComponent } from "vue";
 

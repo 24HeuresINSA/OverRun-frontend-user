@@ -1,3 +1,5 @@
+import { PaymentStatus } from "./payment";
+
 export enum InscriptionStatus {
   PENDING = "PENDING",
   VALIDATED = "VALIDATED",
@@ -25,6 +27,7 @@ export interface Payment {
   raceAmount: number;
   donationAmount: number;
   helloassoPaymentReceiptUrl: string;
+  status: PaymentStatus;
 }
 
 export interface Inscription {
