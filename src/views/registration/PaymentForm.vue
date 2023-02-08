@@ -250,7 +250,7 @@
 
 <script lang="ts">
 import StepBar from "@/components/stepBar/StepBar.vue";
-import { Inscription } from "@/types/interface";
+import { Inscription, InscriptionStatus } from "@/types/interface";
 import { Payment, PaymentStatus } from "@/types/payment";
 import axios from "axios";
 import { defineComponent } from "vue";
@@ -274,7 +274,9 @@ export default defineComponent({
     inscription(): Inscription {
       return this.$store.getters["user/getMe"].inscriptions.find(
         (inscription: Inscription) =>
-          inscription.edition.id === this.$store.getters["edition/getEditionId"]
+          inscription.edition.id ===
+            this.$store.getters["edition/getEditionId"] &&
+          inscription.status !== InscriptionStatus.CANCELLED
       );
     },
   },
