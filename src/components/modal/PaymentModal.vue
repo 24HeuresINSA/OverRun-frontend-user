@@ -21,7 +21,7 @@
             externe. Si vous constatez une erreur dans les informations de
             paiement (course, tarif VA ou non,...), vous pouvez nous contacter à
             l'adresse
-            <a href="mailto:courses@24heures.org">overrun@24heures.org</a>
+            <a href="mailto:overrun@24heures.org">overrun@24heures.org</a>
             indiquant
           </p>
           <ul class="ms-5">

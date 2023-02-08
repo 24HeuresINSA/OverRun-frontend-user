@@ -74,7 +74,7 @@ Merci d'avance pour votre aide.
     },
 
     mailURL() {
-      return `mailto:courses@24heures.org?subject=${encodeURI(
+      return `mailto:overrun@24heures.org?subject=${encodeURI(
         "Problème lors de l'enregistement de la carte VA"
       )}&body=${encodeURI(this.mailTemplate)}`;
     },

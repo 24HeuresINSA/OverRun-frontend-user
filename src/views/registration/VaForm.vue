@@ -52,7 +52,6 @@
     <div class="row mt-4" v-if="previousVaExists && !updatePreviousVa">
       <div class="col-lg"></div>
       <div class="col col-lg-4 fw-bold text-start">
-
         <div class="row m-2 mt-4">
           <form>
             <div class="row">
@@ -91,19 +90,23 @@
             </div>
           </form>
           <div class="row m-2 mt-4">
-          <div class="col text-end">
-            <button type="button" class="btn btn-success" @click="sendVa">
-              Les informations sont correctes
-            </button>
+            <div class="col text-end">
+              <button type="button" class="btn btn-success" @click="sendVa">
+                Les informations sont correctes
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="row m-2 mt-4">
-          <div class="col text-end">
-            <button type="button" class="btn btn-primary" @click="toogleUpdateVa">
-              Modifier
-            </button>
+          <div class="row m-2 mt-4">
+            <div class="col text-end">
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="toogleUpdateVa"
+              >
+                Modifier
+              </button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
       <div class="col-lg"></div>
@@ -289,7 +292,7 @@ export default defineComponent({
       this.lastVaId = lastVa.data.id;
     },
     async updateVa() {
-      const vaResponse = await axios.put("vas/"+this.lastVaId, {
+      const vaResponse = await axios.put("vas/" + this.lastVaId, {
         vaNumber: this.vaNumber,
         vaFirstName: this.vaFirstName,
         vaLastName: this.vaLastName,
