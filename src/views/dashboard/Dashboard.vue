@@ -863,6 +863,7 @@ Merci d'avance pour votre aide.
     },
   },
   mounted() {
+    this.fillMailTemplate();
     this.$store.dispatch("user/setMe");
     this.getTeamInfos();
   },
