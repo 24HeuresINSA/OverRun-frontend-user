@@ -60,8 +60,12 @@
                     v-for="soloRace in soloRaces"
                     :key="soloRace.id"
                     :value="soloRace.id"
+                    :disabled="raceSoloIsComplete(soloRace.id)"
                   >
-                    {{ soloRace.name }}
+                    {{
+                      soloRace.name +
+                      (raceSoloIsComplete(soloRace.id) ? " (Complète)" : "")
+                    }}
                   </option>
                 </select>
               </div>
@@ -135,12 +139,12 @@
                     v-for="team in teams"
                     :key="team.id"
                     :value="team.id"
-                    :disabled="isComplete(team.id)"
+                    :disabled="teamIsComplete(team.id)"
                   >
                     {{
                       team.name +
                       " " +
-                      (isComplete(team.id) ? "(Complète)" : "")
+                      (teamIsComplete(team.id) ? " (Complète)" : "")
                     }}
                   </option>
                 </select>
@@ -242,8 +246,15 @@
                   v-model="createdTeamRace"
                 >
                   <option value="" disabled selected hidden></option>
-                  <option v-for="race in races" :key="race.id" :value="race.id">
-                    {{ race.name }}
+                  <option
+                    v-for="race in races"
+                    :key="race.id"
+                    :value="race.id"
+                    :disabled="raceIsComplete(race.id)"
+                  >
+                    {{
+                      race.name + (raceIsComplete(race.id) ? " (Complète)" : "")
+                    }}
                   </option>
                 </select>
               </div>
@@ -295,6 +306,10 @@ export interface Race {
   registrationPrice: number;
   vaRegistrationPrice: number;
   category: Category;
+  maxTeams: number;
+  inscriptions: Inscription[];
+  teams: Team[];
+  maxParticipants: number;
 }
 
 export interface Team {
@@ -415,7 +430,21 @@ export default defineComponent({
         this.createdTeamCategory = null;
       }
     },
-    isComplete(id: number) {
+    raceSoloIsComplete(id: number) {
+      let race = this.soloRaces?.find((r: Race) => r.id === id);
+      if (race === undefined) return false;
+      const sizeRace = race.inscriptions.filter(
+        (i: Inscription) => i.status !== InscriptionStatus.CANCELLED
+      ).length;
+      return sizeRace >= race.maxParticipants;
+    },
+    raceIsComplete(id: number) {
+      let race = this.races?.find((r: Race) => r.id === id);
+      if (race === undefined) return false;
+      const sizeRace = race.teams.length;
+      return sizeRace >= race.maxTeams;
+    },
+    teamIsComplete(id: number) {
       const team = this.teams.find((t: Team) => t.id === id);
       const sizeTeam = team?.members.filter(
         (i: Inscription) => i.status !== InscriptionStatus.CANCELLED
