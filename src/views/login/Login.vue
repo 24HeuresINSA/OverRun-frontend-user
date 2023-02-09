@@ -127,6 +127,10 @@ export default defineComponent({
           `auth/${MutationTypes.SET_REFRESH_TOKEN}`,
           response.data.refreshToken
         );
+        this.$store.commit(
+          `auth/${MutationTypes.SET_ATHLETE_ID}`,
+          response.data.athleteId
+        );
         const base64Url =
           this.$store.getters["auth/getAccessToken"].split(".")[1];
         const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
