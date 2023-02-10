@@ -263,10 +263,10 @@ export default defineComponent({
       if (this.previousVaExists) {
         this.updateVa();
       } else {
-        this.createVA();
+        this.createVa();
       }
     },
-    async createVA() {
+    async createVa() {
       const vaCheckResponse = await axios.post("/checkVA", {
         vaNumber: this.vaNumber,
         vaFirstName: this.vaFirstName,
