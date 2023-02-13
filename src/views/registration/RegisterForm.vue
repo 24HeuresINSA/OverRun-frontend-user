@@ -39,6 +39,7 @@
                 type="text"
                 class="form-control"
                 id="inputFirstName"
+                minlength="3"
                 required
               />
             </div>
@@ -49,6 +50,7 @@
                 type="text"
                 class="form-control"
                 id="inputLastName"
+                minlength="3"
                 required
               />
             </div>
@@ -67,8 +69,10 @@
             <div class="col-12 col-lg-6 form-group">
               <label for="inputPhoneNumber">Téléphone: </label>
               <input
+                title="Le numéro peut inclure des espaces et/ou un indicatif de pays"
                 v-model="phoneNumber"
-                type="text"
+                type="tel"
+                pattern="(\+|)[0-9 ]*"
                 class="form-control"
                 id="inputPhoneNumber"
                 required
@@ -85,6 +89,10 @@
                 id="inputUserName"
                 required
               />
+              <div v-show="duplicatePseudo" class="error">
+                Le pseudo choisi n'est pas disponible. Merci d'en choisir un
+                différent.
+              </div>
             </div>
           </div>
           <div class="row m-2">
@@ -95,6 +103,7 @@
                 type="password"
                 class="form-control"
                 id="inputPassword"
+                minlength="8"
                 required
               />
             </div>
@@ -102,16 +111,17 @@
               <label for="inputConfirmPassword" class="d-none d-md-inline"
                 >Confirmez le mot de passe:
               </label>
-              <label for="inputConfirmPassword" class="d-inline d-md-none"
-                >Confirmez le mot de passe:
-              </label>
               <input
                 type="password"
                 class="form-control"
                 id="inputConfirmPassword"
                 v-model="confirmPassword"
+                minlength="8"
                 required
               />
+            </div>
+            <div class="error" v-show="password !== confirmPassword">
+              Les mots de passe ne correspondent pas
             </div>
           </div>
           <div class="row m-2">
@@ -124,6 +134,9 @@
                 id="inputBirthDate"
                 required
               />
+              <div class="error" v-show="!dateIsCorrect()">
+                La date est incorrecte!
+              </div>
             </div>
             <div class="col-12 col-lg-4 form-group">
               <label for="inputBirthDate">Sexe: </label>
@@ -166,9 +179,11 @@
               <label for="inputZipCode">Code Postal: </label>
               <input
                 v-model="zipCode"
+                title="Le code postal doit contenir une suite de chiffres uniquement"
                 type="text"
                 class="form-control"
                 id="inputZipCode"
+                pattern="[0-9]*"
                 required
               />
             </div>
@@ -206,7 +221,17 @@
           </div>
           <div class="row m-2 mt-5">
             <div class="col form-group text-end">
-              <button class="btn btn-primary" type="submit">S'inscrire</button>
+              <button
+                class="btn btn-primary"
+                type="submit"
+                :disabled="
+                  password !== confirmPassword ||
+                  !dateIsCorrect() ||
+                  duplicatePseudo
+                "
+              >
+                S'inscrire
+              </button>
             </div>
           </div>
         </form>
@@ -235,15 +260,23 @@ export default defineComponent({
       password: null,
       confirmPassword: null,
       username: null,
-      birthDate: null,
+      birthDate: "",
       sex: null,
       address: null,
       city: null,
       zipCode: null,
       country: null,
+      duplicatePseudo: false,
     };
   },
   methods: {
+    dateIsCorrect() {
+      const date = new Date(this.birthDate);
+      if (this.birthDate === "") return true;
+      if (isNaN(date.getTime())) return false;
+      if (date < new Date()) return true;
+      else return false;
+    },
     async register() {
       const response = await axios.post("athletes", {
         firstName: this.firstName,
@@ -265,6 +298,10 @@ export default defineComponent({
           "L'utilisateur existe déjà, redirection vers la page de connexion"
         );
         this.$router.push({ name: "Login" });
+      }
+
+      if (response.status === 403) {
+        this.duplicatePseudo = true;
       }
 
       if (response.status < 300) {
@@ -306,6 +343,11 @@ export default defineComponent({
           this.$router.push({ name: "RegisterTeam" });
         }
       }
+    },
+  },
+  watch: {
+    username(oldName, newName) {
+      this.duplicatePseudo = false;
     },
   },
   mounted() {
