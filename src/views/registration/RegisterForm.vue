@@ -227,7 +227,8 @@
                 :disabled="
                   password !== confirmPassword ||
                   !dateIsCorrect() ||
-                  duplicatePseudo
+                  duplicatePseudo ||
+                  showErrorModal
                 "
               >
                 S'inscrire
@@ -239,10 +240,12 @@
       <div class="col"></div>
     </div>
   </div>
+  <Error v-show="showErrorModal" @closeErrorModal="toggleErrorModal" />
 </template>
 
 <script lang="ts">
 import StepBar from "@/components/stepBar/StepBar.vue";
+import Error from "@/components/modal/Error.vue";
 import { MutationTypes } from "@/store/modules/auth";
 import axios from "axios";
 import { defineComponent } from "vue";
@@ -250,6 +253,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: {
     StepBar,
+    Error,
   },
   data() {
     return {
@@ -267,9 +271,13 @@ export default defineComponent({
       zipCode: null,
       country: null,
       duplicatePseudo: false,
+      showErrorModal: false,
     };
   },
   methods: {
+    toggleErrorModal() {
+      this.showErrorModal = !this.showErrorModal;
+    },
     dateIsCorrect() {
       const date = new Date(this.birthDate);
       if (this.birthDate === "") return true;
@@ -302,6 +310,10 @@ export default defineComponent({
 
       if (response.status === 403) {
         this.duplicatePseudo = true;
+      }
+
+      if (response.status === 400) {
+        this.toggleErrorModal();
       }
 
       if (response.status < 300) {
