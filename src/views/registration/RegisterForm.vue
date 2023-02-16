@@ -301,14 +301,19 @@ export default defineComponent({
         sex: this.sex == 1 ? true : false,
       });
 
-      if (response.status === 409) {
+      if (
+        response.status === 409 &&
+        response.data.message === "EMAIL_ALREADY_EXISTS"
+      ) {
         alert(
           "L'utilisateur existe déjà, redirection vers la page de connexion"
         );
         this.$router.push({ name: "Login" });
       }
-
-      if (response.status === 403) {
+      if (
+        response.status === 409 &&
+        response.data.message === "USERNAME_ALREADY_EXISTS"
+      ) {
         this.duplicatePseudo = true;
       }
 
