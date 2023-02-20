@@ -55,12 +55,16 @@
               <div class="col form-group">
                 <label for="inputUserName">Pseudo: </label>
                 <input
-                  v-model="me.user.username"
+                  v-model="username"
                   type="text"
                   class="form-control"
                   id="inputUserName"
                   required
                 />
+                <div v-show="duplicatePseudo" class="error">
+                  Le pseudo choisi n'est pas disponible. Merci d'en choisir un
+                  différent.
+                </div>
               </div>
             </div>
             <div class="row m-2">
@@ -85,6 +89,9 @@
                   id="inputBirthDate"
                   required
                 />
+                <div class="error" v-show="!dateIsCorrect()">
+                  La date est incorrecte!
+                </div>
               </div>
               <div class="col-12 col-lg-4 form-group">
                 <label for="inputSex">Sexe: </label>
@@ -127,9 +134,11 @@
                 <label for="inputZipCode">Code Postal: </label>
                 <input
                   v-model="me.zipCode"
+                  title="Le code postal doit contenir une suite de chiffres uniquement"
                   type="text"
                   class="form-control"
                   id="inputZipCode"
+                  pattern="[0-9]*"
                   required
                 />
               </div>
@@ -150,6 +159,9 @@
               <button
                 type="submit"
                 class="btn btn-primary"
+                :disabled="
+                  !dateIsCorrect() || duplicatePseudo || showErrorModal
+                "
                 @click="updateUserInfo()"
               >
                 Modifier mes informations
@@ -244,23 +256,40 @@ export default defineComponent({
       me: {} as Athlete,
       showErrorModal: false,
       updateSuccess: false,
+      duplicatePseudo: false,
+      username: "",
     };
   },
 
   methods: {
     getMe() {
       this.me = this.$store.getters["user/getMe"];
-      console.log(this.me.dateOfBirth);
       this.me = {
         ...this.me,
         dateOfBirth: this.htmlImputDateTime(this.me.dateOfBirth),
       };
+      this.username = this.me.user.username;
+    },
+    dateIsCorrect() {
+      const date = new Date(this.me.dateOfBirth);
+      if (this.me.dateOfBirth === "") return true;
+      if (isNaN(date.getTime())) return false;
+      if (date < new Date()) return true;
+      else return false;
     },
     async updateUserInfo() {
+      this.me.user.username = this.username;
       const responseUpdate = await axios.put("/athletes/" + this.me.id, {
         ...this.me,
         dateOfBirth: new Date(this.me.dateOfBirth),
       });
+      if (
+        responseUpdate.status === 409 &&
+        responseUpdate.data.message === "USERNAME_ALREADY_EXISTS"
+      ) {
+        this.duplicatePseudo = true;
+        return;
+      }
       if (responseUpdate.status >= 300) {
         this.toggleErrorModal();
         return;
@@ -289,6 +318,11 @@ export default defineComponent({
     },
     toggleDeleteAccountModal() {
       this.showDeleteAccountModal = !this.showDeleteAccountModal;
+    },
+  },
+  watch: {
+    username(oldName, newName) {
+      this.duplicatePseudo = false;
     },
   },
   beforeMount() {
