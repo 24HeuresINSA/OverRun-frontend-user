@@ -189,7 +189,21 @@
         </form>
       </div>
       <div
-        class="mt-5 d-flex justify-content-around align-items-center flex-wrap"
+        class="d-flex flex-column justify-content-center align-items-center w-50"
+      >
+        <div class="bg-primary text-light rounded pt-3 px-3 mx-3">
+          <p>
+            Chaque année, le Club des 24Heures de l'INSA organise une levée de
+            fond, dont le montant est reversé à une association caritative
+            lyonnaise. Vous pouvez, si vous le souhaitez, faire un don afin de
+            soutenir la cause défendue par l'association. Il n'y a pas de petits
+            dons, et toutes les sommes sont les bienvenues. Nous vous remercions
+            pour votre geste 💙
+          </p>
+        </div>
+      </div>
+      <div
+        class="mt-4 d-flex justify-content-around align-items-center flex-wrap"
       >
         <div>
           <button class="btn btn-lg btn-secondary mx-5" @click="passPayment">
