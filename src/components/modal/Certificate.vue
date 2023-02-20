@@ -24,6 +24,23 @@
           </p>
         </div>
       </div>
+      <div v-show="isAthleteMinor(birthDate)" class="row m-2 pt-3">
+        <div class="col bg-warning text-start rounded pt-3 mx-3">
+          <p>
+            <strong><u>Attention: </u></strong>
+            Pour les athlètes mineurs, une autorisation doit être signée par le
+            responsable légal de l'athlète. Il faut charger l'autorisation
+            parentale à la suite du certificat,
+            <strong>dans le même fichier</strong>. Un modèle d'autorisation
+            parentale est fourni dans
+            <a
+              href="https://www.24heures.org/reglements/courses"
+              target="_blank"
+              >le règlement intérieur des courses</a
+            >, à l'Annexe 1.
+          </p>
+        </div>
+      </div>
 
       <div class="row m-2 pt-3">
         <div class="col text-start fw-bold">
@@ -56,9 +73,19 @@
 <script lang="ts">
 import axios from "axios";
 import { defineComponent } from "vue";
+import { isAthleteMinor } from "@/utils/mixins/athlete";
 
 export default defineComponent({
+  data() {
+    return {
+      birthDate: "",
+    };
+  },
   methods: {
+    isAthleteMinor,
+    getBirthDate() {
+      this.birthDate = this.$store.getters["user/getMe"].dateOfBirth;
+    },
     closeModal() {
       this.$emit("closeCertificateModal");
     },
@@ -78,6 +105,9 @@ export default defineComponent({
         this.$store.dispatch("user/setMe");
       }
     },
+  },
+  beforeMount() {
+    this.getBirthDate();
   },
 });
 </script>
