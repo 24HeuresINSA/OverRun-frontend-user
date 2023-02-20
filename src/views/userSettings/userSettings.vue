@@ -295,6 +295,7 @@ export default defineComponent({
         return;
       }
       this.updateSuccess = true;
+      this.$store.dispatch("user/setMe");
     },
     htmlImputDateTime(date: string) {
       const formatedDate = this.formateDate(date);
