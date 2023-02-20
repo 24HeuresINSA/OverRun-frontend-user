@@ -20,6 +20,11 @@ export interface Athlete {
   phoneNumber: string;
   dateOfBirth: string;
   inscriptions: Inscription[];
+  address: string;
+  zipCode: string;
+  city: string;
+  country: string;
+  sex: boolean;
 }
 
 export interface Payment {
