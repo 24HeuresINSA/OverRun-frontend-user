@@ -455,9 +455,7 @@
             </thead>
             <tbody v-if="team.members">
               <tr
-                v-for="member in team.members.filter(
-                  (m: Member) => m.status !== InscriptionStatus.CANCELLED
-                )"
+                v-for="member in teamMembersWithoutCanceledInscription()"
                 :key="member.id"
               >
                 <th scope="row">
@@ -550,11 +548,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="inscription in me.inscriptions.filter((i: Inscription) => 
-                     i.payment && 
-                  (  i.payment.status === PaymentStatus.VALIDATED 
-                  || i.payment.status === PaymentStatus.REFUNDING 
-                  || i.payment.status === PaymentStatus.REFUND))"
+                  v-for="inscription in myInscriptionWithoutCanceledPayment()"
                   :key="inscription.payment.id"
                 >
                   <td>{{ inscription.edition?.name }}</td>
@@ -621,7 +615,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="inscription in me.inscriptions.filter((i: Inscription) => i.certificate)"
+                  v-for="inscription in myInscriptionWithCertificate()"
                   :key="inscription.certificate.id"
                 >
                   <td>{{ inscription.edition?.name }}</td>
@@ -680,7 +674,7 @@ import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
 import { Inscription, InscriptionStatus, Race } from "@/types/interface";
 import { PaymentStatus } from "@/types/payment";
-import { Athlete, Team } from "@/types/team";
+import { Athlete, Member, Team } from "@/types/team";
 import axios from "axios";
 import { defineComponent } from "vue";
 
@@ -875,6 +869,23 @@ Merci d'avance pour votre aide.
       return `mailto:overrun@24heures.org?subject=${encodeURI(
         "Modification d'une inscription"
       )}&body=${encodeURI(this.mailTemplate)}`;
+    },
+    teamMembersWithoutCanceledInscription() {
+      return this.team.members.filter(
+        (m: Member) => m.status !== InscriptionStatus.CANCELLED
+      );
+    },
+    myInscriptionWithoutCanceledPayment() {
+      return this.me.inscriptions.filter(
+        (i: Inscription) =>
+          i.payment &&
+          (i.payment.status === PaymentStatus.VALIDATED ||
+            i.payment.status === PaymentStatus.REFUNDING ||
+            i.payment.status === PaymentStatus.REFUND)
+      );
+    },
+    myInscriptionWithCertificate() {
+      return this.me.inscriptions.filter((i: Inscription) => i.certificate);
     },
   },
   watch: {
