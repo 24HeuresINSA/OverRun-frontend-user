@@ -307,6 +307,23 @@
                     {{
                       race.name + (raceIsComplete(race.id) ? " (Complète)" : "")
                     }}
+                    -
+                    <span
+                      v-for="(
+                        raceDiscipline, indexRaceDiscipline
+                      ) in race.disciplines"
+                      :key="raceDiscipline.id"
+                    >
+                      {{ raceDiscipline.discipline.name }} ({{
+                        raceDiscipline.duration
+                      }}h)
+                      <!-- If the item is the last one in the array, don't add the / symbol -->
+                      <span
+                        v-if="indexRaceDiscipline < race.disciplines.length - 1"
+                      >
+                        /
+                      </span>
+                    </span>
                   </option>
                 </select>
               </div>
