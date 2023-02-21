@@ -107,7 +107,7 @@
                 <h5>Mon Certificat</h5>
                 <hr />
                 <h5
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   v-if="inscription?.certificate?.status === 5"
                   @click="toggleCertificateModal"
                 >
@@ -126,7 +126,7 @@
                   ⌛
                 </h5>
                 <h5
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   v-if="
                     inscription?.certificate === undefined ||
                     inscription?.certificate === null
@@ -179,7 +179,7 @@
                   🎉
                 </h5>
                 <h5
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   v-if="inscription?.va === null"
                   @click="toggleVaModal"
                 >
@@ -214,14 +214,14 @@
                     inscription?.payment?.status ===
                       PaymentStatus.NOT_STARTED || inscription?.payment === null
                   "
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   @click="togglePaymentModal"
                 >
                   🤔
                 </h5>
                 <h5
                   v-if="inscription?.payment?.status === PaymentStatus.PENDING"
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   @click="togglePaymentModal"
                 >
                   ⌛
@@ -230,13 +230,13 @@
                   v-if="
                     inscription?.payment?.status === PaymentStatus.VALIDATED
                   "
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                 >
                   🎉
                 </h5>
                 <h5
                   v-if="inscription?.payment?.status === PaymentStatus.REFUSED"
-                  class="big-emoji pb-0 mb-0 pt-3"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   @click="togglePaymentModal"
                 >
                   😢
@@ -251,8 +251,7 @@
                 </h5>
                 <h5
                   v-if="inscription?.payment?.status === PaymentStatus.REFUND"
-                  class="big-emoji pb-0 mb-0 pt-3"
-                  @click="togglePaymentModal"
+                  class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                 >
                   🤑
                 </h5>
@@ -912,5 +911,10 @@ Merci d'avance pour votre aide.
   font-size: 60px;
   vertical-align: middle;
   line-height: 1;
+}
+
+.hightlight-emoji:hover {
+  cursor: pointer;
+  background-color: #8888889c;
 }
 </style>

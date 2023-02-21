@@ -38,11 +38,12 @@
         class="col-lg-4 bg-primary rounded text-light text-start pt-2"
         v-else
       >
-        <strong> <u>Attention:</u> </strong>
         <p>
-          Si vous disposez d'une carte VA, assurez-vous que les nom et prénom
-          saisis dans le formulaire d'inscription correspondent bien aux nom et
-          prénom figurant sur votre carte VA. <br />
+          La carte VA est une carte délivrée aux étudiants de l'INSA de Lyon.
+          Elle doit être en cours de validité pour sa validation. Si vous
+          disposez d'une carte VA, assurez-vous que les nom et prénom saisis
+          dans le formulaire d'inscription correspondent bien aux nom et prénom
+          figurant sur votre carte VA. <br />
           Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12
           chiffres. Il se trouve en-dessous du code-barres sur la carte.
         </p>
@@ -115,17 +116,7 @@
       <div class="col-lg"></div>
       <div class="col col-lg-4 fw-bold text-start">
         <div class="row m-2">
-          <label for="">
-            Avez-vous une carte VA?
-            <span
-              class="material-icons"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="La carte VA est une carte réservé aux étudiant Insaliens adhérents à la vie associative de l'école."
-            >
-              help
-            </span>
-          </label>
+          <label for=""> Avez-vous une carte VA? </label>
           <div class="ms-4 mt-2">
             <div class="form-check">
               <input
