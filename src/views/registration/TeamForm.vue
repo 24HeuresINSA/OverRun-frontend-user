@@ -22,16 +22,15 @@
         </p>
         <p v-show="solo">
           Pour un athlète courant sans équipe, l'inscription est considérée
-          comme <i>confirmée</i> lorsque le paiement, le certificat et
-          l'inscription auront été validés par l'équipe des Courses des 24
-          Heures de l'INSA.
+          comme <i>confirmée</i> lorsque le paiement et l'inscription auront été
+          validés par l'équipe des Courses des 24 Heures de l'INSA.
         </p>
         <div v-show="team" class="mb-2">
           <p>
             Pour un athlète en équipe, l'inscription de l'équipe est considérée
             comme <i>confirmée</i> lorsqu'un certain nombre d'athlètes de
-            l'équipe ont leur inscription confirmée (paiment, certificat et
-            inscription validés par nos soins).
+            l'équipe ont leur inscription confirmée (paiment et inscription
+            validés par nos soins).
           </p>
           <ul class="m-0" v-for="category in categories" :key="category.id">
             <li>
@@ -235,6 +234,7 @@
                   class="form-control"
                   id="inputTeamName"
                   v-model="createdTeamName"
+                  required
                 />
               </div>
             </div>
@@ -246,6 +246,7 @@
                   class="form-control"
                   id="inputCreatePassword"
                   v-model="createdTeamPassword"
+                  minlength="8"
                   required
                 />
               </div>
@@ -260,8 +261,15 @@
                   class="form-control"
                   id="inputConfirmPassword"
                   v-model="createdTeamConfirmPassword"
+                  minlength="8"
                   required
                 />
+              </div>
+              <div
+                v-show="createdTeamPassword !== createdTeamConfirmPassword"
+                class="text-danger"
+              >
+                Les mots de passe ne correspondent pas.
               </div>
             </div>
             <div class="row m-2">
@@ -296,6 +304,7 @@
                   id="inputCreateRace"
                   aria-label="Default select example"
                   v-model="createdTeamRace"
+                  required
                 >
                   <option value="" disabled selected hidden></option>
                   <option

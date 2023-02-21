@@ -337,9 +337,6 @@ export default defineComponent({
       }
       this.payment = response.data;
       this.loading = false;
-
-      this.payment = response.data;
-      this.loading = false;
     },
     centimesToEuro(centimes: number) {
       return centimes / 100;

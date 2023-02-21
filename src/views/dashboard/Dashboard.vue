@@ -390,17 +390,20 @@
         </div>
         <div v-show="showTeamSettings" class="row mx-3">
           <div class="col mx-2 bg-light rounded-bottom shadow-sm">
-            <div class="row fw-bold text-start" v-show="matchError">
+            <div
+              class="row fw-bold text-start"
+              v-show="newTeamPassword !== confirmTeamPassword"
+            >
               <div class="col text-danger">
                 Les deux mots de passe ne correspondent pas!
               </div>
             </div>
-            <div class="row fw-bold text-start" v-show="lengthError">
-              <div class="col text-danger">
-                Le mot de passe doit faire plus de 8 caractères!
+            <div class="row fw-bold text-start" v-show="successPasswordUpdate">
+              <div class="col text-success">
+                Mise à jour du mot de passe réussie 🎉
               </div>
             </div>
-            <form @submit.prevent="submitChnageTeamPassword">
+            <form @submit.prevent="submitChangeTeamPassword">
               <div class="row fw-bold text-start">
                 <div class="col-12 my-2 col-md-5 form-groups">
                   <label for="inputNewTeamPassword"
@@ -411,6 +414,7 @@
                     class="form-control"
                     v-model="newTeamPassword"
                     id="inputNewTeamPassword"
+                    minlength="8"
                   />
                 </div>
                 <div class="col-12 my-2 col-md-5 form-groups">
@@ -422,13 +426,20 @@
                     class="form-control"
                     v-model="confirmTeamPassword"
                     id="inputConfirmPassword"
+                    minlength="8"
                   />
                 </div>
                 <div
                   class="col-12 my-2 col-md form-groups text-center btn-container"
                 >
                   <div class="vertical-center-button">
-                    <button class="btn btn-primary m-auto align-middle">
+                    <button
+                      class="btn btn-primary m-auto align-middle"
+                      :disabled="
+                        newTeamPassword === '' ||
+                        newTeamPassword !== confirmTeamPassword
+                      "
+                    >
                       Mettre à jour
                     </button>
                   </div>
@@ -694,6 +705,7 @@ export default defineComponent({
   data() {
     return {
       title: "Dashboard",
+      successPasswordUpdate: false,
       showTeamSettings: false,
       showCertificateModal: false,
       showErrorModal: false,
@@ -745,6 +757,7 @@ export default defineComponent({
       this.confirmTeamPassword = "";
       this.matchError = false;
       this.lengthError = false;
+      this.successPasswordUpdate = false;
       this.showTeamSettings = !this.showTeamSettings;
     },
     toggleCertificateModal() {
@@ -821,8 +834,8 @@ export default defineComponent({
         (admin) => admin.adminInscription.athleteId === athleteId
       );
     },
-    async submitChnageTeamPassword() {
-      if (!this.checkPassword()) return this.toggleErrorModal();
+    async submitChangeTeamPassword() {
+      if (!this.checkPassword()) return;
       const changeTeamPasswordResponse = await axios.post(
         `/teams/${this.team.id}/updatePassword`,
         {
@@ -836,7 +849,7 @@ export default defineComponent({
       this.confirmTeamPassword = "";
 
       this.successMessage = "Mot de passe changé avec succès";
-      this.toggleSuccessModal();
+      this.successPasswordUpdate = true;
     },
     async leaveTeam() {
       const leaveTeamResponse = await axios.post(
@@ -891,6 +904,14 @@ Merci d'avance pour votre aide.
   watch: {
     inscription() {
       this.getTeamInfos();
+    },
+    newTeamPassword() {
+      this.lengthError = false;
+      this.matchError = false;
+    },
+    confirmTeamPassword() {
+      this.lengthError = false;
+      this.matchError = false;
     },
   },
   mounted() {
