@@ -191,14 +191,28 @@
       <div
         class="d-flex flex-column justify-content-center align-items-center w-50"
       >
-        <div class="bg-primary text-light rounded pt-3 px-3 mx-3">
+        <div class="bg-primary text-light rounded pt-3 px-3 mx-3 text-start">
           <p>
             Chaque année, le Club des 24Heures de l'INSA organise une levée de
-            fond, dont le montant est reversé à une association caritative
-            lyonnaise. Vous pouvez, si vous le souhaitez, faire un don afin de
-            soutenir la cause défendue par l'association. Il n'y a pas de petits
-            dons, et toutes les sommes sont les bienvenues. Nous vous remercions
-            pour votre geste 💙
+            fond, dont le montant est reversé à une association caritative.
+            L’association
+            <strong>Solidarité Internationale France-Congo</strong> sont nos
+            partenaires pour cette nouvelle édition. Leur objectif est
+            d’apporter assistance, aide humanitaire et de réaliser des actions
+            de solidarité et de bienfaisance auprès de populations vulnérables
+            au Congo. Parmi les opérations menées, on peut citer :
+          </p>
+          <ul>
+            <li>Récolte de près de 443 kg de fourniture scolaire</li>
+            <li>
+              Collecte de matériel pour les personnes en situation de handicap,
+              tels que des fauteuils roulants et des déambulateurs
+            </li>
+          </ul>
+          <p>
+            Si vous aussi vous voulez apportez votre soutien, alors n’hésitez
+            pas à faire don du montant que vous souhaitez lors de vos
+            inscriptions ! Nous vous remercions pour votre geste 💙
           </p>
         </div>
       </div>
