@@ -248,9 +248,7 @@
           </button>
           <button
             class="btn btn-lg btn-primary mx-5"
-            v-show="
-              !loading && isNecessaryToUpdatePayment && isNewDonationAmount()
-            "
+            v-show="!loading && isNecessaryToUpdatePayment"
             @click="updateMyPaymentWithNewDonationAmount"
             :disabled="wantToDonate === null"
           >
@@ -264,8 +262,7 @@
             v-show="
               !loading &&
               payment.helloassoCheckoutIntentUrl &&
-              !isNecessaryToUpdatePayment &&
-              !isNewDonationAmount()
+              !isNecessaryToUpdatePayment
             "
           >
             <span>
@@ -357,6 +354,7 @@ export default defineComponent({
         (payment: Payment) => payment.inscription.id === this.inscription.id
       );
       this.wantToDonate = this.payment.donationAmount > 0;
+      this.checkIfPaymentLinkIsExpired();
     },
     async createPayment() {
       const response = await axios.post("/payments", {
@@ -382,16 +380,17 @@ export default defineComponent({
       this.donationAmount = this.payment.donationAmount;
       this.loading = false;
     },
-    isNewDonationAmount(): boolean {
-      this.isNecessaryToUpdatePayment =
-        this.payment.donationAmount !== this.donationAmount;
-      return this.isNecessaryToUpdatePayment;
+    checkIfPaymentLinkIsExpired() {
+      if (this.payment.helloassoCheckoutIntentUrl === null) return;
+      const expirationDate = new Date(this.payment.helloassoCheckoutExpiresAt);
+      const now = new Date();
+      if (now > expirationDate) this.isNecessaryToUpdatePayment = true;
     },
   },
   watch: {
     wantToDonate(newValue: boolean, oldValue: boolean) {
       if (oldValue === null) return;
-      this.isNecessaryToUpdatePayment = oldValue;
+      this.isNecessaryToUpdatePayment = true;
       if (newValue) {
         this.payment.donationAmount = this.donationAmount;
         return;
