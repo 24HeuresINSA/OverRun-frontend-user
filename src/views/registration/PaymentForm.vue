@@ -304,6 +304,9 @@ export default defineComponent({
           inscription.status !== InscriptionStatus.CANCELLED
       );
     },
+    paymentDonationAmount(): number {
+      return this.payment.donationAmount;
+    },
   },
   methods: {
     passPayment() {
@@ -318,7 +321,9 @@ export default defineComponent({
         }
       );
       if (response.status !== 200)
-        return (this.errorMsg = "Une erreur est survenue");
+        return (this.errorMsg =
+          response.data.errors?.at(0).message ?? "Une erreur est survenue");
+
       if (response.data?.status === PaymentStatus.VALIDATED)
         return this.passPayment();
 
@@ -345,12 +350,14 @@ export default defineComponent({
         this.getMyPayment();
         return;
       }
-      if (response.status !== 200) return alert("Une erreur est survenue");
+      if (response.status !== 200)
+        return (this.errorMsg = "Une erreur est survenue");
       this.payment = response.data;
     },
     async getMyPayment() {
       const response = await axios.get("/payments/me");
-      if (response.status !== 200) return alert("Une erreur est survenue");
+      if (response.status !== 200)
+        return (this.errorMsg = "Une erreur est survenue");
       this.payment = response.data.find(
         (payment: Payment) =>
           payment.inscription.edition.id ===
@@ -366,6 +373,12 @@ export default defineComponent({
           donationAmount: this.wantToDonate ? this.payment.donationAmount : 0,
         }
       );
+      if (response.status !== 200) {
+        this.errorMsg =
+          response.data.errors?.at(0).message ?? "Une erreur est survenue";
+        this.loading = false;
+        return;
+      }
       if (response.status === 200) this.payment = response.data;
       this.isNecessaryToUpdatePayment = false;
       this.donationAmount = this.payment.donationAmount;
@@ -387,6 +400,11 @@ export default defineComponent({
         return;
       }
       this.payment.donationAmount = 0;
+    },
+    paymentDonationAmount(newValue: number, oldValue: number) {
+      if (oldValue === undefined) return;
+      if (oldValue === newValue) return;
+      this.isNecessaryToUpdatePayment = true;
     },
   },
   async mounted() {
