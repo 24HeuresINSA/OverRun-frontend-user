@@ -85,8 +85,9 @@
                   v-model="vaNumber"
                   type="text"
                   class="form-control"
-                  pattern="c[0-9]{12}"
+                  pattern="[c][0-9]{12}"
                   id="inputVA"
+                  placeholder="c000000000000"
                   disabled
                 />
               </div>
