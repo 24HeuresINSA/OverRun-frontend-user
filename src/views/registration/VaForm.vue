@@ -54,7 +54,7 @@
       <div class="col-lg"></div>
       <div class="col col-lg-4 fw-bold text-start">
         <div class="row m-2 mt-4">
-          <form>
+          <form @submit.prevent="sendVa">
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
                 <label for="inputFirstName">Prénom sur la carte VA: </label>
@@ -81,9 +81,11 @@
               <div class="col form-group">
                 <label for="inputVA">Numéro de carte VA: </label>
                 <input
+                  title="Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
                   v-model="vaNumber"
                   type="text"
                   class="form-control"
+                  pattern="c[0-9]{12}"
                   id="inputVA"
                   disabled
                 />
@@ -92,7 +94,7 @@
           </form>
           <div class="row m-2 mt-4">
             <div class="col text-end">
-              <button type="button" class="btn btn-success" @click="sendVa">
+              <button type="submit" class="btn btn-success">
                 Les informations sont correctes
               </button>
             </div>
@@ -151,7 +153,7 @@
         </div>
 
         <div v-if="VA" class="row m-2 mt-4">
-          <form>
+          <form @submit.prevent="sendVa">
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
                 <label for="inputFirstName">Prénom sur la carte VA: </label>
@@ -160,6 +162,7 @@
                   type="text"
                   class="form-control"
                   id="inputFirstName"
+                  required
                 />
               </div>
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
@@ -169,6 +172,7 @@
                   type="text"
                   class="form-control"
                   id="inputLastName"
+                  required
                 />
               </div>
             </div>
@@ -176,10 +180,14 @@
               <div class="col form-group">
                 <label for="inputVA">Numéro de carte VA: </label>
                 <input
+                  title="Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
                   v-model="vaNumber"
                   type="text"
+                  pattern="[c][0-9]{12}"
+                  placeholder="c000000000000"
                   class="form-control"
                   id="inputVA"
+                  required
                 />
               </div>
             </div>
@@ -194,9 +202,7 @@
                 </button>
               </div>
               <div class="col col-lg-6 text-end">
-                <button @click="sendVa" type="button" class="btn btn-primary">
-                  Valider
-                </button>
+                <button type="submit" class="btn btn-primary">Valider</button>
               </div>
             </div>
           </form>

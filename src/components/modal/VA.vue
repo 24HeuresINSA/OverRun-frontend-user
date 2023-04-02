@@ -46,7 +46,7 @@
 
       <div class="row m-2 pt-3">
         <div class="col text-start fw-bold">
-          <form>
+          <form @submit.prevent="sendVa">
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
                 <label for="inputFirstName">Prénom de la carte VA: </label>
@@ -73,9 +73,12 @@
               <div class="col form-group">
                 <label for="inputVA">Numéro de carte VA: </label>
                 <input
+                  title="Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
                   v-model="vaNumber"
                   type="text"
                   class="form-control"
+                  pattern="[c][0-9]{12}"
+                  placeholder="c000000000000"
                   id="inputVA"
                   :disabled="previousVaExists && !updatePreviousVa"
                 />
@@ -91,20 +94,14 @@
                 >
                   Modifier
                 </button>
-                <button
-                  v-else
-                  @click="sendVa"
-                  type="button"
-                  class="btn btn-primary"
-                >
+                <button v-else type="submit" class="btn btn-primary">
                   Valider
                 </button>
               </div>
               <div class="col text-end">
                 <button
                   v-show="previousVaExists && !updatePreviousVa"
-                  @click="sendVa"
-                  type="button"
+                  type="submit"
                   class="btn btn-success"
                 >
                   Les informations sont correctes
