@@ -193,22 +193,28 @@
       >
         <div class="bg-primary text-light rounded pt-3 px-3 mx-3 text-start">
           <p>
-            Chaque année, le Club des 24Heures de l'INSA organise une levée de
-            fond, dont le montant est reversé à une association caritative.
-            L’association
-            <strong>Solidarité Internationale France-Congo</strong> sont nos
-            partenaires pour cette nouvelle édition. Leur objectif est
-            d’apporter assistance, aide humanitaire et de réaliser des actions
-            de solidarité et de bienfaisance auprès de populations vulnérables
-            au Congo. Parmi les opérations menées, on peut citer :
+            Durant les 24 heures de courses, nous soutenons l’association
+            <strong>VIVRE AUX ECLATS</strong>, engagée depuis 26 ans dans
+            l’humanisation des soins et l’amélioration de la qualité de vie des
+            patients et résidents en milieu de soins. Les dons collectés grâce à
+            votre générosité serviront à financer des rencontres clownesques
+            auprès des enfants, adolescents, personnes âgées et adultes en
+            situation de handicap.
           </p>
-          <ul>
-            <li>Récolte de près de 443 kg de fourniture scolaire</li>
-            <li>
-              Collecte de matériel pour les personnes en situation de handicap,
-              tels que des fauteuils roulants et des déambulateurs
-            </li>
-          </ul>
+          <p>
+            <strong>VIVRE AUX ECLATS</strong> lutte contre la désocialisation et
+            favorise l’épanouissement des patients et résidents de tous âges
+            dans les Hôpitaux, les EHPAD et les Foyers d’Accueil Médicalisés du
+            Rhône et d’Ardèche. Elle soutient également les proches et le
+            personnel soignant en offrant des moments de joie et de plaisir
+            partagés.
+          </p>
+          <p>
+            Pour plus d'informations, visitez leur site :
+            <a href="http://www.vivre-aux-eclats.fr/" target="_blank"
+              >www.vivre-aux-eclats.fr/</a
+            >
+          </p>
           <p>
             Si vous aussi vous voulez apportez votre soutien, alors n’hésitez
             pas à faire don du montant que vous souhaitez lors de vos
