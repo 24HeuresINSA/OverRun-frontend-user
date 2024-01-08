@@ -157,7 +157,6 @@ export default defineComponent({
             )
           ) {
             if (!this.$store.getters["edition/isRegistrationOpen"]) {
-              alert("Désolé, mais il est trop tôt/tard pour s'inscrire");
               return this.$router.push("/");
             }
             return this.$router.push({ name: "RegisterTeam" });

@@ -43,6 +43,13 @@
 
       <div class="col-lg"></div>
     </div>
+    <div>
+      <small>
+        <RouterLink class="col text-end" to="/">
+          Je souhaite m'inscrire plus tard (accéder à ma page)
+        </RouterLink>
+      </small>
+    </div>
     <div class="row mt-4">
       <div class="col-lg"></div>
       <div class="col col-lg-4 text-start fw-bold">

@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <div class="row m-2 mt-3">
+      <div v-if="inscription?.race" class="row m-2 mt-3">
         <div class="col-12 col-md-3">
           <div
             class="container-fluid bg-light p-1 pt-3 pb-3 me-md-2 m-2 rounded-3 shadow-sm"
@@ -185,13 +185,13 @@
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
-                  v-if="inscription?.va !== null"
+                  v-if="inscription?.va"
                 >
                   🎉
                 </h5>
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
-                  v-if="inscription?.va === null"
+                  v-else
                   @click="toggleVaModal"
                 >
                   🤔
@@ -199,12 +199,12 @@
               </div>
             </div>
             <div class="row pt-1 text-center">
-              <p class="mb-0" v-if="inscription?.va !== null">
+              <p class="mb-0" v-if="inscription?.va">
                 Carte VA validée!
               </p>
               <p
                 class="mb-0"
-                v-if="inscription?.va === null"
+                v-else
                 @click="toggleVaModal"
               >
                 Pas de carte VA!
@@ -223,7 +223,7 @@
                 <h5
                   v-if="
                     inscription?.payment?.status ===
-                      PaymentStatus.NOT_STARTED || inscription?.payment === null
+                      PaymentStatus.NOT_STARTED || !inscription?.payment
                   "
                   class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
                   @click="togglePaymentModal"
@@ -273,7 +273,7 @@
                 class="mb-0"
                 v-if="
                   inscription?.payment?.status === PaymentStatus.NOT_STARTED ||
-                  inscription?.payment === null
+                  !inscription?.payment
                 "
               >
                 Paiement non initié
@@ -310,6 +310,23 @@
               </p>
             </div>
           </div>
+        </div>
+      </div>
+      <div v-else class="row ms-3">
+        <button v-if="isRegistrationOpen"
+              type="button"
+              class="col-2 btn btn-primary"
+              @click="register()"
+            >
+          S'inscrire
+        </button>
+        <div
+          class="col-8 p-2 bg-primary rounded text-light text-center d-flex align-items-center"
+          v-else
+        >
+          La période pour s'inscrire commence 
+          le <strong class=p-1>{{ getRegistrationStartDate }}</strong> et se termine 
+          le <strong class="ps-1">{{ " "+getRegistrationEndDate + " "}}</strong>.
         </div>
       </div>
 
@@ -683,6 +700,7 @@ import TeamAdminModal, {
 import VaModal from "@/components/modal/VA.vue";
 import MiniTopBar from "@/components/topBar/MiniTopBar.vue";
 import TopBar from "@/components/topBar/TopBar.vue";
+import { dateFormat } from "@/types/dateFormat";
 import { Inscription, InscriptionStatus, Race } from "@/types/interface";
 import { PaymentStatus } from "@/types/payment";
 import { Athlete, Member, Team } from "@/types/team";
@@ -747,8 +765,20 @@ export default defineComponent({
           inscription.status !== InscriptionStatus.CANCELLED
       )[0];
     },
+    isRegistrationOpen() {
+      return this.$store.getters["edition/isRegistrationOpen"];
+    },
+    getRegistrationStartDate() {
+      return this.$store.getters["edition/getRegistrationStartDate"].toLocaleDateString("FR-fr", dateFormat);;
+    },
+    getRegistrationEndDate() {
+      return this.$store.getters["edition/getRegistrationEndDate"].toLocaleDateString("FR-fr", dateFormat);;
+    }
   },
   methods: {
+    register() {
+      this.$router.push({ name: "RegisterTeam" });
+    },
     centimesToEuros(price: number) {
       return price / 100;
     },
@@ -889,7 +919,7 @@ Merci d'avance pour votre aide.
       );
     },
     myInscriptionWithoutCanceledPayment() {
-      return this.me.inscriptions.filter(
+      return this.me.inscriptions?.filter(
         (i: Inscription) =>
           i.payment &&
           (i.payment.status === PaymentStatus.VALIDATED ||
@@ -898,7 +928,7 @@ Merci d'avance pour votre aide.
       );
     },
     myInscriptionWithCertificate() {
-      return this.me.inscriptions.filter((i: Inscription) => i.certificate);
+      return this.me.inscriptions?.filter((i: Inscription) => i.certificate);
     },
   },
   watch: {

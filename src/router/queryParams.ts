@@ -8,3 +8,9 @@ export function setUserWithJWT(to: RouteLocation): void {
     store.dispatch("user/setMe");
   }
 }
+
+export function openRegistrationGuard(to: RouteLocation) {
+  if(!store.getters["edition/isRegistrationOpen"] && to.name !== "Home") {
+    return { name : 'Home' }
+  }
+}
