@@ -10,7 +10,7 @@ import VaFormlVue from "@/views/registration/VaForm.vue";
 import ResetPasswordVue from "@/views/reset/ResetPassword.vue";
 import userSettings from "@/views/userSettings/userSettings.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { setUserWithJWT } from "./queryParams";
+import { setUserWithJWT, openRegistrationGuard } from "./queryParams";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,27 +27,31 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register",
     name: "Register",
     component: RegisterFormVue,
+    beforeEnter: [openRegistrationGuard]
   },
   {
     path: "/register/va",
     name: "RegisterVa",
     component: VaFormlVue,
+    beforeEnter: [openRegistrationGuard]
   },
   {
     path: "/register/team",
     name: "RegisterTeam",
     component: TeamFormVue,
+    beforeEnter: [openRegistrationGuard]
   },
   {
     path: "/register/certificate",
     name: "RegisterCertificate",
     component: CertificateFormVue,
+    beforeEnter: [openRegistrationGuard]
   },
   {
     path: "/register/payment",
     name: "RegisterPayment",
     component: PaymentFormVue,
-    beforeEnter: [setUserWithJWT],
+    beforeEnter: [setUserWithJWT, openRegistrationGuard],
   },
   {
     path: "/payment/helloassoreturn",
