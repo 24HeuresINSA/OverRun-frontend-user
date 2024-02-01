@@ -28,7 +28,7 @@
             <li class="fw-bold">Votre pseudo</li>
             <li class="fw-bold">Votre nom</li>
             <li class="fw-bold">Votre prénom</li>
-            <li class="fw-bold">Les informations qui vous semblent érronées</li>
+            <li class="fw-bold">Les informations qui vous semblent erronées</li>
           </ul>
         </div>
       </div>
@@ -69,9 +69,13 @@
           </table>
         </div>
       </div>
-      <div class="mt-5">
+      <div>
         <form>
-          <p>Je souhaite faire un don pour la course caritative</p>
+          <img src="@/assets/course-cari.jpg" alt="Logo de l'association Le coeur et la Main" height="120"/>  
+          <p>Je souhaite faire un don pour la course caritative
+            (<a href="http://www.coeuretlamain.fr" target="_blank"
+              >Plus d'informations</a>)
+          </p>
           <div class="form-check d-flex justify-content-center">
             <div class="form-check">
               <label class="form-check-label" for="flexCheckDefault"
@@ -211,26 +215,24 @@
       <div class="row m-2 pt-3">
         <div class="col bg-primary text-start text-light rounded pt-3 mx-3">
           <p>
-            Durant les 24 heures de courses, nous soutenons l’association
-            <strong>VIVRE AUX ECLATS</strong>, engagée depuis 26 ans dans
-            l’humanisation des soins et l’amélioration de la qualité de vie des
-            patients et résidents en milieu de soins. Les dons collectés grâce à
-            votre générosité serviront à financer des rencontres clownesques
-            auprès des enfants, adolescents, personnes âgées et adultes en
-            situation de handicap.
+            Durant les 24 heures de courses, nous soutenons l’association <strong>Le Cœur et la Main</strong>
+            , créée en 2017 par 11 membres fondateurs liés par leur 
+            amitié. Réunis tout d’abord sous le nom « Le mercredi c’est surimi », leur objectif était 
+            à l’époque de réunir des fonds pour organiser une kermesse en faveur de personnes issues 
+            de milieux précaires. L’association a maintenant grandi et accueille de nouveaux membres 
+            enthousiastes et de nouveaux projets solidaires.
           </p>
-          <p>
-            <strong>VIVRE AUX ECLATS</strong> lutte contre la désocialisation et
-            favorise l’épanouissement des patients et résidents de tous âges
-            dans les Hôpitaux, les EHPAD et les Foyers d’Accueil Médicalisés du
-            Rhône et d’Ardèche. Elle soutient également les proches et le
-            personnel soignant en offrant des moments de joie et de plaisir
-            partagés.
-          </p>
+          <p>L'association récolte des financements par 
+            l’organisation d’évènements ponctuels (marchés participatifs, concerts solidaires, 
+            vente d’objets d’arts…) et par des donations et du crowfunding (collecte d’apports 
+            financiers de particuliers au moyen d’une plateforme Internet). Aujourd’hui, 
+            <strong>Le Cœur et la Main</strong> s’évertue à soutenir des projets sociaux lyonnais pour protéger les 
+            plus vulnérables et a étendu son champ d’intervention à des missions à l’étranger, encore 
+            et toujours portées par ses membres.</p>
           <p>
             Pour plus d'informations, visitez leur site :
-            <a href="http://www.vivre-aux-eclats.fr/" target="_blank"
-              >www.vivre-aux-eclats.fr/</a
+            <a href="http://www.coeuretlamain.fr" target="_blank"
+              >http://www.coeuretlamain.fr</a
             >
           </p>
           <p>
