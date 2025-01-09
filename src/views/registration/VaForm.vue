@@ -30,7 +30,7 @@
         <strong> <u>Attention:</u> </strong>
         <p>
           Une carte VA est déjà enregistrée pour ce compte. Assurez-vous que les
-          informations renseignées soient correctes. Et de bénéficier de
+          informations renseignées soient correctes, et de bénéficier de
           l'adhésion VAvantages. Si ce n'est pas le cas, vous pouvez cliquer sur
           Modifier afin de les mettre à jour.
         </p>
