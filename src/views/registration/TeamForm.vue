@@ -134,7 +134,7 @@
                   </label>
                   <br />
                   <label for="inputCreateRace"
-                    >Tarif VA: {{ getSoloVaPrice() }} €
+                    >Tarif VAvantages: {{ getSoloVaPrice() }} €
                   </label>
                 </div>
               </div>
@@ -351,7 +351,7 @@
                 </label>
                 <br />
                 <label for="inputCreateRace"
-                  >Tarif VA: {{ getVaPrice() }} €
+                  >Tarif VAvantages: {{ getVaPrice() }} €
                 </label>
               </div>
             </div>

@@ -30,8 +30,9 @@
         >
           <p>
             La carte VA est une carte délivrée aux étudiants de l'INSA de Lyon.
-            Elle doit être en cours de validité pour sa validation. Pour tout
-            problème avec la carte VA, merci d'envoyer un petit e-mail à
+            Elle doit être en cours de validité et vous devez bénéficier de
+            l'adhésion VAvantages pour sa validation. Pour tout problème avec la
+            carte VA, merci d'envoyer un petit e-mail à
             <a href="mailto:overrun@24heures.org">overrun@24heures.org</a> en
             indiquant:
           </p>

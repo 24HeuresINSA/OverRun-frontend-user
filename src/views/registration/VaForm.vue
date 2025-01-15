@@ -30,8 +30,9 @@
         <strong> <u>Attention:</u> </strong>
         <p>
           Une carte VA est déjà enregistrée pour ce compte. Assurez-vous que les
-          informations renseignées soient correctes. Si ce n'est pas le cas,
-          vous pouvez cliquer sur Modifier afin de les mettre à jour.
+          informations renseignées soient correctes, et de bénéficier de
+          l'adhésion VAvantages. Si ce n'est pas le cas, vous pouvez cliquer sur
+          Modifier afin de les mettre à jour.
         </p>
       </div>
       <div
@@ -40,10 +41,11 @@
       >
         <p>
           La carte VA est une carte délivrée aux étudiants de l'INSA de Lyon.
-          Elle doit être en cours de validité pour sa validation. Si vous
-          disposez d'une carte VA, assurez-vous que les nom et prénom saisis
-          dans le formulaire d'inscription correspondent bien aux nom et prénom
-          figurant sur votre carte VA. <br />
+          Elle doit être en cours de validité et vous devez bénéficier de
+          l'adhésion VAvantages pour sa validation. Si vous disposez d'une carte
+          VA, assurez-vous que les nom et prénom saisis dans le formulaire
+          d'inscription correspondent bien aux nom et prénom figurant sur votre
+          carte VA. <br />
           Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12
           chiffres. Il se trouve en-dessous du code-barres sur la carte.
         </p>

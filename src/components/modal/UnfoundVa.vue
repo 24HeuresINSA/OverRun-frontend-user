@@ -13,8 +13,9 @@
           <p>
             Il semblerait qu'il y ait eu un problème lors de la vérification de
             votre carte VA. Assurez-vous d'avoir renseigné les bonnes valeurs
-            dans les différents champs. Si le problème persiste, cliquez sur le
-            bouton "J'ai un problème".
+            dans les différents champs, et de bénéficier de l'adhésion
+            VAvantages. Si le problème persiste, cliquez sur le bouton "J'ai un
+            problème".
           </p>
         </div>
       </div>
