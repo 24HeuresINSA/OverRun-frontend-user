@@ -2,7 +2,7 @@
   <div class="container-fluid h-100">
     <div class="row">
       <div class="col mt-5">
-        <h1>Certificat</h1>
+        <h1>Document médical</h1>
       </div>
     </div>
     <div class="row">
@@ -20,8 +20,8 @@
       >
         <strong> <u>Attention:</u> </strong>
         <p>
-          Un certificat médical est déjà enregistré pour ce compte. Si besoin,
-          vous pouvez en envoyer un nouveau. Dans tous les cas, le certificat
+          Un document médical est déjà enregistré pour ce compte. Si besoin,
+          vous pouvez en envoyer un nouveau. Dans tous les cas, le document
           devra être de nouveau validé par notre équipe.
         </p>
       </div>
@@ -31,12 +31,22 @@
       >
         <strong> <u>Attention:</u> </strong>
         <p>
-          Le certificat doit dater de moins d'un an au moment de la compétition
-          et doit comporter l'autorisation de la pratique des disciplines en
-          compétition selon votre course. Les licences des fédérations
-          correspondant aux courses sont acceptées (FFC pour le vélo par
-          exemple).
-        </p>
+            <ul>
+              <li>
+                <u>Si vous participez à la course à pied</u> : Le document médical requis
+              est une attestation de Parcours Prévention Santé. Ce document a une durée de <strong>validité 
+              de trois mois</strong>. Au-delà de ces trois mois, le document ne sera pas accepté.</li>
+            <li>
+              <u>Si vous participez aux autres épreuves</u> : Le document médical requis
+              est un certificat médical. Il doit dater 
+              de <strong>moins d'un an</strong> au moment de la
+            compétition et doit comporter l'autorisation de la pratique des
+            disciplines en compétition selon votre course. Les licences des
+            fédérations correspondant aux courses sont acceptées (FFC pour le
+            vélo par exemple).
+            </li>   
+            </ul>
+          </p>
       </div>
       <div class="col-lg"></div>
     </div>
@@ -46,7 +56,7 @@
         <form class="m-2" @submit.prevent="uploadCertificate">
           <div class="row">
             <div class="col form-group">
-              <label for="inputCertificate">Certificat: </label>
+              <label for="inputCertificate">Document médical: </label>
               <input
                 v-if="previousCertificateExists && !updatePreviousCertificate"
                 class="form-control"
@@ -74,7 +84,7 @@
                 @click="activateUpdateCertificate"
                 class="btn btn-primary"
               >
-                Envoyer un nouveau certificat
+                Envoyer un nouveau document
               </button>
               <button
                 v-else

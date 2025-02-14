@@ -29,7 +29,7 @@
       >
         <strong> <u>Attention:</u> </strong>
         <p>
-          Une carte VA est déjà enregistrée pour ce compte. Assurez-vous que les
+          Une carte VAvantages est déjà enregistrée pour ce compte. Assurez-vous que les
           informations renseignées soient correctes, et de bénéficier de
           l'adhésion VAvantages. Si ce n'est pas le cas, vous pouvez cliquer sur
           Modifier afin de les mettre à jour.
@@ -40,13 +40,13 @@
         v-else
       >
         <p>
-          La carte VA est une carte délivrée aux étudiants de l'INSA de Lyon.
+          La carte VAva est une carte délivrée aux étudiants de l'INSA de Lyon.
           Elle doit être en cours de validité et vous devez bénéficier de
-          l'adhésion VAvantages pour sa validation. Si vous disposez d'une carte
-          VA, assurez-vous que les nom et prénom saisis dans le formulaire
+          l'<strong>adhésion VAvantages</strong> pour sa validation. Si vous disposez d'une carte
+          VAvantages, assurez-vous que les nom et prénom saisis dans le formulaire
           d'inscription correspondent bien aux nom et prénom figurant sur votre
           carte VA. <br />
-          Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12
+          Le numéro de la carte VAvantages est le numéro commençant par 'c' suivi de 12
           chiffres. Il se trouve en-dessous du code-barres sur la carte.
         </p>
       </div>
@@ -59,7 +59,7 @@
           <form @submit.prevent="sendVa">
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputFirstName">Prénom sur la carte VA: </label>
+                <label for="inputFirstName">Prénom sur la carte VAvantages: </label>
                 <input
                   v-model="vaFirstName"
                   type="text"
@@ -69,7 +69,7 @@
                 />
               </div>
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputLastName">Nom sur la carte VA:</label>
+                <label for="inputLastName">Nom sur la carte VAvantages:</label>
                 <input
                   v-model="vaLastName"
                   type="text"
@@ -83,7 +83,7 @@
               <div class="col form-group">
                 <label for="inputVA">Numéro de carte VA: </label>
                 <input
-                  title="Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
+                  title="Le numéro de la carte VAvantages est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
                   v-model="vaNumber"
                   type="text"
                   class="form-control"
@@ -159,7 +159,7 @@
           <form @submit.prevent="sendVa">
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputFirstName">Prénom sur la carte VA: </label>
+                <label for="inputFirstName">Prénom sur la carte VAvantages: </label>
                 <input
                   v-model="vaFirstName"
                   type="text"
@@ -169,7 +169,7 @@
                 />
               </div>
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputLastName">Nom sur la carte VA:</label>
+                <label for="inputLastName">Nom sur la carte VAvantages:</label>
                 <input
                   v-model="vaLastName"
                   type="text"
@@ -181,9 +181,9 @@
             </div>
             <div class="row mt-2">
               <div class="col form-group">
-                <label for="inputVA">Numéro de carte VA: </label>
+                <label for="inputVA">Numéro de carte VAvantages: </label>
                 <input
-                  title="Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
+                  title="Le numéro de la carte VAvantages est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
                   v-model="vaNumber"
                   type="text"
                   pattern="[c][0-9]{12}"

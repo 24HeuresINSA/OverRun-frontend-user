@@ -211,7 +211,7 @@
               <label for="checkRules">
                 J'ai lu et j'accepte le
                 <a
-                  href="https://www.24heures.org/reglements/courses"
+                href="https://links.24heures.org/reglement-courses"
                   target="_blank"
                   >règlement en vigueur</a
                 >

@@ -5,7 +5,7 @@
     >
       <div class="row pt-3">
         <div class="col">
-          <h4>Nous n'avons pas réussi à trouver votre carte VA &#128561;</h4>
+          <h4>Nous n'avons pas réussi à trouver votre carte VAvantages &#128561;</h4>
         </div>
       </div>
       <div class="row pt-3">
@@ -13,8 +13,8 @@
           <p>
             Il semblerait qu'il y ait eu un problème lors de la vérification de
             votre carte VA. Assurez-vous d'avoir renseigné les bonnes valeurs
-            dans les différents champs, et de bénéficier de l'adhésion
-            VAvantages. Si le problème persiste, cliquez sur le bouton "J'ai un
+            dans les différents champs, et de bénéficier de <strong>l'adhésion
+            VAvantages</strong>. Si le problème persiste, cliquez sur le bouton "J'ai un
             problème".
           </p>
         </div>

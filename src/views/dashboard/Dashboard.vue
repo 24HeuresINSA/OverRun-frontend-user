@@ -115,7 +115,7 @@
           >
             <div class="row pt-1 pb-1">
               <div class="col">
-                <h5>Mon Certificat</h5>
+                <h5>Mon Document Médical</h5>
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3 hightlight-emoji"
@@ -154,10 +154,10 @@
                 v-if="inscription?.certificate?.status === 5"
                 @click="toggleCertificateModal"
               >
-                Certificat rejeté!
+                Document rejeté!
               </p>
               <p class="mb-0" v-if="inscription?.certificate?.status === 1">
-                Certificat validé!
+                Document validé!
               </p>
               <p class="mb-0" v-if="inscription?.certificate?.status === 4">
                 En cours de validation ...
@@ -170,7 +170,7 @@
                 "
                 @click="toggleCertificateModal"
               >
-                Certificat manquant!
+              Document médical manquant!
               </p>
             </div>
           </div>
@@ -181,7 +181,7 @@
           >
             <div class="row pt-1 pb-1">
               <div class="col">
-                <h5>Ma Carte VA</h5>
+                <h5>Ma Carte VAvantages</h5>
                 <hr />
                 <h5
                   class="big-emoji pb-0 mb-0 pt-3"
@@ -200,14 +200,14 @@
             </div>
             <div class="row pt-1 text-center">
               <p class="mb-0" v-if="inscription?.va">
-                Carte VA validée!
+                Carte VAvantages validée!
               </p>
               <p
                 class="mb-0"
                 v-else
                 @click="toggleVaModal"
               >
-                Pas de carte VA!
+                Pas de carte VAvantages!
               </p>
             </div>
           </div>
