@@ -5,7 +5,7 @@
     >
       <div class="row pt-3">
         <div class="col">
-          <h4>Un problème pour enregistrer votre carte VA? &#128557;</h4>
+          <h4>Un problème pour enregistrer votre carte VAvantages? &#128557;</h4>
         </div>
       </div>
       <div class="row pt-3">
@@ -18,10 +18,10 @@
             <li class="fw-bold">Votre pseudo</li>
             <li class="fw-bold">Votre nom</li>
             <li class="fw-bold">Votre prénom</li>
-            <li class="fw-bold">Votre numéro de carte VA</li>
+            <li class="fw-bold">Votre numéro de carte VAvantages</li>
           </ul>
           <p>
-            Attendez la validation de votre carte VA avant de procéder au
+            Attendez la validation de votre carte VAvantages avant de procéder au
             paiement (cliquer sur Passer l'étape)... du moins si vous souhaitez
             bénéficier de la réduction associée &#128521;.
           </p>
@@ -62,7 +62,7 @@ export default defineComponent({
     async feelMailTemplate() {
       await this.getUserInfos();
       this.mailTemplate = `Bonjour,
-Je rencontre un problème pour enregistrer ma carte VA.
+Je rencontre un problème pour enregistrer ma carte VAvantages.
 Voici mes informations:
 - Pseudo: ${this.user.user.username}
 - Nom: ${this.user.lastName}
@@ -75,7 +75,7 @@ Merci d'avance pour votre aide.
 
     mailURL() {
       return `mailto:overrun@24heures.org?subject=${encodeURI(
-        "Problème lors de l'enregistement de la carte VA"
+        "Problème lors de l'enregistement de la carte VAvantages"
       )}&body=${encodeURI(this.mailTemplate)}`;
     },
   },

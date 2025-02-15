@@ -6,7 +6,7 @@
       <div>
         <div class="row pt-3">
           <div class="col">
-            <h4>Certificat 📜</h4>
+            <h4>Document médical 📜</h4>
           </div>
           <div class="col-1">
             <button id="close-arrow" @click="closeModal">

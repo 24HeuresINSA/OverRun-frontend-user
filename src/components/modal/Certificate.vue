@@ -5,7 +5,7 @@
     >
       <div class="row pt-3">
         <div class="col">
-          <h4>Vous avez un certificat médical à charger? 🩺</h4>
+          <h4>Vous avez un document médical à charger? 🩺</h4>
         </div>
         <div class="col-1">
           <button id="close-arrow" @click="closeModal">
@@ -16,11 +16,21 @@
       <div class="row m-2 pt-3">
         <div class="col bg-primary text-start text-light rounded pt-3 mx-3">
           <p>
-            Le certificat doit dater de moins d'un an au moment de la
+            <ul>
+              <li>
+                <u>Si vous participez à la course à pied</u> : Le document médical requis
+              est une attestation de Parcours Prévention Santé. Ce document a une durée de <strong>validité 
+              de trois mois</strong>. Au-delà de ces trois mois, le document ne sera pas accepté.</li>
+            <li>
+              <u>Si vous participez aux autres épreuves</u> : Le document médical requis
+              est un certificat médical. Il doit dater 
+              de <strong>moins d'un an</strong> au moment de la
             compétition et doit comporter l'autorisation de la pratique des
             disciplines en compétition selon votre course. Les licences des
             fédérations correspondant aux courses sont acceptées (FFC pour le
             vélo par exemple).
+            </li>   
+            </ul>
           </p>
         </div>
       </div>
@@ -30,11 +40,11 @@
             <strong><u>Attention: </u></strong>
             Pour les athlètes mineurs, une autorisation doit être signée par le
             responsable légal de l'athlète. Il faut charger l'autorisation
-            parentale à la suite du certificat,
+            parentale à la suite du document médical,
             <strong>dans le même fichier</strong>. Un modèle d'autorisation
             parentale est fourni dans
             <a
-              href="https://www.24heures.org/reglements/courses"
+              href="https://links.24heures.org/reglement-courses"
               target="_blank"
               >le règlement intérieur des courses</a
             >, à l'Annexe 1.
@@ -47,7 +57,7 @@
           <form @submit.prevent="uploadCertificate">
             <div class="row">
               <div class="col form-group">
-                <label for="inputCertificate">Certificat:</label>
+                <label for="inputCertificate">Document:</label>
 
                 <input
                   type="file"

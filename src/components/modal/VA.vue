@@ -19,7 +19,7 @@
           class="col bg-primary text-start text-light rounded pt-3 mx-3"
         >
           <p>
-            Une carte VA est déjà enregistrée pour ce compte. Assurez-vous que
+            Une carte VAvantages est déjà enregistrée pour ce compte. Assurez-vous que
             les informations renseignées soient correctes. Si ce n'est pas le
             cas, vous pouvez cliquer sur Modifier afin de les mettre à jour.
           </p>
@@ -31,7 +31,7 @@
           <p>
             La carte VA est une carte délivrée aux étudiants de l'INSA de Lyon.
             Elle doit être en cours de validité et vous devez bénéficier de
-            l'adhésion VAvantages pour sa validation. Pour tout problème avec la
+            l'<strong>adhésion VAvantages</strong> pour sa validation. Pour tout problème avec la
             carte VA, merci d'envoyer un petit e-mail à
             <a href="mailto:overrun@24heures.org">overrun@24heures.org</a> en
             indiquant:
@@ -50,7 +50,7 @@
           <form @submit.prevent="sendVa">
             <div class="row">
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputFirstName">Prénom de la carte VA: </label>
+                <label for="inputFirstName">Prénom de la carte VAvantages: </label>
                 <input
                   v-model="vaFirstName"
                   type="text"
@@ -60,7 +60,7 @@
                 />
               </div>
               <div class="col-12 my-2 my-lg-0 col-lg form-group">
-                <label for="inputLastName">Nom de la carte VA:</label>
+                <label for="inputLastName">Nom de la carte VAvantages:</label>
                 <input
                   v-model="vaLastName"
                   type="text"
@@ -72,9 +72,9 @@
             </div>
             <div class="row mt-2">
               <div class="col form-group">
-                <label for="inputVA">Numéro de carte VA: </label>
+                <label for="inputVA">Numéro de carte VAvantages: </label>
                 <input
-                  title="Le numéro de la carte VA est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
+                  title="Le numéro de la carte VAvantages est le numéro commençant par 'c' suivi de 12 chiffres. Il se trouve en-dessous du code-barres sur la carte."
                   v-model="vaNumber"
                   type="text"
                   class="form-control"
