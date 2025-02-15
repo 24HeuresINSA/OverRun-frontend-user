@@ -40,7 +40,7 @@
         v-else
       >
         <p>
-          La carte VAva est une carte délivrée aux étudiants de l'INSA de Lyon.
+          La carte VAvantages est une carte délivrée aux étudiants de l'INSA de Lyon.
           Elle doit être en cours de validité et vous devez bénéficier de
           l'<strong>adhésion VAvantages</strong> pour sa validation. Si vous disposez d'une carte
           VAvantages, assurez-vous que les nom et prénom saisis dans le formulaire
