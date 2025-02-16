@@ -29,7 +29,7 @@
             <img
               aspect-ratio="1"
               class="size-one-em"
-              src="https://backoffice.helloasso.com/Assets/dist/img/helloasso-badge.svg"
+              src="https://centredaide.helloasso.com/_showcase/images/logo-white.svg"
             />
             <p class="ms-2 m-0 p-0">Payer {{ centimesToEuro(amount) }} €</p>
           </a>

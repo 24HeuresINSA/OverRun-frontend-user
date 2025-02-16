@@ -294,7 +294,7 @@
                 <img
                   aspect-ratio="1"
                   class="size-one-em"
-                  src="https://backoffice.helloasso.com/Assets/dist/img/helloasso-badge.svg"
+                  src="https://centredaide.helloasso.com/_showcase/images/logo-white.svg"
                 />
                 <p class="ms-2 m-0 p-0">Payer {{ computeTotalAmount() }}€</p>
               </a>
@@ -423,8 +423,8 @@ export default defineComponent({
   watch: {
     wantToDonate(newValue: boolean, oldValue: boolean) {
       if (oldValue === null) return;
-      this.isNecessaryToUpdatePayment = true;
       if (newValue) {
+        this.isNecessaryToUpdatePayment = true;
         this.payment.donationAmount = this.donationAmount;
         return;
       }
@@ -433,6 +433,11 @@ export default defineComponent({
     paymentDonationAmount(newValue: number, oldValue: number) {
       if (oldValue === undefined) return;
       if (oldValue === newValue) return;
+      if (
+        oldValue !== newValue &&
+        this.payment.helloassoCheckoutIntentUrl === null
+      )
+        return;
       this.isNecessaryToUpdatePayment = true;
     },
   },

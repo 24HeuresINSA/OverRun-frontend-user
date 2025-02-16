@@ -51,10 +51,17 @@
 
       <div>
         <form>
-          <img src="@/assets/course-cari.jpg" alt="Logo de l'association Le coeur et la Main" height="120"/>  
-          <p>Je souhaite faire un don pour la course caritative
-            (<a href="http://www.coeuretlamain.fr" target="_blank"
-              >Plus d'informations</a>)
+          <img
+            src="@/assets/course-cari.jpg"
+            alt="Logo de l'association Le coeur et la Main"
+            height="120"
+          />
+          <p>
+            Je souhaite faire un don pour la course caritative (<a
+              href="http://www.coeuretlamain.fr"
+              target="_blank"
+              >Plus d'informations</a
+            >)
           </p>
           <div class="form-check d-flex justify-content-center">
             <div class="form-check">
@@ -195,23 +202,28 @@
       <div
         class="d-flex flex-column justify-content-center align-items-center w-50"
       >
-        <div class="bg-primary text-light rounded pt-3 px-3 mx-3 text-start" >
-          
+        <div class="bg-primary text-light rounded pt-3 px-3 mx-3 text-start">
           <p>
-            Durant les 24 heures de courses, nous soutenons l’association <strong>Le Cœur et la Main</strong>
-            , créée en 2017 par 11 membres fondateurs liés par leur 
-            amitié. Réunis tout d’abord sous le nom « Le mercredi c’est surimi », leur objectif était 
-            à l’époque de réunir des fonds pour organiser une kermesse en faveur de personnes issues 
-            de milieux précaires. L’association a maintenant grandi et accueille de nouveaux membres 
+            Durant les 24 heures de courses, nous soutenons l’association
+            <strong>Le Cœur et la Main</strong>
+            , créée en 2017 par 11 membres fondateurs liés par leur amitié.
+            Réunis tout d’abord sous le nom « Le mercredi c’est surimi », leur
+            objectif était à l’époque de réunir des fonds pour organiser une
+            kermesse en faveur de personnes issues de milieux précaires.
+            L’association a maintenant grandi et accueille de nouveaux membres
             enthousiastes et de nouveaux projets solidaires.
           </p>
-          <p>L'association récolte des financements par 
-            l’organisation d’évènements ponctuels (marchés participatifs, concerts solidaires, 
-            vente d’objets d’arts…) et par des donations et du crowfunding (collecte d’apports 
-            financiers de particuliers au moyen d’une plateforme Internet). Aujourd’hui, 
-            <strong>Le Cœur et la Main</strong> s’évertue à soutenir des projets sociaux lyonnais pour protéger les 
-            plus vulnérables et a étendu son champ d’intervention à des missions à l’étranger, encore 
-            et toujours portées par ses membres.</p>
+          <p>
+            L'association récolte des financements par l’organisation
+            d’évènements ponctuels (marchés participatifs, concerts solidaires,
+            vente d’objets d’arts…) et par des donations et du crowfunding
+            (collecte d’apports financiers de particuliers au moyen d’une
+            plateforme Internet). Aujourd’hui,
+            <strong>Le Cœur et la Main</strong> s’évertue à soutenir des projets
+            sociaux lyonnais pour protéger les plus vulnérables et a étendu son
+            champ d’intervention à des missions à l’étranger, encore et toujours
+            portées par ses membres.
+          </p>
           <p>
             Pour plus d'informations, visitez leur site :
             <a href="http://www.coeuretlamain.fr" target="_blank"
@@ -269,7 +281,7 @@
                 <img
                   aspect-ratio="1"
                   class="size-one-em"
-                  src="https://backoffice.helloasso.com/Assets/dist/img/helloasso-badge.svg"
+                  src="https://centredaide.helloasso.com/_showcase/images/logo-white.svg"
                 />
                 <p class="ms-2 m-0 p-0">Payer {{ computeTotalAmount() }}€</p>
               </a>
@@ -403,8 +415,8 @@ export default defineComponent({
   watch: {
     wantToDonate(newValue: boolean, oldValue: boolean) {
       if (oldValue === null) return;
-      this.isNecessaryToUpdatePayment = true;
       if (newValue) {
+        this.isNecessaryToUpdatePayment = true;
         this.payment.donationAmount = this.donationAmount;
         return;
       }
@@ -413,6 +425,11 @@ export default defineComponent({
     paymentDonationAmount(newValue: number, oldValue: number) {
       if (oldValue === undefined) return;
       if (oldValue === newValue) return;
+      if (
+        oldValue !== newValue &&
+        this.payment.helloassoCheckoutIntentUrl === null
+      )
+        return;
       this.isNecessaryToUpdatePayment = true;
     },
   },
