@@ -197,12 +197,15 @@
                     v-for="team in teams"
                     :key="team.id"
                     :value="team.id"
-                    :disabled="teamIsComplete(team.id)"
+                    :disabled="
+                      teamIsComplete(team.id) || raceIsComplete(team.race.id)
+                    "
                   >
                     {{
                       team.name +
                       " " +
-                      (teamIsComplete(team.id) ? " (Complète)" : "")
+                      (teamIsComplete(team.id) ? " (Complète)" : "false") +
+                      (raceIsComplete(team.race.id) ? " (Course complète)" : "")
                     }}
                   </option>
                 </select>
@@ -597,6 +600,7 @@ export default defineComponent({
     },
   },
   async mounted() {
+    this.fetchRaces();
     const categoriesResponse = await axios.get("categories/light", {
       params: {
         editionId: this.$store.getters["edition/getEditionId"],
