@@ -204,7 +204,7 @@
                     {{
                       team.name +
                       " " +
-                      (teamIsComplete(team.id) ? " (Complète)" : "false") +
+                      (teamIsComplete(team.id) ? " (Complète)" : "") +
                       (raceIsComplete(team.race.id) ? " (Course complète)" : "")
                     }}
                   </option>
