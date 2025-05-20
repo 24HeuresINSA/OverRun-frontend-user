@@ -174,6 +174,7 @@
                   <input
                     type="number"
                     min="0"
+                    max="1000"
                     class="form-control"
                     placeholder="Montant"
                     aria-describedby="basic-addon1"
@@ -385,7 +386,7 @@ export default defineComponent({
       const response = await axios.patch(
         `/payments/${this.payment.id}/update`,
         {
-          donationAmount: this.wantToDonate ? max(this.payment.donationAmount, 0) : 0,
+          donationAmount: this.wantToDonate ? Math.max(this.payment.donationAmount, 0) : 0,
         }
       );
       if (response.status !== 200) {
