@@ -176,7 +176,7 @@
                     class="form-check-input"
                     type="radio"
                     name="donationAmount"
-                    id="donationFifteenEuro"
+                    id="donationFiftyEuro"
                     :value="5000"
                     v-model="payment.donationAmount"
                   />
@@ -189,7 +189,7 @@
                     class="form-check-input"
                     type="checkbox"
                     name="otherDonationAmount"
-                    id="donationFifteenEuro"
+                    id="otherDonationAmount"
                     :value="true"
                     v-model="otherDonationAmount"
                   />
@@ -200,6 +200,8 @@
                 <div class="form-check d-flex">
                   <input
                     type="number"
+                    min="0"
+                    max="1000"
                     class="form-control"
                     placeholder="Montant"
                     aria-describedby="basic-addon1"
@@ -396,10 +398,15 @@ export default defineComponent({
     },
     async updateMyPaymentWithNewDonationAmount() {
       this.loading = true;
+      if(this.payment.donationAmount < 0) {
+        this.errorMsg = "Le montant du don ne peut pas être négatif.";
+        this.loading = false;
+        return;
+      }
       const response = await axios.patch(
         `/payments/${this.payment.id}/update`,
         {
-          donationAmount: this.wantToDonate ? this.payment.donationAmount : 0,
+          donationAmount: this.wantToDonate ? Math.max(this.payment.donationAmount,0) : 0,
         }
       );
       if (response.status !== 200) {
